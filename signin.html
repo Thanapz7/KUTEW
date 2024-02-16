@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="signin.css">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="signin">
+        <img src="/img/cover.jpg" alt="signin image" class="signin__img">
+        <form action="" class="signin__form">
+            <h1 class="signin__title">Sign in</h1>
+            <div class="signin__content">
+                <div class="signin__box">
+                    <i class="fa-solid fa-user login__icon"></i>
+                    <div class="signin__box-input">
+                        <input type="email" required class="signin__input"  placeholder=" ">
+                        <label for="" class="signin__label">Email</label>
+                    </div>
+                </div>
+            </div>
+            <div class="signin__content">
+                <div class="signin__box">
+                    <i class="fa-solid fa-lock login__icon"></i>
+                    <div class="signin__box-input">
+                        <input type="password" required class="signin__input" id="signin-pass" placeholder=" ">
+                        <label for="" class="signin__label">Password</label>
+                        <!-- <i class="fa-solid fa-eye-slash login__eye" id="login-eye"></i> -->
+                </div>
+                </div>
+            </div>
+            <div class="signin__content">
+                <div class="signin__box">
+                    <i class="fa-solid fa-lock login__icon"></i>
+                    <div class="signin__box-input">
+                        <input type="password" required class="signin__input" id="confrim-pass" placeholder=" ">
+                        <label for="" class="signin__label">Confirm Password</label>
+                        <p id="messagesigin">demo text</p>
+                        <!-- <i class="fa-solid fa-eye-slash login__eye" id="login-eye"></i> -->
+                </div>
+                </div>
+            </div>
+
+            <div class="signin__check">
+                <div class="signin__check-group">
+                    <input type="checkbox" class="signin__check-input">
+                    <label for="" class="signin__check-label">Remember me</label>
+                </div>
+            </div>
+            <button class="signin__button">Sign in</button>
+        </form>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
