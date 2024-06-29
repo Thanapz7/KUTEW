@@ -29,6 +29,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    position: sticky;
   }
 .logo{
     font-size: var(--h1-font-size);

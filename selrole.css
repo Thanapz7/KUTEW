@@ -1,0 +1,72 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+:root{
+    --white-color: hsl(0,0%,100%);
+    --black-color: hsl(0,0%,0%);
+
+    --body-font: "Poppins", sans-serif;
+    --h1-font-size: 2rem;
+    --normal-font-size: 1rem;
+    --small-font-size: .813rem;
+
+    --font-medium: 500;
+}
+/* base */
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body,
+input,
+button{
+    font-size: var(--normal-font-size);
+    font-family: var(--body-font);
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+.container {
+    display: flex;
+    width: 60%;
+    height: 60%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.role {
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+}
+.role.student {
+    background-color: #d3d3d3;
+}
+.role.tutor {
+    background-color: #a3c9a8;
+}
+.role img {
+    width: 200px;
+    height: 200px;
+}
+.role h2, .role button {
+    margin: 10px 0;
+}
+.role button {
+    padding: 10px 20px;
+    margin-top: 4rem;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(64,116,36);
+    color: white;
+    cursor: pointer;
+}
+.role button:hover {
+    background-color: rgb(88, 158, 51);
+}

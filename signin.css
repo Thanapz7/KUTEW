@@ -104,7 +104,7 @@ img{
     font-weight: var(--font-medium);
     transition: top .3s, font-size .3s;
 }
-.signin__eye{
+.login__eye{
     position: absolute;
     right: 0;
     top: 18px;
