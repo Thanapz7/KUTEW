@@ -27,10 +27,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //แก้undefinedได้
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+
+// ตั้งค่าไดเร็กทอรีสำหรับไฟล์สาธารณะ (static files)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ตั้งค่าไดเร็กทอรีสำหรับเทมเพลต EJS
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 
 app.use("/repass", repasswordRouter);
 app.use("/", indexRouter);
