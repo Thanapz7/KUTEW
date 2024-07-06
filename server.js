@@ -6,11 +6,12 @@ const path = require("path");
 const passport = require('passport');
 const session = require('express-session');
 
-const indexRouter = require("./routes/index.js")
-const loginRouter = require("./routes/login.js")
+const indexRouter = require("./routes/index.js");
+const loginRouter = require("./routes/login.js");
 //const loginOauthRouter = require("./routes/loginOauth.js")
 //const productsRouter = require("./routes/products");
-const repasswordRouter = require("./routes/repassword")
+const repasswordRouter = require("./routes/repassword");
+const selroleRouter = require('./routes/selrole.js');
 //const { swaggerUi, swaggerSpec } = require("./swagger.js");
 
 dotenv.config();
@@ -39,10 +40,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
+app.use("/role", selroleRouter);
 app.use("/repass", repasswordRouter);
 app.use("/", indexRouter);
 //app.use("/products", productsRouter);
 app.use("/login", loginRouter);
+
 //app.use("/loginOauth", loginOauthRouter)
 //app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 

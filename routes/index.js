@@ -21,4 +21,11 @@ router.get('/newpassword', (req,res) =>{
   res.render('pages/newpassword.ejs');
 })
 
+router.get('/selrole', (req,res) =>{
+  res.render('pages/selrole.ejs');
+})
+
+router.get('/registteacher', (req,res) =>{
+  res.render('pages/registteacher.ejs');
+})
 module.exports = router;
