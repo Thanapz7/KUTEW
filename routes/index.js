@@ -9,6 +9,10 @@ router.get('/home', (req, res) => {
     res.render('pages/home.ejs');
   });
 
+  router.get('/selrole', (req, res) => {
+    res.render('pages/selrole.ejs');
+  });
+
 router.get('/register', (req,res) =>{
   res.render('pages/register.ejs');
 })
