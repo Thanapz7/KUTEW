@@ -14,7 +14,7 @@ exports.LoginSignup = async  (req, res) => {
     if (!username || !password || !email) {
         return res.status(400).send({ error: true, message: 'Please provide complete details' });
     }
-  
+    
     // Hash the password before saving to the database
     bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
         if (err) {
