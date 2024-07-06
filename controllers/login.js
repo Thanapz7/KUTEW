@@ -1,36 +1,40 @@
 // const jwt = require('jsonwebtoken');
 // const secretKey = process.env.MYSECRETKEY
 
-const express = require("express");
 const bcrypt = require('bcrypt');
 const db = require("../db");
 const saltRounds = 10;
 
 
 // Register
-exports.LoginSignup = async  (req, res) => {
+exports.LoginSignup = async (req, res) => {
     const { username, password, email } = req.body;
-  
+
+    console.log('Username:', username);
+    console.log('Password:', password);
+    console.log('Email:', email);
+
     if (!username || !password || !email) {
         return res.status(400).send({ error: true, message: 'Please provide complete details' });
     }
-    
-    // Hash the password before saving to the database
-    bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
-        if (err) {
-            return res.status(500).send({ error: true, message: 'Error hashing password' });
-        }
-  
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
         const sql = 'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, "user")';
         db.query(sql, [username, hashedPassword, email], (err, result) => {
             if (err) {
+                console.error('Database error:', err);
                 return res.status(500).send({ error: true, message: 'Database error' });
             }
-            res.redirect(303,'/');
-            //res.send({ error: false, message: 'User registered successfully', data: result.insertId });
+            console.log('User registered successfully:', result.insertId);
+            res.status(200).send({ error: false, message: 'User registered successfully' });
         });
-    });
-  };
+    } catch (err) {
+        console.error('Error hashing password:', err);
+        res.status(500).send({ error: true, message: 'Error hashing password' });
+    }
+};
 
 // Login
 exports.LoginSignin = async (req, res) => {
