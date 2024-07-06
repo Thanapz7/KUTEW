@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Form</title>
+    <link rel="stylesheet" href="/css/registteach.css" >
+</head>
+<body>
+    <div class="profile-form">
+        <h2>Teacher Profile</h2>
+        <form action="">
+            <div class="profile-photo">
+                <img id="profilePhoto" src="./img/boy.png" alt="Profile Photo">
+                <label for="profilePhotoInput">Insert Profile Picture</label>
+                <input type="file" id="profilePhotoInput" style="display: none;" accept="image/*">
+            </div>
+            <label for="name-lastname">ชื่อ - นามสกุล:</label>
+            <input type="text" id="name-lastname" name="name-lastname" required>
+
+            <label for="faculty">คณะ:</label>
+            <select name="faculty" id="faculty" required>
+                <option value="">เลือกคณะ</option>
+                <option value="nrai">คณะทรัพยากรธรรมชาติและอุตสาหกรรมเกษตร</option>
+                <option value="se">คณะวิทยาศาสตร์และวิศวกรรมศาสตร์</option>
+                <option value="lamc">คณะศิลปศาสตร์และวิทยาการจัดการ</option>
+                <option value="ph">คณะสาธารณสุขศาสตร์</option>
+            </select>
+
+            <label for="major">สาขา:</label>
+            <select name="major" id="major" required>เลือกสาขา</select>
+            
+            <label for="year">ชั้นปีที่:</label>
+            <select name="year" id="year" required>
+                <option value="">เลือกชั้นปี</option>
+                <option value="y1">1</option>
+                <option value="y2">2</option>
+                <option value="y3">3</option>
+                <option value="y4">4</option>
+            </select>
+
+            <label for="phone">เบอร์โทร:</label>
+            <input type="text" id="phone" name="phone" required>
+
+            <label for="address">ที่อยู่:</label>
+            <input type="text" name="address" id="address" required>
+
+            <label for="cardid">ที่อยู่:</label>
+            <input type="text" name="cardid" id="cardid" required>
+
+            <label for="photowithcard">รูปถ่ายคู่กับบัตรประชาชน</label>
+            <input type="file" required>
+
+            <label for="certiphoto">รูปเกียรติบัตรหรือรูปการสอน</label>
+            <input type="file" required>
+
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+    <script>
+        const facultyMajorMap = {
+            nrai: ["พืชศาสตร์", "ทรัพยากรเกษตรและการจัดการการผลิต", "สัตวศาสตร์", "เทคโนโลยีการอาหาร", "อาหารปลอดภัยและโภชนาการ"],
+            se: ["วิศวกรรมโยธา", "วิศวกรรมไฟฟ้า", "วิศวกรรมเครื่องกลและการผลิต", "วิศวกรรมอุตสาหการ", "วิศวกรรมคอมพิวเตอร์", "วิศวกรรมสิ่งแวดล้อมเพื่อการพัฒนาอย่างยั่งยืน","วิทยาการคอมพิวเตอร์", "เคมีประยุกต์", "วิทยาการข้อมูล", "เทคโนโลยีพลังงานเพื่อความยั่งยืน"],
+            lamc: ["การจัดการ", "การบัญชี", "การเงิน", "การตลาด", "การจัดการอุตสาหกรรมการบริการ แขนงวิชาการจัดการการท่องเที่ยวร่วมสมัย", "การจัดการอุตสาหกรรมการบริการ แขนงวิชาการจัดการโรงแรม", "ภาษาอังกฤษ", "รัฐประศาสนศาสตร์", "นิติศาสตร์"],
+            ph: ["สาธารณสุขศาสตร์", "อนามัยสิ่งแวดล้อม", "อาชีวอนามัยและความปลอดภัย"]
+        };
+        
+        document.getElementById('faculty').addEventListener('change', function(){
+            const faculty = this.value;
+            const majorSelect = document.getElementById('major');
+
+            majorSelect.innerHTML = '<option value="">เลือกสาขา</option>';
+            if(faculty && facultyMajorMap[faculty]){
+                facultyMajorMap[faculty].forEach(major =>{
+                    const option = document.createElement('option');
+                    option.value = major.toLowerCase().replace(/ /g,'-');
+                    option.textContent = major;
+                    majorSelect.appendChild(option);
+                });
+            }
+        });
+
+        document.getElementById('profilePhotoInput').addEventListener('change', function(event){
+            const reader = new FileReader();
+            reader.onload = function(){
+                const output = document.getElementById('profilePhoto');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
+    </script>
+</body>
+</html>
