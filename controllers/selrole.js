@@ -46,38 +46,24 @@ exports.AddTutor = async (req, res) => {
   
 
 exports.AddStudent = (req, res) => {
-    try {
-        const studentData = JSON.parse(req.body.studentData);
-        const { name, major, branch, year, phone, address } = studentData;
-        const profilePic = req.files['profilePic'] ? req.files['profilePic'][0].filename : null;
-        const idPic = req.files['idPic'] ? req.files['idPic'][0].filename : null;
-        const certificatePic = req.files['certificatePic'] ? req.files['certificatePic'].map(file => file.filename) : [];
+    upload(req, res, (err) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
 
-        const sql = 'INSERT INTO students (profilePic, name, major, branch, year, phone, address, idPic, certificatePic, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, "student")';
+        const { name, faculty, major, year, phone, address } = req.body;
+        const profilePic = req.files['profilePhoto'] ? req.files['profilePhoto'][0].path : null;
 
-        db.query(sql, [profilePic, name, major, branch, year, phone, address, idPic, JSON.stringify(certificatePic)], (err, result) => {
+        console.log('Received data:', { profilePic, name, faculty, major, year, phone, address, });
+
+        const yearInt = parseInt(year.replace('y', ''));
+
+        const sql = 'INSERT INTO students (profilePic, name, faculty, major, year, phone, address, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+        db.query(sql, [profilePic, name, faculty, major, yearInt, phone, address, 'student'], (err, result) => {
             if (err) {
-                console.error('Error inserting student:', err);
-                res.status(500).send('Error inserting student record');
-                return;
+                return res.status(500).json({ error: err.message });
             }
-            res.send({
-                message: 'Student record added successfully',
-                data: {
-                    profilePic,
-                    name,
-                    major,
-                    branch,
-                    year,
-                    phone,
-                    address,
-                    idPic,
-                    certificatePic
-                }
-            });
+            res.status(200).json({ message: 'Profile saved successfully' });
         });
-    } catch (error) {
-        console.error('Unexpected error:', error);
-        res.status(500).send('Unexpected error');
-    }
+    });
 };

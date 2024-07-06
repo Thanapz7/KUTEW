@@ -32,4 +32,8 @@ router.get('/selrole', (req,res) =>{
 router.get('/registteacher', (req,res) =>{
   res.render('pages/registteacher.ejs');
 })
+
+router.get('/regisstu', (req,res) =>{
+  res.render('pages/regisstu.ejs');
+})
 module.exports = router;

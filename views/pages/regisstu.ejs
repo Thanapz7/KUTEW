@@ -9,29 +9,29 @@
 <body>
     <div class="profile-form">
         <h2>Student Profile</h2>
-        <form action="">
+        <form action="/role/student" method="POST" enctype="multipart/form-data">
             <div class="profile-photo">
                 <img id="profilePhoto" src="/img/boy.png" alt="Profile Photo">
                 <label for="profilePhotoInput">Insert Profile Picture</label>
-                <input type="file" id="profilePhotoInput" style="display: none;" accept="image/*">
+                <input type="file" id="profilePhotoInput" name="profilePhoto" style="display: none;" accept="image/*">
             </div>
             <label for="name-lastname">ชื่อ - นามสกุล:</label>
-            <input type="text" id="name-lastname" name="name-lastname">
+            <input type="text" id="name-lastname" name="name" required>
 
             <label for="faculty">คณะ:</label>
-            <select name="faculty" id="faculty">
+            <select name="faculty" id="faculty" required>
                 <option value="">เลือกคณะ</option>
-                <option value="nrai">คณะทรัพยากรธรรมชาติและอุตสาหกรรมเกษตร</option>
-                <option value="se">คณะวิทยาศาสตร์และวิศวกรรมศาสตร์</option>
-                <option value="lamc">คณะศิลปศาสตร์และวิทยาการจัดการ</option>
-                <option value="ph">คณะสาธารณสุขศาสตร์</option>
+                <option value="คณะทรัพยากรธรรมชาติและอุตสาหกรรมเกษตร">คณะทรัพยากรธรรมชาติและอุตสาหกรรมเกษตร</option>
+                <option value="คณะวิทยาศาสตร์และวิศวกรรมศาสตร์">คณะวิทยาศาสตร์และวิศวกรรมศาสตร์</option>
+                <option value="คณะศิลปศาสตร์และวิทยาการจัดการ">คณะศิลปศาสตร์และวิทยาการจัดการ</option>
+                <option value="คณะสาธารณสุขศาสตร์">คณะสาธารณสุขศาสตร์</option>
             </select>
 
             <label for="major">สาขา:</label>
-            <select name="major" id="major">เลือกสาขา</select>
+            <select name="major" id="major" required>เลือกสาขา</select>
             
             <label for="year">ชั้นปีที่:</label>
-            <select name="year" id="year">
+            <select name="year" id="year" required>
                 <option value="">เลือกชั้นปี</option>
                 <option value="y1">1</option>
                 <option value="y2">2</option>
@@ -40,20 +40,20 @@
             </select>
 
             <label for="phone">เบอร์โทร:</label>
-            <input type="text" id="phoneN" name="phone">
+            <input type="text" id="phone" name="phone" required>
 
             <label for="address">ที่อยู่:</label>
-            <input type="text" name="address" id="address">
+            <input type="text" name="address" id="address" required>
 
             <button type="submit">Sign In</button>
         </form>
     </div>
     <script>
         const facultyMajorMap = {
-            nrai: ["พืชศาสตร์", "ทรัพยากรเกษตรและการจัดการการผลิต", "สัตวศาสตร์", "เทคโนโลยีการอาหาร", "อาหารปลอดภัยและโภชนาการ"],
-            se: ["วิศวกรรมโยธา", "วิศวกรรมไฟฟ้า", "วิศวกรรมเครื่องกลและการผลิต", "วิศวกรรมอุตสาหการ", "วิศวกรรมคอมพิวเตอร์", "วิศวกรรมสิ่งแวดล้อมเพื่อการพัฒนาอย่างยั่งยืน","วิทยาการคอมพิวเตอร์", "เคมีประยุกต์", "วิทยาการข้อมูล", "เทคโนโลยีพลังงานเพื่อความยั่งยืน"],
-            lamc: ["การจัดการ", "การบัญชี", "การเงิน", "การตลาด", "การจัดการอุตสาหกรรมการบริการ แขนงวิชาการจัดการการท่องเที่ยวร่วมสมัย", "การจัดการอุตสาหกรรมการบริการ แขนงวิชาการจัดการโรงแรม", "ภาษาอังกฤษ", "รัฐประศาสนศาสตร์", "นิติศาสตร์"],
-            ph: ["สาธารณสุขศาสตร์", "อนามัยสิ่งแวดล้อม", "อาชีวอนามัยและความปลอดภัย"]
+            คณะทรัพยากรธรรมชาติและอุตสาหกรรมเกษตร: ["พืชศาสตร์", "ทรัพยากรเกษตรและการจัดการการผลิต", "สัตวศาสตร์", "เทคโนโลยีการอาหาร", "อาหารปลอดภัยและโภชนาการ"],
+            คณะวิทยาศาสตร์และวิศวกรรมศาสตร์: ["วิศวกรรมโยธา", "วิศวกรรมไฟฟ้า", "วิศวกรรมเครื่องกลและการผลิต", "วิศวกรรมอุตสาหการ", "วิศวกรรมคอมพิวเตอร์", "วิศวกรรมสิ่งแวดล้อมเพื่อการพัฒนาอย่างยั่งยืน","วิทยาการคอมพิวเตอร์", "เคมีประยุกต์", "วิทยาการข้อมูล", "เทคโนโลยีพลังงานเพื่อความยั่งยืน"],
+            คณะศิลปศาสตร์และวิทยาการจัดการ: ["การจัดการ", "การบัญชี", "การเงิน", "การตลาด", "การจัดการอุตสาหกรรมการบริการ แขนงวิชาการจัดการการท่องเที่ยวร่วมสมัย", "การจัดการอุตสาหกรรมการบริการ แขนงวิชาการจัดการโรงแรม", "ภาษาอังกฤษ", "รัฐประศาสนศาสตร์", "นิติศาสตร์"],
+            คณะสาธารณสุขศาสตร์: ["สาธารณสุขศาสตร์", "อนามัยสิ่งแวดล้อม", "อาชีวอนามัยและความปลอดภัย"]
         };
         
         document.getElementById('faculty').addEventListener('change', function(){
