@@ -12,6 +12,7 @@ const loginRouter = require("./routes/login.js");
 //const productsRouter = require("./routes/products");
 const repasswordRouter = require("./routes/repassword");
 const selroleRouter = require('./routes/selrole.js');
+const postRouter = require('./routes/post.js');
 //const { swaggerUi, swaggerSpec } = require("./swagger.js");
 
 dotenv.config();
@@ -39,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-
+app.use("/post", postRouter);
 app.use("/role", selroleRouter);
 app.use("/repass", repasswordRouter);
 app.use("/", indexRouter);
