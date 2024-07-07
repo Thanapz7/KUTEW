@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile Form</title>
-    <link rel="stylesheet" href="/css/registteach.css" >
+    <link rel="stylesheet" href="/css/registteach.css">
 </head>
 <body>
     <div class="profile-form">
         <h2>Teacher Profile</h2>
-        <form action="/role/tutor" method="POST" enctype="multipart/form-data">
+        <form id="profileForm" enctype="multipart/form-data">
             <div class="profile-photo">
                 <img id="profilePhoto" src="./img/boy.png" alt="Profile Photo">
                 <label for="profilePhotoInput">Insert Profile Picture</label>
@@ -61,7 +61,7 @@
             คณะศิลปศาสตร์และวิทยาการจัดการ: ["การจัดการ", "การบัญชี", "การเงิน", "การตลาด", "การจัดการอุตสาหกรรมการบริการ แขนงวิชาการจัดการการท่องเที่ยวร่วมสมัย", "การจัดการอุตสาหกรรมการบริการ แขนงวิชาการจัดการโรงแรม", "ภาษาอังกฤษ", "รัฐประศาสนศาสตร์", "นิติศาสตร์"],
             คณะสาธารณสุขศาสตร์: ["สาธารณสุขศาสตร์", "อนามัยสิ่งแวดล้อม", "อาชีวอนามัยและความปลอดภัย"]
         };
-        
+
         document.getElementById('faculty').addEventListener('change', function(){
             const faculty = this.value;
             const majorSelect = document.getElementById('major');
@@ -85,6 +85,33 @@
             };
             reader.readAsDataURL(event.target.files[0]);
         });
+
+        //เรียกใช้ api เมื่อสำเร็จไปหน้าhome
+        document.getElementById('profileForm').addEventListener('submit', function(event){
+            event.preventDefault();
+            console.log('การส่งฟอร์มเริ่มต้น');
+        
+            const formData = new FormData(this);
+            fetch('/role/tutor', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                console.log('ได้รับการตอบกลับ:', response);
+                if(response.ok){
+                    alert('ทำการส่งแบบฟอร์มแล้ว');
+                    window.location.href = '/home'; 
+                } else {
+                    console.error('การส่งล้มเหลว:', response);
+                    throw new Error('Submission failed');
+                }
+            })
+            .catch(error => {
+                console.error('เกิดข้อผิดพลาด:', error);
+                alert('การส่งข้อมูลล้มเหลว: ' + error.message);
+            });
+        });
+        
     </script>
 </body>
 </html>
