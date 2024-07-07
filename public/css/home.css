@@ -6,6 +6,8 @@
     --green-color: rgba(63,112,33,255);
     --lighgreen-color: rgba(140,165,125,255);
     --background-color:rgba(217,217,217,255);
+    --orange-color: rgb(255, 165, 0);
+    --lightorange-color: rgb(255, 192, 76);
 
     --border-radius: 2rem;
     --card-border-radius: 1rem;
@@ -278,6 +280,78 @@ main .container .left .profile{
 .middle .feed .caption i p{
     margin: 0;
     font-size: 0.9rem;
+}
+/* make post */
+.middle .post{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    margin-top: 1rem;
+    background: var(--white-color);
+    padding: 1rem var(--card-padding);
+    border-radius: var(--border-radius);
+}
+.make-post .form-group{
+    margin-bottom: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    left: 10px;
+}
+.make-post .form-group label{
+    flex: 1;
+    font-weight: bold;
+    margin-right: 0.6rem;
+}
+textarea{
+    flex: 2;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: var(--card-border-radius);
+}
+.make-post .form-group input[type="text"],
+.make-post .form-group input[type="date"],
+.make-post .form-group input[type="file"]{
+    flex: 2;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: var(--card-border-radius);
+}
+.make-post .form-group input[type="file"] {
+    padding: 0;
+}
+.btn-makepost{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    right: 10px;
+}
+.btn-post {
+    width: 30%;
+    padding: var(--btn-paddign);
+    color: var(--white-color);
+    background: var(--green-color);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    border: none;
+}
+.btn-allpost{
+    width: 30%;
+    padding: var(--btn-paddign);
+    color: var(--white-color);
+    background: rgb(255, 165, 0);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    border: none;
+}
+.btn-post:hover{
+    background: var(--lighgreen-color);
+}
+.btn-allpost:hover{
+    background: var(--lightorange-color);
 }
 /* หน้า join class */
 .middle .joinclass{
