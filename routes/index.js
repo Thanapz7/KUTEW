@@ -2,38 +2,23 @@ const express = require("express")
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('pages/login.ejs');
+    res.render('login.ejs');
   });
 
 router.get('/home', (req, res) => {
-    res.render('pages/home.ejs');
-  });
-
-  router.get('/selrole', (req, res) => {
-    res.render('pages/selrole.ejs');
+    res.render('home.ejs');
   });
 
 router.get('/register', (req,res) =>{
-  res.render('pages/register.ejs');
+  res.render('register.ejs');
 })
 
 router.get('/repassword', (req,res) =>{
-  res.render('pages/repassword.ejs');
+  res.render('repassword.ejs');
 })
 
 router.get('/newpassword', (req,res) =>{
-  res.render('pages/newpassword.ejs');
+  res.render('newpassword.ejs');
 })
 
-router.get('/selrole', (req,res) =>{
-  res.render('pages/selrole.ejs');
-})
-
-router.get('/registteacher', (req,res) =>{
-  res.render('pages/registteacher.ejs');
-})
-
-router.get('/regisstu', (req,res) =>{
-  res.render('pages/regisstu.ejs');
-})
 module.exports = router;
