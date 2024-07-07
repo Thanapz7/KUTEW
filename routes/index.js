@@ -17,6 +17,10 @@ router.get('/register', (req,res) =>{
   res.render('pages/register.ejs');
 })
 
+router.get('/joinclass', (req,res) =>{
+  res.render('pages/joinclass.ejs');
+})
+
 router.get('/repassword', (req,res) =>{
   res.render('pages/repassword.ejs');
 })

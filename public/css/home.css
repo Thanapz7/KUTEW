@@ -279,6 +279,30 @@ main .container .left .profile{
     margin: 0;
     font-size: 0.9rem;
 }
+/* หน้า join class */
+.middle .joinclass{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--lighgreen-color);
+    border-radius: var(--card-border-radius);
+    padding:50px;
+    font-size: 1.5rem;
+    height: 90vh;
+}
+.middle .head-detial-post{
+    display: flex;
+    justify-content: space-between;
+}
+.middle .profile{
+    height: auto;
+    width: 8rem;
+}
+.middle .detail-joinclass{
+    margin-top: 1rem;
+}
+.middle .icon{
+    color: yellow;
+}
 /* right */
 main .container .right{
     height: max-content;

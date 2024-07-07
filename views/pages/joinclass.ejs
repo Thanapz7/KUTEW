@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/css/home.css" />
+    <title>Join Class</title>
+  </head>
+  <body>
+    <!-- navbar -->
+    <%- include('../includes/navbar.ejs')%>
+
+    <!-- main -->
+    <main>
+      <div class="container">
+        <!-- left -->
+        <%- include('../includes/sidebar.ejs')%>
+        <!-- middle -->
+        <div class="middle">
+            <div class="joinclass">
+              <div class="profile">
+                <img src="/img/boy.png" alt="profiletutor">
+              </div>
+              <div class="head-detial-post">
+                <p>Tutor :</p>
+                <div class="icon"> 
+                  <i class="fa-regular fa-star"></i>
+                  <span>5</span>
+                </div>
+              </div>
+              <div class="detail-joinclass">
+                <p>Tag :</p>
+                <p>Location :</p>
+                <p>Date :</p>
+                <p>Price :</p>
+                <p>จำนวนคนที่รับ :</p>
+                <p>จำนวนชั่วโมงที่เรียน :</p></div>
+            </div>
+          </div>
+        <!-- right -->
+        <%- include('../includes/rightbar.ejs')%>
+      </div>
+    </main>
+
+    <script src="javascript/home.js"></script>
+  </body>
+</html>
