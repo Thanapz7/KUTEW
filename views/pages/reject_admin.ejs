@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+      :root {
+        --white-color: hsl(0, 0%, 100%);
+        --black-color: hsl(0, 0%, 0%);
+        --green-color: rgba(63, 112, 33, 255);
+        --lighgreen-color: rgba(140, 165, 125, 255);
+        --background-color: rgba(217, 217, 217, 255);
+
+        --border-radius: 2rem;
+        --card-border-radius: 1rem;
+        --btn-paddign: 0.6rem;
+        --search-padding: 0.6rem;
+        --card-padding: 1rem;
+
+        --sticky-top-left: 5.4rem;
+        --sticky-top-right: -18rem;
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        outline: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+        list-style: none;
+      }
+      body {
+        font-family: "Kanit", sans-serif;
+        background-color: var(--background-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      .container{
+        width: 40%;
+        height: auto;
+        text-align: center;
+        background: var(--white-color);
+        padding: 2rem;
+        border-radius: var(--card-border-radius);
+      }
+      .icon{
+        padding: 20px;
+      }
+      .icon i{
+        font-size: 100px;
+        color: rgb(224, 98, 98);
+      }
+      button{
+        margin-top: 20px;
+        padding: var(--btn-paddign);
+        border: none;
+        border-radius: var(--card-border-radius);
+        background: var(--green-color);
+        color: var(--white-color);
+        cursor: pointer;
+      }
+      button:hover{
+        background: var(--lighgreen-color);
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>คุณโดนปฏิเสธจาก Admin</h2>
+        <div class="icon">
+            <i class="fa-solid fa-ban"></i>
+        </div>
+        <h3>โปรดกรอกข้อมูลมาใหม่</h3>
+        <button type="submit">ไปหน้ากรอกข้อมูล</button>
+    </div>
+</body>
+</html>

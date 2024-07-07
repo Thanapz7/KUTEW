@@ -6,11 +6,13 @@ const path = require("path");
 const passport = require('passport');
 const session = require('express-session');
 
-const indexRouter = require("./routes/index.js")
-const loginRouter = require("./routes/login.js")
+const indexRouter = require("./routes/index.js");
+const loginRouter = require("./routes/login.js");
 //const loginOauthRouter = require("./routes/loginOauth.js")
 //const productsRouter = require("./routes/products");
-const repasswordRouter = require("./routes/repassword")
+const repasswordRouter = require("./routes/repassword");
+const selroleRouter = require('./routes/selrole.js');
+const postRouter = require('./routes/post.js');
 //const { swaggerUi, swaggerSpec } = require("./swagger.js");
 
 dotenv.config();
@@ -27,15 +29,24 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //แก้undefinedได้
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
+// ตั้งค่าไดเร็กทอรีสำหรับไฟล์สาธารณะ (static files)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ตั้งค่าไดเร็กทอรีสำหรับเทมเพลต EJS
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use("/post", postRouter);
+app.use("/role", selroleRouter);
 app.use("/repass", repasswordRouter);
 app.use("/", indexRouter);
 //app.use("/products", productsRouter);
 app.use("/login", loginRouter);
+
 //app.use("/loginOauth", loginOauthRouter)
 //app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
