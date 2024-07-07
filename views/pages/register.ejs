@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="/css/signin.css">
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+    rel="stylesheet"
+/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="signin">
+        <img src="/img/cover.jpg" alt="signin image" class="signin__img">
+        <form id="registerForm" class="signin__form">
+            <h1 class="signin__title">Register</h1>
+            <div class="signin__content">
+                <div class="signin__box">
+                    <i class="fa-solid fa-user login__icon"></i>
+                    <div class="signin__box-input">
+                      <label for="username" class="signin__label">Username</label>
+                      <input type="text" id="username" name="username" required class="signin__input" placeholder=" ">
+                    </div>
+                </div>
+                <div class="signin__box">
+                    <i class="fa-solid fa-envelope login__icon"></i>
+                    <div class="signin__box-input">
+                      <label for="email" class="signin__label">Email</label>
+                      <input type="email" id="email" name="email" required class="signin__input" placeholder=" ">
+                    </div>
+                </div>
+            </div>
+            <div class="signin__content">
+                <div class="signin__box">
+                    <i class="fa-solid fa-lock login__icon"></i>
+                    <div class="signin__box-input">
+                      <label for="password" class="signin__label">Password</label>
+                      <input type="password" id="password" name="password" class="signin__input" placeholder=" ">
+                      <i class="fa-solid fa-eye-slash login__eye" id="login-eye"></i>
+                    </div>
+                </div>
+            </div>
+            <button class="signin__button" type="submit">Register</button>
+            <p class="back"><a href="/">Back</a></p>
+        </form>
+    </div>
+    <script>
+        const eyeIcon = document.querySelector('#login-eye');
+        const passwordEl = document.querySelector('#password');
+
+        eyeIcon.addEventListener("click", () => {
+            if (eyeIcon.classList.contains("fa-eye-slash")) {
+                eyeIcon.classList.replace("fa-eye-slash", "fa-eye");
+                passwordEl.setAttribute("type", "password");
+            } else {
+                eyeIcon.classList.replace("fa-eye", "fa-eye-slash");
+                passwordEl.setAttribute("type", "text");
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const formJSON = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/login/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formJSON)
+                });
+
+                const result = await response.json();
+
+                if (!result.error) {
+                    alert('Registration Successful! \n\n Click "Back" to login');
+                    this.reset();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                alert('An unexpected error occurred');
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
