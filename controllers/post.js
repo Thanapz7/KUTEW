@@ -27,9 +27,9 @@ exports.insertPost = async (req, res) => {
 
         console.log('Received post:', { details, tag, location, date, price, people, hours, QRcode: QRcodePic });
 
-        const priceInt = parseInt(price);
-        const peopleInt = parseInt(people);
-        const hoursInt = parseInt(hours);
+        const priceInt = parseInt(price) || 0;
+        const peopleInt = parseInt(people) || 0;
+        const hoursInt = parseInt(hours) || 0;
 
         const sql = 'INSERT INTO posts (details, tag, location, date, price, people, hours, QRcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
         db.query(sql, [ details, tag, location, date, priceInt, peopleInt, hoursInt, QRcodePic], (err, result) => {
@@ -44,16 +44,16 @@ exports.insertPost = async (req, res) => {
 exports.getAllPost = async (req, res) => {
     const query = 'SELECT * FROM posts';
     db.query(query, (err, results) => {
-      if (err) {
-          console.error('Error fetching posts:', err);
-          res.status(500).json({ error: 'Failed to fetch posts' });
-          return;
-      }
-      res.json(results);
-  });
-  };
+        if (err) {
+            console.error('Error fetching posts:', err);
+            res.status(500).json({ error: 'Failed to fetch posts' });
+            return;
+        }
+        res.json(results);
+    });
+};
 
-  exports.updatePost = async (req, res) => {
+exports.updatePost = async (req, res) => {
     upload(req, res, (err) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -65,8 +65,12 @@ exports.getAllPost = async (req, res) => {
 
         console.log('Update post:', { details, tag, location, date, price, people, hours, QRcode: QRcodePic });
 
+        const priceInt = parseInt(price) || 0;
+        const peopleInt = parseInt(people) || 0;
+        const hoursInt = parseInt(hours) || 0;
+
         const query = 'UPDATE posts SET details = ?, tag = ?, location = ?, date = ?, price = ?, people = ?, hours = ?, QRcode = ? WHERE post_id = ?';
-        db.query(query, [details, tag, location, date, price, people, hours, QRcodePic, id], (err) => {
+        db.query(query, [details, tag, location, date, priceInt, peopleInt, hoursInt, QRcodePic, id], (err) => {
             if (err) {
                 console.error('Error updating post:', err);
                 res.status(500).json({ error: 'Failed to update post' });
@@ -77,11 +81,9 @@ exports.getAllPost = async (req, res) => {
     });
 };
 
-  
 exports.deletePost = async (req, res) => {
     const { id } = req.params;
     
-    // Query to get the post before deleting
     const getQuery = 'SELECT * FROM Posts WHERE post_id = ?';
     db.query(getQuery, [id], (err, results) => {
         if (err) {
@@ -95,7 +97,6 @@ exports.deletePost = async (req, res) => {
 
         const postToDelete = results[0];
 
-        // Query to delete the post
         const deleteQuery = 'DELETE FROM Posts WHERE post_id = ?';
         db.query(deleteQuery, [id], (err) => {
             if (err) {
@@ -105,5 +106,31 @@ exports.deletePost = async (req, res) => {
 
             res.status(200).json(postToDelete);
         });
+    });
+};
+
+exports.searchPost = async (req, res) => {
+    const { keyword } = req.query;
+
+    if (!keyword) {
+        return res.status(400).json({ error: 'Keyword is required' });
+    }
+
+    const searchQuery = `
+        SELECT * FROM posts 
+        WHERE details LIKE ? OR 
+              tag LIKE ? OR 
+              location LIKE ?
+    `;
+
+    const searchValue = `%${keyword}%`;
+
+    db.query(searchQuery, [searchValue, searchValue, searchValue], (err, results) => {
+        if (err) {
+            console.error('Error searching posts:', err);
+            return res.status(500).json({ error: 'Failed to search posts' });
+        }
+
+        res.json(results);
     });
 };
