@@ -1,10 +1,6 @@
-// const jwt = require('jsonwebtoken');
-// const secretKey = process.env.MYSECRETKEY
-
 const bcrypt = require('bcrypt');
 const db = require("../db");
 const saltRounds = 10;
-
 
 // Register
 exports.LoginSignup = async (req, res) => {
@@ -28,7 +24,7 @@ exports.LoginSignup = async (req, res) => {
                 return res.status(500).send({ error: true, message: 'Database error' });
             }
             console.log('User registered successfully:', result.insertId);
-            res.status(200).send({ error: false, message: 'User registered successfully' });
+            res.status(201).send({ error: false, message: 'User registered successfully' });
         });
     } catch (err) {
         console.error('Error hashing password:', err);
@@ -40,53 +36,48 @@ exports.LoginSignup = async (req, res) => {
 exports.LoginSignin = async (req, res) => {
     const { username, password } = req.body;
 
-    // ตรวจสอบและล็อกค่าของ username และ password
-    console.log('Username:', username);
-    console.log('Password:', password);
-
     if (!username || !password) {
         return res.status(400).send({ error: true, message: 'Please provide complete details' });
     }
 
-    const sql = 'SELECT * FROM users WHERE username = ?';
-    db.query(sql, [username], (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).send({ error: true, message: 'Database error' });
-        }
-
-        console.log('Database results:', results);
-
-        if (results.length === 0) {
-            return res.status(401).send({ error: true, message: 'Invalid username or password' });
-        }
-
-        const user = results[0];
-
-        // ตรวจสอบและล็อกค่าของ user.password
-        console.log('Hashed Password:', user.password);
-
-        // ตรวจสอบว่าทั้ง password และ user.password มีค่าหรือไม่
-        if (!password || !user.password) {
-            return res.status(500).send({ error: true, message: 'Password or hashed password missing' });
-        }
-
-        // เปรียบเทียบรหัสผ่านที่ถูกแฮช
-        bcrypt.compare(password, user.password, (err, isMatch) => {
+    try {
+        const sql = 'SELECT * FROM users WHERE username = ?';
+        db.query(sql, [username], async (err, results) => {
             if (err) {
-                console.error('Error comparing passwords:', err);
-                return res.status(500).send({ error: true, message: 'Error comparing passwords' });
+                console.error('Database error:', err);
+                return res.status(500).send({ error: true, message: 'Database error' });
             }
 
-            if (!isMatch) {
+            if (results.length === 0) {
                 return res.status(401).send({ error: true, message: 'Invalid username or password' });
             }
 
-            // เข้าสู่ระบบสำเร็จ
-            res.send({ error: false, message: 'Login successful', user: { id: user.id, username: user.username, email: user.email, role: user.role } });
+            const user = results[0];
+
+            try {
+                const isMatch = await bcrypt.compare(password, user.password);
+                if (!isMatch) {
+                    return res.status(401).send({ error: true, message: 'Invalid username or password' });
+                }
+
+                // เก็บข้อมูลผู้ใช้ในเซสชัน
+                req.session.user = {
+                    user_id: user.user_id,
+                    username: user.username,
+                    email: user.email,
+                    role: user.role
+                };
+
+                console.log('Session user:', req.session.user); // ตรวจสอบการเก็บข้อมูลในเซสชัน
+
+                res.send({ error: false, message: 'Login successful', user: { id: user.user_id, username: user.username, email: user.email, role: user.role } });
+            } catch (compareErr) {
+                console.error('Error comparing passwords:', compareErr);
+                return res.status(500).send({ error: true, message: 'Error comparing passwords' });
+            }
         });
-    });
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        res.status(500).send({ error: true, message: 'Unexpected error' });
+    }
 };
-
-
-
