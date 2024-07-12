@@ -108,8 +108,13 @@
             // เก็บ token ใน localStorage
             localStorage.setItem('token', data.token);
 
-            // เปลี่ยนหน้าไปยังหน้าหลัก
-            window.location.href = '/selrole';
+            // เช็คสถานะฟอร์มใน localStorage
+            const formCompleted = localStorage.getItem('formCompleted');
+            if (formCompleted === 'true') {
+              window.location.href = '/home';
+            } else {
+              window.location.href = '/selrole';
+            }
           } else {
             alert(data.message);
           }
@@ -118,6 +123,7 @@
           alert('มีข้อผิดพลาดในการเข้าสู่ระบบ');
         }
       });
+
 </script>
   </body>
 </html>

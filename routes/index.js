@@ -6,7 +6,10 @@ router.get('/', (req, res) => {
   });
 
 router.get('/home', (req, res) => {
-    res.render('pages/home.ejs');
+   if (!req.session.user) {
+    return res.status(401).json({ error: 'User not logged in' });
+  }
+  res.render('pages/home.ejs');
   });
 
   router.get('/selrole', (req, res) => {
@@ -23,10 +26,6 @@ router.get('/repassword', (req,res) =>{
 
 router.get('/newpassword', (req,res) =>{
   res.render('pages/newpassword.ejs');
-})
-
-router.get('/selrole', (req,res) =>{
-  res.render('pages/selrole.ejs');
 })
 
 router.get('/registteacher', (req,res) =>{

@@ -15,16 +15,30 @@ exports.LoginSignup = async (req, res) => {
     }
 
     try {
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        const sql = 'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, "user")';
-        db.query(sql, [username, hashedPassword, email], (err, result) => {
+        // ตรวจสอบว่ามีชื่อผู้ใช้ในฐานข้อมูลอยู่แล้วหรือไม่
+        const checkSql = 'SELECT COUNT(*) as count FROM users WHERE username = ?';
+        db.query(checkSql, [username], async (err, result) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).send({ error: true, message: 'Database error' });
             }
-            console.log('User registered successfully:', result.insertId);
-            res.status(201).send({ error: false, message: 'User registered successfully' });
+
+            if (result[0].count > 0) {
+                return res.status(400).send({ error: true, message: 'Username already exists' });
+            }
+
+            // หากไม่มีชื่อผู้ใช้ที่ซ้ำกัน ให้สร้างผู้ใช้ใหม่
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+            const insertSql = 'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, "user")';
+            db.query(insertSql, [username, hashedPassword, email], (err, result) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).send({ error: true, message: 'Database error' });
+                }
+                console.log('User registered successfully:', result.insertId);
+                res.status(201).send({ error: false, message: 'User registered successfully' });
+            });
         });
     } catch (err) {
         console.error('Error hashing password:', err);
