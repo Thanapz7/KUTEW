@@ -87,42 +87,52 @@
       });
 
       // handle login form submission
-      document.getElementById('login-form').addEventListener('submit', async function(event) {
-        event.preventDefault();
+document.getElementById('login-form').addEventListener('submit', async function(event) {
+  event.preventDefault();
 
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
 
-        try {
-          const response = await fetch('/login/signin', {
-            method: 'POST',
-            headers: {
+  try {
+      const response = await fetch('/login/signin', {
+          method: 'POST',
+          headers: {
               'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ username, password })
+          },
+          body: JSON.stringify({ username, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+          // เช็คสถานะการทำแบบฟอร์ม
+          const formResponse = await fetch('/role/form', {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+              }
           });
 
-          const data = await response.json();
+          const formData = await formResponse.json();
 
-          if (response.ok) {
-            // เก็บ token ใน localStorage
-            localStorage.setItem('token', data.token);
-
-            // เช็คสถานะฟอร์มใน localStorage
-            const formCompleted = localStorage.getItem('formCompleted');
-            if (formCompleted === 'true') {
-              window.location.href = '/home';
-            } else {
-              window.location.href = '/selrole';
-            }
+          if (formResponse.ok) {
+              if (formData.formCompleted) {
+                  window.location.href = '/home';
+              } else {
+                  window.location.href = '/selrole';
+              }
           } else {
-            alert(data.message);
+              alert(formData.message);
           }
-        } catch (error) {
-          console.error('Error logging in:', error);
-          alert('มีข้อผิดพลาดในการเข้าสู่ระบบ');
-        }
-      });
+      } else {
+          alert(data.message);
+      }
+  } catch (error) {
+      console.error('Error logging in:', error);
+      alert('มีข้อผิดพลาดในการเข้าสู่ระบบ');
+  }
+});
+
 
 </script>
   </body>

@@ -17,7 +17,7 @@ const upload = multer({
     { name: 'certificatePhoto', maxCount: 3 }
 ]);
 
-exports.AddTutor = async (req, res) => {
+exports.AddTutor = (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({ error: 'User not logged in' });
     }
@@ -42,10 +42,20 @@ exports.AddTutor = async (req, res) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
-            res.status(200).json({ message: 'Profile saved successfully' });
+
+            // เรียกฟังก์ชัน UpdateForm เพื่ออัปเดตสถานะการทำแบบฟอร์ม
+            const updateFormSql = 'UPDATE users SET form = ? WHERE user_id = ?';
+            db.query(updateFormSql, ['completed', userId], (updateErr, updateResults) => {
+                if (updateErr) {
+                    console.error('Error updating form status:', updateErr.stack);
+                    return res.status(500).send({ message: 'Failed to update form status' });
+                }
+                res.status(200).json({ message: 'Profile saved and form status updated successfully' });
+            });
         });
     });
 };
+
 
 
 exports.AddStudent = (req, res) => {
@@ -71,7 +81,48 @@ exports.AddStudent = (req, res) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
-            res.status(200).json({ message: 'Profile saved successfully' });
+
+            // เรียกฟังก์ชัน UpdateForm เพื่ออัปเดตสถานะการทำแบบฟอร์ม
+            const updateFormSql = 'UPDATE users SET form = ? WHERE user_id = ?';
+            db.query(updateFormSql, ['completed', userId], (updateErr, updateResults) => {
+                if (updateErr) {
+                    console.error('Error updating form status:', updateErr.stack);
+                    return res.status(500).send({ message: 'Failed to update form status' });
+                }
+                res.status(200).json({ message: 'Profile saved and form status updated successfully' });
+            });
         });
+    });
+};
+
+
+// เส้นทางสำหรับบันทึกสถานะการทำแบบฟอร์ม
+exports.UpdateForm = (req, res) => {
+    const userId = req.session.user.user_id;
+    const sql = 'UPDATE users SET form = ? WHERE user_id = ?';
+
+    db.query(sql, ['completed', userId], (err, results) => {
+        if (err) {
+            console.error('Error updating form status:', err.stack);
+            return res.status(500).send({ message: 'Failed to update form status' });
+        }
+        res.status(200).send({ message: 'Form status updated successfully' });
+    });
+};
+
+// เส้นทางสำหรับดึงสถานะการทำแบบฟอร์ม
+exports.FormStatus = (req, res) => {
+    const userId = req.session.user.user_id;
+    const sql = 'SELECT form FROM users WHERE user_id = ?';
+    db.query(sql, [userId], (err, results) => {
+        if (err) {
+            console.error('Error fetching form status:', err.stack);
+            return res.status(500).send({ message: 'Failed to fetch form status' });
+        }
+        if (results.length > 0) {
+            res.status(200).send({ formCompleted: results[0].form === 'completed' });
+        } else {
+            res.status(404).send({ message: 'User not found' });
+        }
     });
 };
