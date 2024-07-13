@@ -21,3 +21,9 @@ menuItems.forEach(item =>{
         }
     })
 })
+
+document.querySelector('.create-post').addEventListener('submit', function(event) {
+    event.preventDefault();
+    window.location.href = '/createpost';
+  });
+

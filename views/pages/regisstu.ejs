@@ -94,8 +94,6 @@
                 console.log('ได้รับการตอบกลับ:', response);
                 if(response.ok){
                     alert('ทำการส่งแบบฟอร์มแล้ว');
-                    // เก็บข้อมูลด้วย key 'formCompleted' และ value 'true'
-                    localStorage.setItem('formCompleted', 'true');
                     window.location.href = '/home'; 
                 } else {
                     console.error('การส่งล้มเหลว:', response);

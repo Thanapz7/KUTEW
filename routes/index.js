@@ -35,4 +35,9 @@ router.get('/registteacher', (req,res) =>{
 router.get('/regisstu', (req,res) =>{
   res.render('pages/regisstu.ejs');
 })
+
+router.get('/createpost', (req,res) =>{
+  res.render('pages/createpost.ejs');
+})
+
 module.exports = router;
