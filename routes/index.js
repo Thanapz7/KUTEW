@@ -6,11 +6,23 @@ router.get('/', (req, res) => {
   });
 
 router.get('/home', (req, res) => {
-    res.render('pages/home.ejs');
+    res.render('pages/home.ejs', { pageTitle: 'Home' });
   });
 
   router.get('/selrole', (req, res) => {
     res.render('pages/selrole.ejs');
+  });
+
+  router.get('/create-post', (req, res) => {
+    res.render('pages/createpost.ejs');
+  });
+
+  router.get('/profilepage', (req, res) => {
+    res.render('pages/profilepage.ejs');
+  });
+
+  router.get('/notification', (req, res) => {
+    res.render('pages/notification.ejs', { pageTitle: 'Notification' });
   });
 
 router.get('/register', (req,res) =>{

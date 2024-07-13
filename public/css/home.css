@@ -603,7 +603,43 @@ textarea{
     color: red;
     cursor: pointer;
 }
-
+/* notification */
+.middle .box-noti{
+    display: flex;
+    justify-content: space-around;
+    padding: 2rem;
+    background-color:rgba(140,165,125,255) ;
+    height: auto;
+    overflow-y: auto;
+    flex-direction: column;
+    border-radius: 1rem;
+}
+.noti{
+    margin-bottom: 1rem;
+}
+.middle .caption-noti{
+    background-color: var(--white-color);
+    border-radius: 9px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.middle .caption-noti-1{
+    display: flex;
+    margin-left: 4.2rem;
+}
+.middle .caption-noti-1 p{
+    margin-left: 1rem;
+    margin-bottom: 0.7rem;
+}
+.middle .profile-noti{
+    display: flex;
+    flex-direction: space-between;
+}
+.middle .profile-noti .info{
+    margin-left: 1.5rem;
+}
 /* right */
 main .container .right{
     height: max-content;
