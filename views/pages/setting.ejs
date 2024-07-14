@@ -65,6 +65,18 @@
                     </form>
                 </div>
              </div>
+             <!-- modal logout -->
+             <div class="modal-logout" id="logoutModal">
+                <div class="modal-logout-content">
+                    <span class="close-btn" id="closeLogoutModalBtn"><i class="fa-solid fa-x" id="closeModalBtn"></i></span>
+                    <h2>Confirm Logout</h2>
+                    <p>Are you sure you want to logout?</p>
+                    <div class="group-btn">
+                        <button id="logout-btn" class="logout-btn">Logout</button>
+                        <button id="cancel-logout-btn" class="cancel-logout-btn">Cancel</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- right -->
         <%- include('../includes/rightbar.ejs')%>
@@ -89,6 +101,30 @@
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
+            }
+        }
+
+        const logoutModal = document.getElementById("logoutModal");
+        const btnLogout = document.getElementById("setting-logout");
+        const closeLogoutModalBtn = document.getElementById("closeLogoutModalBtn");
+        const cancelLogoutBtn = document.getElementById("cancel-logout-btn");
+        const logoutBtn = document.getElementById("logout-btn");
+        btnLogout.onclick = function(event){
+            event.preventDefault();
+            logoutModal.style.display = "flex";
+        }
+        closeLogoutModalBtn.onclick = function(){
+            logoutModal.style.display = "none";
+        }
+        cancelLogoutBtn.onclick = function(){
+            logoutModal.style.display = "none";
+        }
+        logoutBtn.onclick = function(){
+            logoutModal.style.display = "none";
+        }
+        window.onclick = function(event){
+            if(event.target == logoutModal){
+                logoutModal.style.display = "none";
             }
         }
     </script>
