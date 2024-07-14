@@ -27,12 +27,13 @@ exports.insertPost = async (req, res) => {
 
         console.log('Received post:', { details, tag, location, date, price, people, hours, QRcode: QRcodePic });
 
+        const userId = req.session.user.user_id;
         const priceInt = parseInt(price) || 0;
         const peopleInt = parseInt(people) || 0;
         const hoursInt = parseInt(hours) || 0;
 
-        const sql = 'INSERT INTO posts (details, tag, location, date, price, people, hours, QRcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-        db.query(sql, [ details, tag, location, date, priceInt, peopleInt, hoursInt, QRcodePic], (err, result) => {
+        const sql = 'INSERT INTO posts (details, tag, location, date, price, people, hours, QRcode, user_id ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        db.query(sql, [ details, tag, location, date, priceInt, peopleInt, hoursInt, QRcodePic, userId], (err, result) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
@@ -42,7 +43,12 @@ exports.insertPost = async (req, res) => {
 };
 
 exports.getAllPost = async (req, res) => {
-    const query = 'SELECT * FROM posts';
+    const query = `
+        SELECT posts.*, tutors.name AS tutor_name, tutors.profilePic 
+        FROM posts 
+        JOIN tutors ON posts.user_id = tutors.user_id
+        ORDER BY posts.date DESC
+    `;
     db.query(query, (err, results) => {
         if (err) {
             console.error('Error fetching posts:', err);
@@ -52,6 +58,7 @@ exports.getAllPost = async (req, res) => {
         res.json(results);
     });
 };
+
 
 exports.updatePost = async (req, res) => {
     upload(req, res, (err) => {
