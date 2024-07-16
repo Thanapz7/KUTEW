@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/css/home.css" />
+    <title>Profile</title>
+  </head>
+  <body>
+    <!-- navbar -->
+    <%- include('../includes/navbar.ejs')%>
+
+    <!-- main -->
+    <main>
+      <div class="container">
+        <!-- left -->
+        <%- include('../includes/sidebar.ejs')%>
+        <!-- middle -->
+        <div class="middle">
+            <div class="profilesec">
+                <div class="profilesec-avatar">
+                    <img src="../img/boy.png" class="profilesec-img" id="profileImage">
+                    <p class="profilesec-name" id="user-name-profile">Loading...</p>
+                    <button class="change-image-btn">Change Image</button>
+                    <input type="file" id="imageInputProfile" accept="image/*" style="display: none;">
+                </div>                              
+                <img src="../img/cover.jpg" alt="" class="profilesec-cover" id="coverImage">
+            </div>
+            <!-- Modal Structure -->
+            <div id="imageModal" class="modal-changeimg">
+                <div class="modal-changeimg-content">
+                    <span class="close-btn"><i class="fa-solid fa-x"></i></span>
+                    <h2>Change Profile and Cover Images</h2>
+                    <div class="modal-body">
+                        <div class="uploadProfile-section">
+                            <label for="profileImageInput">Profile Image:</label>
+                            <input type="file" id="profileImageInput" accept="image/*">
+                        </div>
+                        <div class="uploadProfile-section">
+                            <label for="coverImageInput">Cover Image:</label>
+                            <input type="file" id="coverImageInput" accept="image/*">
+                        </div>
+                        <button class="saveimg-profileBtn">Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="profileinfo">
+                <div class="profileinfos">
+                    <div class="profileinfos-major">
+                        <p id="user-faculty">คณะ : <span></span> </p>
+                        <p id="user-major">สาขา : <span></span> </p>
+                        <p id="user-year">ชั้นปี : <span></span> </p>
+                    </div>
+                    <p id="user-phone">เบอร์โทร : <span></span> </p>
+                    <p id="user-email">อีเมล : <span></span> </p>
+                    <p id="user-address">ที่อยู่ :</p>
+                    <div class="profileinfos-cer">
+                        <img src="../img/cover.jpg" alt="">
+                        <img src="../img/cover.jpg" alt="">
+                        <img src="../img/cover.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="profilereview">
+                <div class="profilereview-head">
+                    <h3>ความคิดเห็น</h3>
+                    <button class="addreview" id="addreview">เพิ่มความคิดเห็น</button>
+                </div>
+                
+                <div class="profilereview-texts">
+                    <div class="profilereview-text">
+                        <span>John K.</span>
+                        <div class="rating">
+                            <i class="fa-solid fa-star rating-icon"></i>
+                            <span class="rating-number">5</span>
+                            <span>ดีมาก</span>
+                        </div>
+                        <a class="review-report">รายงาน</a>
+                    </div>     
+                </div>
+                <div class="profilereview-texts">
+                    <div class="profilereview-text">
+                        <span>Kim A.</span>
+                        <div class="rating">
+                            <i class="fa-solid fa-star rating-icon"></i>
+                            <span class="rating-number">5</span>
+                            <span>ดีมาก</span>
+                        </div>
+                        <a class="review-report">รายงาน</a>
+                    </div>     
+                </div>
+                <div class="profilereview-texts">
+                    <div class="profilereview-text">
+                        <span>Patrick J.</span>
+                        <div class="rating">
+                            <i class="fa-solid fa-star rating-icon"></i>
+                            <span class="rating-number">5</span>
+                            <span>ดีมาก</span>
+                        </div>
+                        <a class="review-report">รายงาน</a>
+                    </div>   
+                </div>
+            </div>
+            <div id="reviewModal" class="modal-review">
+                <div class="modal-review-content">
+                    <span class="close-btn"><i class="fa-solid fa-x"></i></span>
+                    <h2>เพิ่มความคิดเห็น</h2>
+                    <div class="modal-body-review">
+                        <div class="uploadreview-section">
+                            <label for="reviewName">ชื่อ:</label>
+                            <input type="text" id="reviewName">
+                        </div>
+                        <div class="uploadreview-section">
+                            <label for="reviewRating">คะแนน:</label>
+                            <input type="number" id="reviewRating" min="1" max="5">
+                        </div>
+                        <div class="upload-section">
+                            <label for="reviewText">ความคิดเห็น:</label>
+                            <textarea id="reviewText" rows="4"></textarea>
+                        </div>
+                        <button class="save-review-btn">บันทึก</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- right -->
+        <%- include('../includes/rightbar.ejs')%>
+      </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileImage = document.getElementById('profileImage');
+            const imageInputProfile = document.getElementById('imageInputProfile');
+            const coverImage = document.getElementById('coverImage');
+            const imageModal = document.getElementById('imageModal');
+            const changeImageBtn = document.querySelector('.change-image-btn');
+            const closeBtns = document.querySelectorAll('.close-btn');
+            const profileImageInput = document.getElementById('profileImageInput');
+            const coverImageInput = document.getElementById('coverImageInput');
+            const saveImgProfileBtn = document.querySelector('.saveimg-profileBtn');
+            const addReviewBtn = document.getElementById('addreview');
+            const reviewModal = document.getElementById('reviewModal');
+            const saveReviewBtn = document.querySelector('.save-review-btn');
+        
+            if (changeImageBtn) {
+                changeImageBtn.addEventListener('click', () => {
+                    imageModal.style.display = 'block';
+                });
+            }
+        
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.closest('.modal-changeimg, .modal-review').style.display = 'none';
+                });
+            });
+        
+            if (saveImgProfileBtn) {
+                saveImgProfileBtn.addEventListener('click', () => {
+                    if (profileImageInput.files.length > 0) {
+                        const profileFile = profileImageInput.files[0];
+                        profileImage.src = URL.createObjectURL(profileFile);
+                    }
+        
+                    if (coverImageInput.files.length > 0) {
+                        const coverFile = coverImageInput.files[0];
+                        coverImage.src = URL.createObjectURL(coverFile);
+                    }
+        
+                    imageModal.style.display = 'none';
+                });
+            }
+        
+            if (addReviewBtn) {
+                addReviewBtn.addEventListener('click', () => {
+                    reviewModal.style.display = 'flex';
+                });
+            }
+        
+            if (saveReviewBtn) {
+                saveReviewBtn.addEventListener('click', () => {
+                    const reviewName = document.getElementById('reviewName').value;
+                    const reviewRating = document.getElementById('reviewRating').value;
+                    const reviewText = document.getElementById('reviewText').value;
+        
+                    if (reviewName && reviewRating && reviewText) {
+                        const reviewElement = document.createElement('div');
+                        reviewElement.classList.add('profilereview-text');
+                        reviewElement.innerHTML = `
+                            <span>${reviewName}</span>
+                            <div class="rating">
+                                <i class="fa-solid fa-star rating-icon"></i>
+                                <span class="rating-number">${reviewRating}</span>
+                                <span>${reviewText}</span>
+                            </div>
+                            <a class="review-report">รายงาน</a>
+                        `;
+                        document.querySelector('.profilereview-texts').appendChild(reviewElement);
+                        reviewModal.style.display = 'none';
+                    } else {
+                        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+                    }
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            async function fetchUserData() {
+                try {
+                    const response = await fetch('/user/u');
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const userData = await response.json();
+                    document.getElementById('user-name').textContent = `${userData.name}`; //sidebar
+                    document.getElementById('user-name-profile').textContent = `${userData.name}`;
+                    document.getElementById('user-faculty').textContent = `คณะ: ${userData.faculty}`;
+                    document.getElementById('user-major').textContent = `สาขา: ${userData.major}`;
+                    document.getElementById('user-year').textContent = `ชั้นปี: ${userData.year}`;
+                    document.getElementById('user-phone').textContent = `เบอร์โทร: 0${userData.phone}`;
+                    document.getElementById('user-email').textContent = `อีเมล: ${userData.email}`;
+                    document.getElementById('user-address').textContent = `ที่อยู่: ${userData.address}`;
+                    document.getElementById('profileImage').src = userData.profilePic || './img/racc.jfif';
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                    document.getElementById('user-name').textContent = 'Error loading name';
+                }
+            }
+        
+            // Call the function to fetch user data when the page loads
+            window.onload = fetchUserData;
+        });
+    </script>
+  </body>
+</html>

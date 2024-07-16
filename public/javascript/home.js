@@ -72,3 +72,21 @@ document.querySelector('.create-post').addEventListener('submit', function(event
     }
 });
 
+
+    async function fetchUserData() {
+        try {
+            const response = await fetch('/user/u');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const userData = await response.json();
+            document.getElementById('user-name').textContent = userData.name;
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            document.getElementById('user-name').textContent = 'Error loading name';
+        }
+    }
+
+    // Call the function to fetch user data when the page loads
+    window.onload = fetchUserData;
+
