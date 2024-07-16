@@ -25,6 +25,10 @@ router.get('/home', (req, res) => {
     res.render('pages/notification.ejs', { pageTitle: 'Notification' });
   });
 
+  router.get('/joinrequest', (req, res) => {
+    res.render('pages/joinrequest.ejs', { pageTitle: 'My Post' });
+  });
+
 router.get('/register', (req,res) =>{
   res.render('pages/register.ejs');
 })

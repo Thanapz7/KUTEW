@@ -604,6 +604,44 @@ textarea{
     cursor: pointer;
 }
 
+/* notification */
+.middle .box-noti{
+    display: flex;
+    justify-content: space-around;
+    padding: 2rem;
+    background-color:rgba(140,165,125,255) ;
+    height: auto;
+    overflow-y: auto;
+    flex-direction: column;
+    border-radius: 1rem;
+}
+.noti{
+    margin-bottom: 1rem;
+}
+.middle .caption-noti{
+    background-color: var(--white-color);
+    border-radius: 9px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.middle .caption-noti-1{
+    display: flex;
+    margin-left: 4.2rem;
+}
+.middle .caption-noti-1 p{
+    margin-left: 1rem;
+    margin-bottom: 0.7rem;
+}
+.middle .profile-noti{
+    display: flex;
+    flex-direction: space-between;
+}
+.middle .profile-noti .info{
+    margin-left: 1.5rem;
+}
+
 /* settings */
 .middle .settings{
     background: var(--white-color);
@@ -881,6 +919,101 @@ textarea{
     background-color: var(--lighgreen-color);
 }
 
+/* joinrequest */
+.middle-join{
+    display: flex;
+    justify-content: space-around;
+    padding: 2rem;
+    background-color:#fff ;
+    height: auto;
+    overflow-y: auto;
+    flex-direction: column;
+    border-radius: 1rem;
+}
+.caption-joinrequest{
+    background-color: var(--white-color);
+    border-radius: 9px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+.caption-join-1{
+    display: flex;
+    margin-left: 6.6rem;
+}
+.caption-join-1 p{
+    margin-left: 1rem;
+    margin-bottom: 0.7rem;
+}
+.middle .profile-joinrequest{
+    display: flex;
+    flex-direction: space-between;
+}
+.profile-joinrequest .info{
+    margin-left: 1.5rem;
+}
+.caption-join{
+    margin-bottom: 1rem;
+}
+
+.profile-photo-joinrequest{
+    width: 5rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.joinrequest-allinfo{
+    justify-content: space-between;
+    display: flex;
+}
+.joinrequest-info{
+    display: flex; 
+}
+.joinrequest-info .profile-photo{
+    margin-right: 2rem; 
+}
+.joinrequest-info .info{
+    margin-top: 0.3rem;
+}
+.joinrequest-allbtn{
+    display: flex;
+}
+.joinrequest-allbtn .btn{
+    justify-content: space-between;
+}
+.joinrequest-allbtn .bttn #Accept{
+    background-color:var(--green-color);
+    border-radius: var(--border-radius);
+    padding: var(--btn-paddign);
+    color: #fff;
+    width: 80px;
+    cursor: pointer;
+}
+.joinrequest-allbtn .bttn #Accept:hover{
+    background-color: lightgreen;
+    color: #fff;
+}
+.joinrequest-allbtn .bttn #Deny{
+    background-color: red;
+    border-radius: var(--border-radius);
+    padding: var(--btn-paddign);
+    color: #fff;
+    width: 80px;
+    cursor: pointer;
+}
+.joinrequest-allbtn .bttn #Deny:hover{
+    background-color: lightcoral;
+}
+.joinrequest-label{
+    font-size: 20px;
+    margin: 0.5rem 0 0.5rem 0;
+    text-decoration: underline;
+}
+.caption-joinrequest .joinrequestcaption-info{
+    margin-top: -2.5rem;
+    border-bottom: 1px solid #ccc;
+}
 /* right */
 main .container .right{
     height: max-content;
