@@ -6,7 +6,8 @@ const {
     getAllPost,
     updatePost,
     deletePost,
-    searchPost
+    searchPost,
+    getMyPost
     
 
   } =require("../controllers/post.js");
@@ -15,6 +16,7 @@ const {
   router.put("/:id", updatePost);
   router.delete("/:id", deletePost);
   router.get("/search", searchPost);
+  router.get("/myp", getMyPost);
   
   
   

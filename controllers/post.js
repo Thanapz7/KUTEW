@@ -15,6 +15,7 @@ const upload = multer({
     { name: 'QRcodePhoto', maxCount: 1 },
 ]);
 
+// แก้ไม่ให้ใส่ตัวเลขได้
 
 exports.insertPost = async (req, res) => {
     upload(req, res, (err) => {
@@ -39,6 +40,20 @@ exports.insertPost = async (req, res) => {
             }
             res.status(200).json({ message: 'Post saved successfully' });
         });
+    });
+};
+
+exports.getMyPost = async (req, res) => {
+    const userId = req.session.user.user_id;
+    const query = "SELECT * FROM posts WHERE user_id = ?";
+    db.query(query, [userId],(err, results) => {
+        if (err) {
+            console.error('Error fetching posts:', err);
+            res.status(500).json({ error: 'Failed to fetch posts' });
+            return;
+        }
+        console.log(userId)
+        res.json(results);
     });
 };
 

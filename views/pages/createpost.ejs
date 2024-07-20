@@ -48,19 +48,23 @@
                 </div>
                 <div class="form-group">
                   <label>ราคาที่สอน :</label>
-                  <input type="text" name="price" />
+                  <input type="text" name="price" id="price" />
+                  <span id="price-error" class="error"></span>
                 </div>
                 <div class="form-group">
                   <label>จำนวนคนที่รับ :</label>
-                  <input type="text" name="people" />
+                  <input type="text" name="people" id="participants"/>
+                  <span id="participants-error" class="error"></span>
                 </div>
                 <div class="form-group">
                   <label>จำนวนชั่วโมงที่เรียน :</label>
-                  <input type="text" name="hours" />
+                  <input type="text" name="hours" id="hours" />
+                  <span id="hours-error" class="error"></span>
                 </div>
                 <div class="form-group">
                   <label>QR รับเงิน :</label>
-                  <input type="file" name="QRcodePhoto" />
+                  <input type="file" name="QRcodePhoto" accept="image/*" id="qr"/>
+                  <span id="qr-error" class="error"></span>
                 </div>
                 <div class="btn-makepost">
                   <button type="submit" class="btn-post">Post</button>
@@ -122,6 +126,54 @@
 
     // Call the function to fetch user data when the page loads
     window.onload = fetchUserData;
+
+    function validatePrice() {
+      const price = document.getElementById('price').value;
+      const priceError = document.getElementById('price-error');
+      if (isNaN(price)) {
+          priceError.textContent = 'กรอกเป็นตัวเลขเท่านั้น';
+      } else if (price > 500) {
+          priceError.textContent = 'ราคาต้องไม่เกิน 500';
+      } else {
+          priceError.textContent = '';
+      }
+  }
+
+  function validateParticipants() {
+      const participants = document.getElementById('participants').value;
+      const participantsError = document.getElementById('participants-error');
+      if (isNaN(participants)) {
+          participantsError.textContent = 'กรอกเป็นตัวเลขเท่านั้น';
+      } else {
+          participantsError.textContent = '';
+      }
+  }
+
+  function validateHours() {
+      const hours = document.getElementById('hours').value;
+      const hoursError = document.getElementById('hours-error');
+      if (isNaN(hours)) {
+          hoursError.textContent = 'กรอกเป็นตัวเลขเท่านั้น';
+      } else {
+          hoursError.textContent = '';
+      }
+  }
+
+  function validateQR() {
+      const qr = document.getElementById('qr').files[0];
+      const qrError = document.getElementById('qr-error');
+      if (qr && !qr.type.startsWith('image/')) {
+          qrError.textContent = 'อัพโหลดไฟล์รูปภาพเท่านั้น';
+      } else {
+          qrError.textContent = '';
+      }
+  }
+
+  document.getElementById('price').addEventListener('input', validatePrice);
+  document.getElementById('participants').addEventListener('input', validateParticipants);
+  document.getElementById('hours').addEventListener('input', validateHours);
+  document.getElementById('qr').addEventListener('change', validateQR);
+
     </script>
   </body>
 </html>

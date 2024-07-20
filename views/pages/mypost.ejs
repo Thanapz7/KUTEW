@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/home.css" />
+  <title>My post</title>
+</head>
+<body>
+  <!-- navbar -->
+  <%- include('../includes/navbar.ejs') %>
+
+  <!-- main -->
+  <main>
+    <div class="container">
+      <!-- left -->
+      <%- include('../includes/sidebar.ejs') %>
+      <!-- middle -->
+      <div class="middle">
+        <div class="myposts" id="postsContainer">
+          <!-- <div class="card-eachpost">
+            <div class="left-card">
+              <img src="../img/racc.jfif" class="profile-mypost">
+            </div>
+            <div class="center-card">
+              <p class="nametutor">name</p>
+              <div class="subject">
+                <i class="fa-solid fa-book"></i>
+                <p>MATH I</p>
+              </div>
+              <p>รับติววิชาคณิตศาสตร์ 1</p>
+              <div class="location">
+                <i class="fa-solid fa-location-dot"></i>
+                <p>สถานที่</p>
+              </div>
+            </div>
+            <div class="right-card">
+              <i class="fa-solid fa-gear setting-post" id="settingPost"></i>
+              <p>จำนวนคำขอ : <span>4</span></p>
+              <i class="fa-solid fa-trash delete-post" id="deletePost"></i>
+            </div>
+          </div> -->
+        </div>
+        <div class="modal-deletepost" id="deletepostModal">
+          <div class="modal-deletepost-content">
+            <span class="close-btn" id="closeLogoutModalBtn"><i class="fa-solid fa-x" id="closeModalBtn"></i></span>
+            <h2>Confirm Delete</h2>
+            <p>Are you sure you want to delete this post?</p>
+            <div class="group-btn">
+              <button id="deletepost-btn" class="deletepost-btn">Confirm</button>
+              <button id="cancel-deletepost-btn" class="cancel-deletepost-btn">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- right -->
+      <%- include('../includes/rightbar.ejs') %>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById("deletepostModal");
+      const deleteBtn = document.getElementById("deletePost");
+      const closeBtn = document.getElementById("closeModalBtn");
+      const cancelBtn = document.getElementById("cancel-deletepost-btn");
+
+      if (deleteBtn) {
+        deleteBtn.onclick = function() {
+          modal.style.display = "flex";
+        }
+      }
+
+      if (closeBtn) {
+        closeBtn.onclick = function() {
+          modal.style.display = "none";
+        }
+      }
+
+      if (cancelBtn) {
+        cancelBtn.onclick = function() {
+          modal.style.display = "none";
+        }
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+
+      const fetchPosts = async () => {
+        try {
+          const response = await fetch('/post/myp');
+          const posts = await response.json();
+
+          
+
+          console.log('Received posts:', posts); // ตรวจสอบข้อมูลที่ได้รับ
+
+          const postsContainer = document.getElementById('postsContainer');
+          postsContainer.innerHTML = ''; // ล้างเนื้อหาก่อน
+          posts.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.classList.add('card-eachpost');
+
+            const formattedDate = new Date(post.date).toISOString().split('T')[0];
+
+            postElement.innerHTML = `
+                <div class="left-card">
+                    <img src="${post.image}" class="profile-mypost">
+                </div>
+                <div class="center-card">
+                    <p >${formattedDate}</p>
+                    <div class="subject">
+                        <i class="fa-solid fa-book"></i>
+                        <p>${post.tag}</p>
+                    </div>
+                    <p>${post.details}</p>
+                    <div class="location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <p>${post.location}</p>
+                    </div>
+                </div>
+                <div class="right-card">
+                    <i class="fa-solid fa-gear setting-post" id="settingPost"></i>
+                    <p>จำนวนคำขอ : <span>${post.requests}</span></p>
+                    <i class="fa-solid fa-trash delete-post" id="deletePost"></i>
+                </div>
+            `;
+
+            postsContainer.appendChild(postElement);
+          });
+        } catch (error) {
+          console.error('Error fetching posts:', error);
+        }
+      };
+
+      fetchPosts();
+    });
+  </script>
+</body>
+</html>
