@@ -122,6 +122,56 @@
 
     // Call the function to fetch user data when the page loads
     window.onload = fetchUserData;
+
+    function validateFormPost(event) {
+      event.preventDefault();
+
+      // Clear previous errors
+      document.getElementById('price-error').textContent = '';
+      document.getElementById('participants-error').textContent = '';
+      document.getElementById('hours-error').textContent = '';
+      document.getElementById('qr-error').textContent = '';
+
+      let isValid = true;
+
+      // Validate price
+      const price = document.getElementById('price').value;
+      if (isNaN(price)) {
+          document.getElementById('price-error').textContent = 'กรุณากรอกเป็นตัวเลข';
+          isValid = false;
+      } else if (price > 500) {
+          document.getElementById('price-error').textContent = 'ราคาต้องไม่เกิน 500 บาท';
+          isValid = false;
+      }
+
+      // Validate participants
+      const participants = document.getElementById('participants').value;
+      if (isNaN(participants)) {
+          document.getElementById('participants-error').textContent = 'กรุณากรอกเป็นตัวเลข';
+          isValid = false;
+      }
+
+      // Validate hours
+      const hours = document.getElementById('hours').value;
+      if (isNaN(hours)) {
+          document.getElementById('hours-error').textContent = 'กรุณากรอกเป็นตัวเลข';
+          isValid = false;
+      }
+
+      // Validate QR file
+      const qr = document.getElementById('qr').files[0];
+      if (qr && !qr.type.startsWith('image/')) {
+          document.getElementById('qr-error').textContent = 'อัพโหลดไฟล์รูปภาพเท่านั้น';
+          isValid = false;
+      }
+
+      if (isValid) {
+          // Submit the form or perform any other actions needed
+          alert('Form submitted successfully!');
+      }
+  }
+
+  document.getElementById('postForm').addEventListener('submit', validateForm);
     </script>
   </body>
 </html>
