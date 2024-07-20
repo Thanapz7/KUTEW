@@ -323,11 +323,6 @@ textarea{
 .make-post .form-group input[type="file"] {
     padding: 0;
 }
-.make-post .error{
-    color: red;
-    margin-left: 5px;
-    margin-top: 20px;
-}
 .btn-makepost{
     width: 100%;
     display: flex;
