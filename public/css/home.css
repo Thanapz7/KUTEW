@@ -933,7 +933,10 @@ main .container .right{
         width: 5rem;
         z-index: 5;
     }
-    main .container .left .profile{
+    .left .profile-photo{
+        margin-left: 5px;
+    }
+    .left h4{
         display: none;
     }
     .sidebar h3{
