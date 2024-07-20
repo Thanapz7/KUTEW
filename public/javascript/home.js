@@ -59,9 +59,10 @@ document.querySelector('.create-post').addEventListener('submit', function(event
                     </span>
                 </div>
                 <div class="caption">
-                    <i class="fa-solid fa-book"><p>${course.tag}</p></i>
-                    <i class="fa-solid fa-newspaper"><p>${course.details}</p></i>
-                    <i class="fa-solid fa-map-pin"><p>สถานที่: ${course.location}</p></i>
+                    <i class="fa-solid fa-clock"><p>Date:<p class="p-font">${formattedDate}</p> </p></i>
+                    <i class="fa-solid fa-book"><p>Tag:<p class="p-font">${course.tag}</p> </p></i>
+                    <i class="fa-solid fa-newspaper"><p>Detail:<p class="p-font">${course.details}</p> </p></i>
+                    <i class="fa-solid fa-map-pin"><p>Location:<p class="p-font">${course.location}</p> </p></i>
                 </div>
             `;
 

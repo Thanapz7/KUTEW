@@ -170,6 +170,7 @@ main .container .left .profile{
 .left .sidebar h3{
     margin-left: 1.5rem;
     font-size: 1rem;
+    color: var(--black-color);
 }
 .left .sidebar .active{
     background: var(--background-color);
@@ -254,6 +255,7 @@ main .container .left .profile{
     justify-content: space-between;
     font-size: 0.9rem;
 }
+
 .middle .feed .user{
     display: flex;
     gap: 1rem;
@@ -278,8 +280,12 @@ main .container .left .profile{
     font-size: 0.85rem;
 }
 .middle .feed .caption i p{
+    font-family: "Kanit", sans-serif;
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 16px;
+}
+.middle .feed .caption p.p-font{
+    font-weight: 5;
 }
 /* make post */
 .middle .post{
