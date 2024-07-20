@@ -82,6 +82,12 @@ img{
     column-gap: .75rem;
     border-bottom: 2px solid var(--white-color);
 }
+.signin__box2{
+    grid-template-columns: max-content 1fr;
+    align-items: center;
+    column-gap: .75rem;
+    border-bottom: 2px solid var(--white-color);
+}
 .signin__icon, .signin__eye{
     font-size: 1.25rem;
 }

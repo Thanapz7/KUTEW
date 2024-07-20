@@ -14,21 +14,22 @@
 <body>
     <div class="signin">
         <img src="/img/cover.jpg" alt="signin image" class="signin__img">
-        <form id="registerForm" class="signin__form">
+        <form id="registerForm" class="signin__form" onsubmit="return handleSubmit(event)">
             <h1 class="signin__title">Register</h1>
             <div class="signin__content">
                 <div class="signin__box">
                     <i class="fa-solid fa-user login__icon"></i>
                     <div class="signin__box-input">
+                      <input type="text" id="username" name="username" required class="signin__input" placeholder=" ">  
                       <label for="username" class="signin__label">Username</label>
-                      <input type="text" id="username" name="username" required class="signin__input" placeholder=" ">
+                      
                     </div>
                 </div>
                 <div class="signin__box">
                     <i class="fa-solid fa-envelope login__icon"></i>
                     <div class="signin__box-input">
+                      <input type="email" id="email" name="email" required class="signin__input" placeholder=" ">  
                       <label for="email" class="signin__label">Email</label>
-                      <input type="email" id="email" name="email" required class="signin__input" placeholder=" ">
                     </div>
                 </div>
             </div>
@@ -36,8 +37,8 @@
                 <div class="signin__box">
                     <i class="fa-solid fa-lock login__icon"></i>
                     <div class="signin__box-input">
+                      <input type="password" id="password" name="password" class="signin__input" placeholder=" ">  
                       <label for="password" class="signin__label">Password</label>
-                      <input type="password" id="password" name="password" class="signin__input" placeholder=" ">
                       <i class="fa-solid fa-eye-slash login__eye" id="login-eye"></i>
                     </div>
                 </div>
