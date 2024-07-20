@@ -48,22 +48,26 @@
                 </div>
                 <div class="form-group">
                   <label>ราคาที่สอน :</label>
-                  <input type="text" name="price" />
+                  <input type="text" name="price" id="price" />
+                  <span id="price-error" class="error"></span>
                 </div>
                 <div class="form-group">
                   <label>จำนวนคนที่รับ :</label>
-                  <input type="text" name="people" />
+                  <input type="text" name="people" id="participants" />
+                  <span id="participants-error" class="error"></span>
                 </div>
                 <div class="form-group">
                   <label>จำนวนชั่วโมงที่เรียน :</label>
-                  <input type="text" name="hours" />
+                  <input type="text" name="hours" id="hours" />
+                  <span id="hours-error" class="error"></span>
                 </div>
                 <div class="form-group">
                   <label>QR รับเงิน :</label>
-                  <input type="file" name="QRcodePhoto" />
+                  <input type="file" name="QRcodePhoto" id="qr" accept="image/*" />
+                  <span id="qr-error" class="error"></span>
                 </div>
                 <div class="btn-makepost">
-                  <button type="submit" class="btn-post">Post</button>
+                  <button type="submit" class="btn-post" onclick="validateFormPost(event)">Post</button> 
                   <button
                     type="button"
                     class="btn-allpost"
@@ -171,7 +175,7 @@
       }
   }
 
-  document.getElementById('postForm').addEventListener('submit', validateForm);
+  document.getElementById('createPostForm').addEventListener('submit', validateForm);
     </script>
   </body>
 </html>
