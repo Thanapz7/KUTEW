@@ -562,6 +562,9 @@ textarea{
     margin-top: 5px;
     text-align: left;
 }
+.infomyprofile{
+    padding-left: 20px;
+}
 .profileinfo .profileinfos-major{
     display: flex;
     justify-content: space-around;
