@@ -17,6 +17,10 @@ router.get('/home', (req, res) => {
     res.render('pages/createpost.ejs');
   });
 
+  router.get('/search', (req, res) => {
+    res.render('pages/search.ejs',{ pageTitle: 'Search' });
+  });
+
   router.get('/profilepage', (req, res) => {
     res.render('pages/profilepage.ejs');
   });

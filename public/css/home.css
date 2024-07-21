@@ -1033,6 +1033,97 @@ main .container .right{
     align-items: center;
 }
 
+/* serach page */
+nav .search-barpage{
+    opacity: 0;
+}
+
+.middle-search{
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+}
+
+.middle-search .search-barpageinfo{
+    background: none;
+    padding: var(--search-padding);
+}
+.middle-search .search-barpageinfo input[type="search"]{
+    background: transparent;
+    width: 10vw;
+    margin-left: 1rem;
+    font-size: 2rem;
+    color: var(--black-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+}
+.middle-search .searchicon{
+    font-size: 2rem;
+}
+
+.tagsearch .headtag-search{
+    color: var(--green-color);
+}
+.middle-search .tagsearch{
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.middle-search .tagsearch a{
+    margin-left: 2rem;
+    color: #888;
+}
+
+.middle-search .feeds{
+    display: flex;
+    justify-content: space-around;
+}
+
+.middle-search .feeds .feed{
+    /* background: var(--lighgreen-color); */
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    margin: 1rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.5rem;
+    border: 1px solid #ccc;
+}
+.middle-search .feed .head{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+.middle-search .feed .user{
+    display: flex;
+    gap: 1rem;
+}
+.middle-search .feed .photo{
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    margin: 0.7rem;
+}
+.middle-search .feed .caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-top: 1rem;
+    margin-left: 3.5rem;
+
+}
+.middle-search  .search-feed .icon-search{
+    color: yellow;
+}
+.middle-search .feed .caption i{
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.85rem;
+}
+.middle-search .feed .caption i p{
+    margin: 0;
+    font-size: 0.9rem;
+}
 /* right */
 main .container .right{
     height: max-content;
