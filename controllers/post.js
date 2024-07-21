@@ -2,6 +2,7 @@ const db = require("../db");
 const multer = require('multer');
 const path = require('path');
 
+// การตั้งค่าการเก็บไฟล์รูปภาพ
 const storage = multer.diskStorage({
     destination: './QRcode/',
     filename: function (req, file, cb) {
@@ -10,13 +11,19 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-    storage: storage
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        if(ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+            return cb(new Error('Only images are allowed'));
+        }
+        cb(null, true);
+    }
 }).fields([
     { name: 'QRcodePhoto', maxCount: 1 },
 ]);
 
-// แก้ไม่ให้ใส่ตัวเลขได้
-
+// ฟังก์ชันเพื่อเพิ่มโพสต์ใหม่
 exports.insertPost = async (req, res) => {
     upload(req, res, (err) => {
         if (err) {
@@ -28,13 +35,15 @@ exports.insertPost = async (req, res) => {
 
         console.log('Received post:', { details, tag, location, date, price, people, hours, QRcode: QRcodePic });
 
+        // เช็คว่าข้อมูลถูกต้องหรือไม่ก่อนแปลงเป็นตัวเลข
+        const priceInt = isNaN(parseInt(price)) ? 0 : parseInt(price);
+        const peopleInt = isNaN(parseInt(people)) ? 0 : parseInt(people);
+        const hoursInt = isNaN(parseInt(hours)) ? 0 : parseInt(hours);
+
         const userId = req.session.user.user_id;
-        const priceInt = parseInt(price) || 0;
-        const peopleInt = parseInt(people) || 0;
-        const hoursInt = parseInt(hours) || 0;
 
         const sql = 'INSERT INTO posts (details, tag, location, date, price, people, hours, QRcode, user_id ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        db.query(sql, [ details, tag, location, date, priceInt, peopleInt, hoursInt, QRcodePic, userId], (err, result) => {
+        db.query(sql, [details, tag, location, date, priceInt, peopleInt, hoursInt, QRcodePic, userId], (err, result) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
@@ -42,6 +51,7 @@ exports.insertPost = async (req, res) => {
         });
     });
 };
+
 
 exports.getMyPost = async (req, res) => {
     const userId = req.session.user.user_id;
@@ -52,7 +62,7 @@ exports.getMyPost = async (req, res) => {
             res.status(500).json({ error: 'Failed to fetch posts' });
             return;
         }
-        console.log(userId)
+        //console.log(userId)
         res.json(results);
     });
 };

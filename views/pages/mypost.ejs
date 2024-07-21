@@ -154,26 +154,26 @@
             const formattedDate = new Date(post.date).toISOString().split('T')[0];
     
             postElement.innerHTML = `
-              <div class="left-card">
-                <img src="${post.image}" class="profile-mypost">
-              </div>
-              <div class="center-card">
-                <p>${formattedDate}</p>
-                <div class="subject">
-                  <i class="fa-solid fa-book"></i>
-                  <p>${post.tag}</p>
+                <div class="left-card">
+                    <img src="${post.image}" class="profile-mypost">
                 </div>
-                <p>${post.details}</p>
-                <div class="location">
-                  <i class="fa-solid fa-location-dot"></i>
-                  <p>${post.location}</p>
+                <div class="center-card">
+                    <p >${formattedDate}</p>
+                    <div class="subject">
+                        <i class="fa-solid fa-book"></i>
+                        <p>${post.tag}</p>
+                    </div>
+                    <p>${post.details}</p>
+                    <div class="location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <p>${post.location}</p>
+                    </div>
                 </div>
-              </div>
-              <div class="right-card">
-                <i class="fa-solid fa-gear setting-post" data-post-id="${post.post_id}"></i>
-                <p>จำนวนคำขอ : <span>${post.requests}</span></p>
-                <i class="fa-solid fa-trash delete-post" data-post-id="${post.post_id}"></i>
-              </div>
+                <div class="right-card">
+                    <i class="fa-solid fa-gear setting-post" id="settingPost"></i>
+                    <p>จำนวนคำขอ : <span>${post.requests}</span></p>
+                    <i class="fa-solid fa-trash delete-post" id="deletePost"></i>
+                </div>
             `;
     
             postsContainer.appendChild(postElement);

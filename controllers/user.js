@@ -52,7 +52,7 @@ exports.getAllUsers = async (req, res) => {
             res.status(500).json({ error: 'Failed to fetch user data' });
             return;
         }
-        console.log(results[0]); // Log the fetched data
+        console.log('User data:',results[0]); // Log the fetched data
         res.json(results[0]);  // Assuming you only need one user data
     });
 };
