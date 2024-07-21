@@ -8,9 +8,15 @@ const storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
-
 const upload = multer({
-    storage: storage
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        if(ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+            return cb(new Error('Only images are allowed'));
+        }
+        cb(null, true);
+    }
 }).fields([
     { name: 'profilePhoto', maxCount: 1 },
     { name: 'cardidPhoto', maxCount: 1 },

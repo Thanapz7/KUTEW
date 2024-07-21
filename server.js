@@ -41,6 +41,7 @@ app.use(cookieParser());
 // ตั้งค่าไดเร็กทอรีสำหรับไฟล์สาธารณะ (static files)
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // ตั้งค่าไดเร็กทอรีสำหรับเทมเพลต EJS
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

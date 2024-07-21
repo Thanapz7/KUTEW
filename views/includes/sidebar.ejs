@@ -1,13 +1,13 @@
- <!-- left -->
- <div class="left">
+<!-- left -->
+<div class="left">
     <a href="/profilepage" class="profile">
         <div class="profile-photo">
-            <img src="./img/racc.jfif" alt="">
+            <img id="profilePic" src="" alt="Profile Picture" />
         </div>
         <div class="handle">
             <h4 id="user-name">Loading...</h4>
         </div>
-    </a>     
+    </a>  
 
     <!-- sidebar -->
     <div class="sidebar">
@@ -21,11 +21,37 @@
             <span><i class="fa-solid fa-newspaper"></i></span><h3>Post</h3>
         </a>
         <a class="menu-item" id="chat-notifications">
-            <span><i class="fa-solid fa-comments" ></i></i></span><h3>Chat</h3>
+            <span><i class="fa-solid fa-comments"></i></i></span><h3>Chat</h3>
         </a>
-        <a class="menu-item ">
+        <a class="menu-item">
             <span><i class="fa-solid fa-gear"></i></span><h3>Setting</h3>
         </a>
-     </div>
+    </div>
 </div>
 
+<script>
+    async function fetchUserData() {
+        try {
+            const response = await fetch('/user/u');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const userData = await response.json();
+            document.getElementById('user-name').textContent = userData.name;
+
+            const profilePicElement = document.getElementById('profilePic');
+            profilePicElement.src = '/' + userData.profilePic; // เพิ่ม '/' เพื่อให้เส้นทางถูกต้อง
+
+            // เพิ่มการตรวจสอบ URL ของรูปภาพ
+            console.log('Profile Pic URL:', userData.profilePic);
+
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            document.getElementById('user-name').textContent = 'Error loading name';
+            document.getElementById('profilePic').src = ''; // ในกรณีที่มีข้อผิดพลาด ไม่แสดงรูปภาพ
+        }
+    }
+
+    // เรียกฟังก์ชันเพื่อดึงข้อมูลผู้ใช้เมื่อหน้าเว็บโหลดเสร็จ
+    window.onload = fetchUserData;
+</script>
