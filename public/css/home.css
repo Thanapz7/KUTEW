@@ -641,6 +641,123 @@ textarea{
     color: black;
     font-size: 20px;
 }
+/* edit post */
+.middle .btn-editpost{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    right: 10px;
+}
+.middle .btn-editingpost {
+    width: 30%;
+    padding: var(--btn-paddign);
+    color: var(--white-color);
+    background: var(--green-color);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    border: none;
+}
+.middle .btn-canceleditpost{
+    width: 30%;
+    padding: var(--btn-paddign);
+    color: var(--white-color);
+    background: rgb(255, 165, 0);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    border: none;
+}
+.middle .btn-editingpost:hover{
+    background: var(--lighgreen-color);
+}
+.middle .btn-canceleditpost:hover{
+    background: var(--lightorange-color);
+}
+/* modal edit */ 
+/* Modal Container */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* Form Styling */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .btn-editingpost, .btn-canceleditpost {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btn-canceleditpost {
+    background-color: #f44336; /* Red */
+  }
+  
+  .btn-editingpost:hover, .btn-canceleditpost:hover {
+    opacity: 0.8;
+  }
    /* modal ch pass */
 .modal-chPass{
     display: none;
@@ -892,6 +1009,96 @@ textarea{
 .modal-deletepost-content .group-btn .cancel-deletepost-btn:hover{
     background-color: var(--lighgreen-color);
 }
+/* modal edit */
+.modal-edit {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-edit .modal-content-edit {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: var(--card-border-radius);
+    width: 80%;
+    height: 120%;
+    overflow-y: auto; /* Could be more or less, depending on screen size */
+  }
+  
+  /* Close Button */
+  .modal-edit .close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .modal-edit .close-btn:hover,
+  .modal-edit .close-btn:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* Form Styling */
+  .modal-edit .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .modal-edit .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .modal-edit .form-group input,
+  .modal-edit .form-group textarea {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: var(--card-border-radius);
+  }
+  
+  .modal-edit .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  .modal-edit .btn-editpostt{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    right: 10px;
+  }
+  .modal-edit .btn-editingpostt, .btn-canceleditpostt {
+    width: 20%;
+    padding: var(--btn-paddign);
+    border-radius: var(--border-radius);
+    color: var(--white-color);
+    cursor: pointer;
+  }
+  
+  .modal-edit .btn-canceleditpostt {
+    background-color: #f44336; /* Red */
+  }
+  .modal-edit .btn-editingpostt {
+    background-color: var(--orange-color); /* Red */
+  }
+  
+  .modal-edit .btn-editingpostt:hover, .btn-canceleditpostt:hover {
+    opacity: 0.8;
+  }
 
 /* right */
 main .container .right{
