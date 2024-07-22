@@ -47,5 +47,8 @@ router.get('/profilepage', (req,res) =>{
 router.get('/mypost', (req,res) =>{
   res.render('pages/mypost.ejs');
 })
+router.get('/setting', (req,res) =>{
+  res.render('pages/setting.ejs');
+})
 
 module.exports = router;
