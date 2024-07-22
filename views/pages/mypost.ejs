@@ -64,7 +64,7 @@
         </div>
         <div class="form-group">
           <label>จำนวนคนที่รับ :</label>
-          <input type="text" id="editParticipants">
+          <input type="text" id="editPeople">
           <span id="editParticipantsError" class="error"></span>
         </div>
         <div class="form-group">
@@ -74,12 +74,13 @@
         </div>
         <div class="form-group">
           <label>QR รับเงิน :</label>
-          <input type="file" id="editQR" accept="image/*">
+          <input type="file" id="editQRcode" accept="image/*">
           <span id="editQRError" class="error"></span>
         </div>
+       
         <div class="btn-editpostt">
           <button type="submit" class="btn-editingpostt" id="btn-editingpostt">แก้ไข</button>
-          <button type="submit" class="btn-canceleditpostt" id="btn-canceleditpostt">ยกเลิก </button>
+          <button type="button" class="btn-canceleditpostt" id="btn-canceleditpostt">ยกเลิก </button>
         </div>
       </form>
     </div>
@@ -87,138 +88,180 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const modal = document.getElementById('deletepostModal');
-      const closeBtn = document.getElementById("closeModalBtn");
-      const cancelBtn = document.getElementById("cancel-deletepost-btn");
-      const editModal = document.getElementById('editPostModal');
-      const closeEditModalBtn = document.getElementById('closeEditModal');
-      const canceleditbtn = document.getElementById('btn-canceleditpostt');
-      const editPostForm = document.getElementById('editPostForm');
-    
-      const openEditModal = (post) => {
-        document.querySelector('#editDetails').value = post.details;
-        document.querySelector('#editTag').value = post.tag;
-        document.querySelector('#editLocation').value = post.location;
-        document.querySelector('#editDate').value = new Date(post.date).toISOString().split('T')[0];
-        document.querySelector('#editPrice').value = post.price;
-        document.querySelector('#editParticipants').value = post.participants;
-        document.querySelector('#editHours').value = post.hours;
-    
-        editModal.style.display = 'block';
-      };
-    
-      if (closeEditModalBtn) {
-        closeEditModalBtn.onclick = function() {
-          editModal.style.display = 'none';
+        const modal = document.getElementById('deletepostModal');
+        const closeBtn = document.getElementById("closeModalBtn");
+        const cancelBtn = document.getElementById("cancel-deletepost-btn");
+        const editModal = document.getElementById('editPostModal');
+        const closeEditModalBtn = document.getElementById('closeEditModal');
+        const canceleditbtn = document.getElementById('btn-canceleditpostt');
+        const editPostForm = document.getElementById('editPostForm');
+      
+        let currentEditPostId = null;
+        let currentEditQRcode = null;
+      
+        const openEditModal = (post) => {
+          document.querySelector('#editDetails').value = post.details;
+          document.querySelector('#editTag').value = post.tag;
+          document.querySelector('#editLocation').value = post.location;
+          document.querySelector('#editDate').value = new Date(post.date).toISOString().split('T')[0];
+          document.querySelector('#editPrice').value = post.price;
+          document.querySelector('#editPeople').value = post.people;
+          document.querySelector('#editHours').value = post.hours;
+          currentEditQRcode = post.QRcode;
+      
+          currentEditPostId = post.post_id;
+          editModal.style.display = 'block';
+        };
+      
+        if (closeEditModalBtn) {
+          closeEditModalBtn.onclick = function() {
+            editModal.style.display = 'none';
+          }
         }
-      }
-      if (canceleditbtn) {
-        closeEditModalBtn.onclick = function() {
-          editModal.style.display = 'none';
+      
+        if (canceleditbtn) {
+          canceleditbtn.onclick = function() {
+            editModal.style.display = 'none';
+          }
         }
-      }
-    
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = 'none';
-        } else if (event.target == editModal) {
-          editModal.style.display = 'none';
+      
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = 'none';
+          } else if (event.target == editModal) {
+            editModal.style.display = 'none';
+          }
         }
-      }
-    
-      const fetchPosts = async () => {
-        try {
-          const response = await fetch('/post/myp');
-          const posts = await response.json();
-    
-          const postsContainer = document.getElementById('postsContainer');
-          postsContainer.innerHTML = '';
-    
-          posts.forEach(post => {
-            const postElement = document.createElement('div');
-            postElement.classList.add('card-eachpost');
-    
-            const formattedDate = new Date(post.date).toISOString().split('T')[0];
-    
-            postElement.innerHTML = `
-              <div class="left-card">
-                <img src="${post.image}" class="profile-mypost">
-              </div>
-              <div class="center-card">
-                <p>${formattedDate}</p>
-                <div class="subject">
-                  <i class="fa-solid fa-book"></i>
-                  <p>${post.tag}</p>
-                </div>
-                <p>${post.details}</p>
-                <div class="location">
-                  <i class="fa-solid fa-location-dot"></i>
-                  <p>${post.location}</p>
-                </div>
-              </div>
-              <div class="right-card">
-                <i class="fa-solid fa-gear setting-post" data-post-id="${post.post_id}"></i>
-                <p>จำนวนคำขอ : <span>${post.requests}</span></p>
-                <i class="fa-solid fa-trash delete-post" data-post-id="${post.post_id}"></i>
-              </div>
-            `;
-    
-            postsContainer.appendChild(postElement);
+      
+        editPostForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+          
+            const editedPost = new FormData();
+            editedPost.append('details', document.querySelector('#editDetails').value);
+            editedPost.append('tag', document.querySelector('#editTag').value);
+            editedPost.append('location', document.querySelector('#editLocation').value);
+            editedPost.append('date', document.querySelector('#editDate').value);
+            editedPost.append('price', document.querySelector('#editPrice').value);
+            editedPost.append('people', document.querySelector('#editPeople').value);
+            editedPost.append('hours', document.querySelector('#editHours').value);
+          
+            const qrCodeFile = document.querySelector('#editQRcode').files[0];
+            if (qrCodeFile) {
+              editedPost.append('QRcodePhoto', qrCodeFile); // เปลี่ยนชื่อฟิลด์เป็น QRcodePhoto
+            } else if (currentEditQRcode) {
+              editedPost.append('QRcodePhoto', currentEditQRcode); // ใช้ QRcodePhoto
+            }
+          
+            try {
+              const response = await fetch(`/post/${currentEditPostId}`, {
+                method: 'PUT',
+                body: editedPost,
+              });
+          
+              if (response.ok) {
+                editModal.style.display = 'none';
+                fetchPosts();
+              } else {
+                console.error('Failed to update post');
+              }
+            } catch (error) {
+              console.error('Error updating post:', error);
+            }
           });
-    
-          // Add event listener to edit buttons
-          const editButtons = document.querySelectorAll('.setting-post');
-          editButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-              const postId = event.target.getAttribute('data-post-id');
-              const post = posts.find(p => p.post_id == postId);
-              openEditModal(post);
+        const fetchPosts = async () => {
+          try {
+            const response = await fetch('/post/myp');
+            const posts = await response.json();
+      
+            const postsContainer = document.getElementById('postsContainer');
+            postsContainer.innerHTML = '';
+      
+            posts.forEach(post => {
+              const postElement = document.createElement('div');
+              postElement.classList.add('card-eachpost');
+      
+              const formattedDate = new Date(post.date).toISOString().split('T')[0];
+      
+              postElement.innerHTML = `
+                <div class="left-card">
+                  <img src="${post.image}" class="profile-mypost">
+                </div>
+                <div class="center-card">
+                  <p>${formattedDate}</p>
+                  <div class="subject">
+                    <i class="fa-solid fa-book"></i>
+                    <p>${post.tag}</p>
+                  </div>
+                  <p>${post.details}</p>
+                  <div class="location">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>${post.location}</p>
+                  </div>
+                </div>
+                <div class="right-card">
+                  <i class="fa-solid fa-gear setting-post" data-post-id="${post.post_id}"></i>
+                  <p>จำนวนคำขอ : <span>${post.requests}</span></p>
+                  <i class="fa-solid fa-trash delete-post" data-post-id="${post.post_id}"></i>
+                </div>
+              `;
+      
+              postsContainer.appendChild(postElement);
             });
-          });
-    
-          // Add event listener to delete buttons
-          const deleteButtons = document.querySelectorAll('.delete-post');
-          deleteButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-              const currentDeletePostId = event.target.getAttribute('data-post-id');
-              modal.style.display = 'flex';
-
-              document.getElementById('deletepost-btn').addEventListener('click', async () => {
-                if (currentDeletePostId) {
-                  try {
-                    await fetch(`/post/${currentDeletePostId}`, {
-                      method: 'DELETE'
-                    });
-                    modal.style.display = 'none';
-                    fetchPosts();
-                  } catch (error) {
-                    console.error('Error deleting post:', error);
-                  }
-                }
+      
+            // Add event listener to edit buttons
+            const editButtons = document.querySelectorAll('.setting-post');
+            editButtons.forEach(button => {
+              button.addEventListener('click', (event) => {
+                const postId = event.target.getAttribute('data-post-id');
+                const post = posts.find(p => p.post_id == postId);
+                openEditModal(post);
+                console.log(post)
               });
             });
-          });
-
-          if (closeBtn) {
-            closeBtn.onclick = function() {
-              modal.style.display = 'none';
-            }
-          }
       
-          if (cancelBtn) {
-            cancelBtn.onclick = function() {
-              modal.style.display = 'none';
+            // Add event listener to delete buttons
+            const deleteButtons = document.querySelectorAll('.delete-post');
+            deleteButtons.forEach(button => {
+              button.addEventListener('click', (event) => {
+                const currentDeletePostId = event.target.getAttribute('data-post-id');
+                modal.style.display = 'flex';
+      
+                document.getElementById('deletepost-btn').addEventListener('click', async () => {
+                  if (currentDeletePostId) {
+                    try {
+                      await fetch(`/post/${currentDeletePostId}`, {
+                        method: 'DELETE'
+                      });
+                      modal.style.display = 'none';
+                      fetchPosts();
+                    } catch (error) {
+                      console.error('Error deleting post:', error);
+                    }
+                  }
+                });
+              });
+            });
+      
+            if (closeBtn) {
+              closeBtn.onclick = function() {
+                modal.style.display = 'none';
+              }
             }
+      
+            if (cancelBtn) {
+              cancelBtn.onclick = function() {
+                modal.style.display = 'none';
+              }
+            }
+      
+          } catch (error) {
+            console.error('Error fetching posts:', error);
           }
+        };
+      
+        fetchPosts();
+      });
+    </script>
     
-        } catch (error) {
-          console.error('Error fetching posts:', error);
-        }
-      };
-    
-      fetchPosts();
-    });
-    
-  </script>
 </body>
 </html>
