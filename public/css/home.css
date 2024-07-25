@@ -1090,7 +1090,6 @@ nav .search-barpage{
     font-size: 0.85rem;
     line-height: 1.5rem;
     border: 1px solid #ccc;
-    width: 40%;
 }
 .middle-search .feed .head{
     display: flex;
@@ -1115,7 +1114,7 @@ nav .search-barpage{
 
 }
 .middle-search  .search-feed .icon-search{
-    color: yellow;
+    color: rgb(250, 217, 4);
 }
 .middle-search .feed .caption i{
     display: flex;
@@ -1165,6 +1164,20 @@ main .container .right{
     .sidebar h3{
         display: none;
     }
+    .middle-search .feeds{
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    .middle-search .feeds .feed{
+        /* background: var(--lighgreen-color); */
+        border-radius: var(--card-border-radius);
+        padding: var(--card-padding);
+        margin: 1rem 1rem;
+        font-size: 0.85rem;
+        line-height: 1.5rem;
+        border: 1px solid #ccc;
+    }
 }
 
 /* mobile */
@@ -1212,6 +1225,28 @@ main .container .right{
         justify-content: space-between;
         padding: 10px;
     } */
+    .middle-search .feed .head{
+        gap: 1.58rem;
+    }
+    .middle-search .feed .icon-search{
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        color: rgb(250, 217, 4);
+    }
+    .middle-search .feeds{
+        background-color: var(--white-color);
+        flex-wrap: wrap;
+    }
+    .middle-search .feeds .feed{
+        background: var(--white-color);
+        border-radius: var(--card-border-radius);
+        padding: var(--card-padding);
+        margin: 1rem 1rem;
+        font-size: 0.85rem;
+        line-height: 1.5rem;
+        border: 1px solid #ccc;
+    }
 
     .middle-search .tagsearch{
         font-size: 20px;
