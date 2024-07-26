@@ -15,6 +15,7 @@ const repasswordRouter = require("./routes/repassword");
 const selroleRouter = require('./routes/selrole.js');
 const postRouter = require('./routes/post.js');
 const userRouter = require('./routes/user');
+const joinRouter = require('./routes/join.js');
 //const { swaggerUi, swaggerSpec } = require("./swagger.js");
 
 dotenv.config();
@@ -54,6 +55,7 @@ app.use("/", indexRouter);
 //app.use("/products", productsRouter);
 app.use("/login", loginRouter);
 app.use("/user", userRouter);
+app.use("/join", joinRouter);
 
 //app.use("/loginOauth", loginOauthRouter)
 //app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
