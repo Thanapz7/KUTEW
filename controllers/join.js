@@ -1,5 +1,27 @@
 const db = require("../db");
+const multer = require('multer');
+const path = require('path');
 
+const storage = multer.diskStorage({
+    destination: './payment/',
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        const ext = path.extname(file.originalname).toLowerCase();
+        if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+            return cb(new Error('Only images are allowed'));
+        }
+        cb(null, true);
+    }
+}).fields([
+    { name: 'paymentPic', maxCount: 1 },
+]);
+
+//เมื่อstudentกดjoin
 exports.insertJoin = async (req, res) => {
     // ตรวจสอบว่ามี session และ user ใน session หรือไม่
     if (!req.session || !req.session.user) {
@@ -72,3 +94,87 @@ exports.insertJoin = async (req, res) => {
       });
     });
   };
+
+  //หาstudentในjoin
+  exports.getJoin = async (req, res) => {
+    const post_id = req.params.id;
+    const query = `
+        SELECT joins.*, students.name AS student_name, students.profilePic AS student_profilePic
+        FROM joins
+        INNER JOIN students ON joins.student_id = students.student_id
+        WHERE joins.post_id = ?
+    `;
+    db.query(query, [post_id], (err, results) => {
+        if (err) {
+            console.error('Error fetching posts:', err);
+            res.status(500).json({ error: 'Failed to fetch posts' });
+            return;
+        }
+        res.status(200).json({ message: 'Get student in join successfully'});
+    });
+};
+
+//ใส่Acceptเมื่อยอมรับ
+exports.updateJoinAccept = async (req, res) => {
+    const student_id = req.params.id;
+    const query = `
+        UPDATE joins SET join_status = ?
+        WHERE student_id = ?
+    `;
+    db.query(query, ['Accept', student_id], (err, results) => {
+        if (err) {
+            console.error('Error updating join:', err);
+            res.status(500).json({ error: 'Failed to update join' });
+            return;
+        }
+        res.status(200).json({ message: 'Update join status successfully'});
+    });
+};
+
+//ใส่Denyเมื่อปฎิเสธ
+exports.updateJoinDeny = async (req, res) => {
+    const student_id = req.params.id;
+    const query = `
+        UPDATE joins SET join_status = ?
+        WHERE student_id = ?
+    `;
+    db.query(query, ['Deny', student_id], (err, results) => {
+        if (err) {
+            console.error('Error updating join:', err);
+            res.status(500).json({ error: 'Failed to update join' });
+            return;
+        }
+        res.status(200).json({ message: 'Update join status successfully'});
+    });
+};
+
+// เมื่อจ่ายตัง (payment)
+exports.updateJoinPayment = async (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        // ตรวจสอบว่าไฟล์ที่อัปโหลดมีอยู่หรือไม่
+        if (!req.files['paymentPic']) {
+            return res.status(400).json({ error: 'Payment picture is required' });
+        }
+
+        const paymentPic = req.files['paymentPic'][0].path;
+
+        // ตรวจสอบว่า req.params.id มีอยู่หรือไม่
+        const join_id = req.params.id;
+        if (!join_id) {
+            return res.status(400).json({ error: 'Join ID is required' });
+        }
+
+        // ใช้คำสั่ง UPDATE เพื่ออัปเดตข้อมูลในตาราง joins
+        const sql = 'UPDATE joins SET paymentPic = ?, payment_date = CURRENT_TIMESTAMP WHERE join_id = ?';
+        db.query(sql, [paymentPic, join_id], (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+            res.status(200).json({ message: 'Payment picture updated successfully' });
+        });
+    });
+};
