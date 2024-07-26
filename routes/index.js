@@ -50,5 +50,8 @@ router.get('/mypost', (req,res) =>{
 router.get('/setting', (req,res) =>{
   res.render('pages/setting.ejs');
 })
+router.get('/search', (req, res) => {
+  res.render('pages/search.ejs',{ pageTitle: 'Search' });
+});
 
 module.exports = router;
