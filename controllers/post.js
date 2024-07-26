@@ -149,10 +149,12 @@ exports.searchPost = async (req, res) => {
     }
 
     const searchQuery = `
-        SELECT * FROM posts 
-        WHERE details LIKE ? OR 
-              tag LIKE ? OR 
-              location LIKE ?
+        SELECT posts.*, tutors.name AS tutor_name, tutors.profilePic AS tutor_profilePic
+        FROM posts
+        INNER JOIN tutors ON posts.user_id = tutors.user_id
+        WHERE posts.details LIKE ? OR 
+              posts.tag LIKE ? OR 
+              posts.location LIKE ?
     `;
 
     const searchValue = `%${keyword}%`;
