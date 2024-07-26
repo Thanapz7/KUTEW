@@ -75,15 +75,15 @@
                         const formattedDate = new Date(post.date).toISOString().split('T')[0];
                         
                         //default img
-                        const profilePic = post.profilePic ? post.profilePic : './img/boy.png';
+                        //const profilePic = post.profilePic ? post.profilePic : './img/boy.png';
                         postElement.innerHTML = `
                             <div class="head">
                                 <div class="user">
                                     <div class="profile-photo">
-                                        <img src="${profilePic}" alt="Profile Photo" />
+                                        <img src="${post.tutor_profilePic}" alt="Profile Photo" />
                                     </div>
                                     <div class="info">
-                                        <h3>${post.post_id}</h3>
+                                        <h3>${post.tutor_name}</h3>
                                         <small>${formattedDate}</small>
                                     </div>
                                 </div>

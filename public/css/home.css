@@ -1240,6 +1240,9 @@ main .container .right{
     display: flex;
     align-items: center;
 }
+.right .tags .tag a {
+    color: var(--green-color);
+}
 
 /* tablets */
 @media  screen and (max-width: 1200px) {
