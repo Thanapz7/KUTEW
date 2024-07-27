@@ -1126,6 +1126,65 @@ nav .search-barpage{
     margin: 0;
     font-size: 0.9rem;
 }
+
+/* payment */
+.middle-payment{
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+}
+.middle-payment .qrcode-image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+.middle-payment .qrcode-image img {
+    max-width: 300px;
+    height: auto;
+    border: #888 solid 1px;
+}
+.middle-payment .feed-payment .form-payment{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start ;
+    margin-bottom: 20px; 
+    margin-left: 35%;
+}
+.form-payment label {
+    min-width: 100px; /* กำหนดความกว้างขั้นต่ำให้กับ label เพื่อให้มีระยะห่างเท่ากัน */
+}
+.form-payment input[type="file"],
+.form-payment input[type="text"] {
+    flex-grow: 1; /* ให้ input ขยายได้เต็มที่ */
+}
+.middle-payment .feed-payment .form-payment .slip-payment{
+    margin-bottom: 10px;
+}
+.middle-payment .feed-payment .form-payment .coupong{
+    margin-top: 10px;
+}
+.middle-payment .feed-payment .form-payment .coupong input{
+    border: #888 solid 1px;
+}
+.middle-payment .feed-payment .payment-submit{
+    display: flex;
+    align-self: center;
+    margin-top: 20px;
+    justify-content: center;
+}
+.middle-payment .feed-payment .payment-submit button[type="submit"]{
+    background-color: var(--lighgreen-color);
+    border-radius: var(--border-radius);
+    font-size: 1.3rem;
+    width: 30%;
+    color: var(--white-color);
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+.middle-payment .feed-payment .payment-submit button[type="submit"]:hover{
+    background-color: var(--green-color);
+}
+
 /* right */
 main .container .right{
     height: max-content;

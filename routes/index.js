@@ -37,6 +37,10 @@ router.get('/register', (req,res) =>{
   res.render('pages/register.ejs');
 })
 
+router.get('/payment', (req,res) =>{
+  res.render('pages/payment.ejs',{ pageTitle: 'Payment' });
+})
+
 router.get('/joinclass', (req,res) =>{
   res.render('pages/joinclass.ejs');
 })
