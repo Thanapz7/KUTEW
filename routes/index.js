@@ -42,7 +42,7 @@ router.get('/payment', (req,res) =>{
 })
 
 router.get('/joinclass', (req,res) =>{
-  res.render('pages/joinclass.ejs');
+  res.render('pages/joinclass.ejs',{ pageTitle: 'joinclass' });
 })
 
 router.get('/repassword', (req,res) =>{
