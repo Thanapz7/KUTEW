@@ -53,5 +53,9 @@ router.get('/setting', (req,res) =>{
 router.get('/search', (req, res) => {
   res.render('pages/search.ejs',{ pageTitle: 'Search' });
 });
+router.get('/joinclass', (req, res) => {
+  res.render('pages/joinclass.ejs',{ pageTitle: 'Join Class' });
+});
+
 
 module.exports = router;
