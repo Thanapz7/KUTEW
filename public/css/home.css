@@ -83,7 +83,9 @@ nav .container{
     align-items: center;
     justify-content: space-between;
 }
-
+nav .search-bars{
+    display: flex;
+}
 nav .search-bar{
     background: var(--white-color);
     border-radius: var(--border-radius);
@@ -98,6 +100,16 @@ nav .search-bar input[type="search"]{
 }
 nav .search-bar input[type="search"]:placeholdere{
     color: lightgray;
+}
+nav .search-bars .btn-logout{
+    color: var(--white-color);
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+nav .search-bars .btn-logout:hover{
+    font-size: 1.4rem;
 }
 nav .page{
     font-size: large;
