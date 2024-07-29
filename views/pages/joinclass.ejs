@@ -24,40 +24,39 @@
         <%- include('../includes/sidebar.ejs')%>
         <!-- middle -->
         <div class="middle">
-            <div class="joinclass">
-              <div class="profile">
-                <img src="" alt="profiletutor" id="profilePic">
+          <div class="joinclass" id="joinclasspage">
+            <div class="profile">
+              <img src="/img/boy.png" alt="profiletutor" />
+            </div>
+            <div class="head-detial-post">
+              <p>Tutor :<span id="tutorname"></span></p>
+              <div class="icon">
+                <i class="fa-regular fa-star"></i>
+                <span>5</span>
               </div>
-              <div class="head-detial-post">
-                <p id="tutorName">Tutor :</p>
-                <div class="icon"> 
-                  <i class="fa-regular fa-star"></i>
-                  <span>5</span>
-                </div>
-              </div>
-              <div class="detail-joinclass">
-                <p id="tag">Tag :</p>
-                <p id="location">Location :</p>
-                <p id="date">Date :</p>
-                <p id="details">Detail :</p>
+              <div class="btn-joinclass">
+                <button class="btn-join" id="btn-join">JOIN</button>
               </div>
             </div>
+            <div class="detail-joinclass">
+              <p>Tag :<span id="tag"></span></p>
+              <p>Location :<span id="location"></span></p>
+              <p>Date :<span id="date"></span></p>
+              <p>Price :<span id="price"></span></p>
+              <p>จำนวนคนที่รับ :<span id="amount"></span></p>
+              <p>จำนวนชั่วโมงที่เรียน :<span id="hours"></span></p>
+            </div>
+            <div id="popup">
+              <p>Join successfully!</p>
+            </div>
           </div>
+        </div>
         <!-- right -->
         <%- include('../includes/rightbar.ejs')%>
       </div>
     </main>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        document.getElementById('tutorName').textContent += ` ${urlParams.get('tutor_name')}`;
-        document.getElementById('date').textContent += ` ${urlParams.get('date')}`;
-        document.getElementById('tag').textContent += ` ${urlParams.get('tag')}`;
-        document.getElementById('details').textContent += ` ${urlParams.get('details')}`;
-        document.getElementById('location').textContent += ` ${urlParams.get('location')}`;
-        document.getElementById('profilePic').src = urlParams.get('profilePic');
-      });
     </script>
   </body>
 </html>
