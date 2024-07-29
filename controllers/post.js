@@ -84,24 +84,6 @@ exports.getAllPost = async (req, res) => {
     });
 };
 
-exports.getPostById = async (req, res) => {
-    const { id } = req.params;
-    const query = `
-        SELECT posts.*, tutors.name AS tutor_name, tutors.profilePic 
-        FROM posts 
-        JOIN tutors ON posts.user_id = tutors.user_id
-        WHERE post_id = ?
-        ORDER BY posts.date DESC
-    `;
-    db.query(query, [id], (err, results) => {
-        if (err) {
-            console.error('Error fetching posts:', err);
-            res.status(500).json({ error: 'Failed to fetch posts' });
-            return;
-        }
-        res.json(results);
-    });
-};
 
 exports.updatePost = async (req, res) => {
     upload(req, res, (err) => {

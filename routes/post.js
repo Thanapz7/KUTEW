@@ -7,19 +7,16 @@ const {
     updatePost,
     deletePost,
     searchPost,
-    getMyPost,
-    getPostById
+    getMyPost
     
 
   } =require("../controllers/post.js");
   router.get("/", getAllPost);
-  router.get("/:id", getPostById);
   router.post("/", insertPost);
   router.put("/:id", updatePost);
   router.delete("/:id", deletePost);
   router.get("/search", searchPost);
   router.get("/myp", getMyPost);
-  
   
   
   
