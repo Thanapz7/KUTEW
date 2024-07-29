@@ -42,6 +42,7 @@ document.querySelector('.create-post').addEventListener('submit', function(event
             
             // Check if profilePic exists, if not use the default image
             const profilePic = course.profilePic ? course.profilePic : './img/racc.jfif';
+            const post_id = course.post_id;
 
             feed.innerHTML = `
                 <div class="head">
@@ -68,7 +69,7 @@ document.querySelector('.create-post').addEventListener('submit', function(event
 
             const joinButton = feed.querySelector('.join-btn');
             joinButton.addEventListener('click', () => {
-                window.location.href = `/joinclass?tutor_name=${course.tutor_name}&date=${formattedDate}&tag=${course.tag}&details=${course.details}&location=${course.location}&profilePic=${profilePic}`;
+                window.location.href = `/joinclass?post_id=${post_id}`;
             });
 
             feedsContainer.appendChild(feed);
