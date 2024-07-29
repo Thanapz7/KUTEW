@@ -60,7 +60,7 @@
                 }
         
                 try {
-                    const response = await fetch(`/post/search?keyword=${keyword}`);
+                    const response = await fetch(`/post/search?keyword=${encodeURIComponent(keyword)}`);
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
@@ -108,12 +108,24 @@
                     console.error('Error fetching search results:', error);
                 }
             };
+
+            const getKeywordFromURL = () => {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('keyword');
+            };
+
+            // ตรวจสอบถ้ามี keyword ใน URL
+            const initialKeyword = getKeywordFromURL();
+            if (initialKeyword) {
+                searchInput.value = initialKeyword;
+                searchInputMiddle.value = initialKeyword;
+                performSearch(initialKeyword);
+            }
         
             // เพิ่ม Event Listener ให้กับช่องค้นหาทั้งสอง
             searchInput.addEventListener('input', (e) => performSearch(e.target.value));
             searchInputMiddle.addEventListener('input', (e) => performSearch(e.target.value));
         });
-        
     </script>
 </body>
 </html>

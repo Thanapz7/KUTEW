@@ -40,6 +40,10 @@
           const tagElement = document.createElement('a');
           tagElement.href = '#';
           tagElement.textContent = tag;
+          tagElement.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = `/search?keyword=${encodeURIComponent(tag)}`;
+          });
           tagContainer.appendChild(tagElement);
           tagContainer.appendChild(document.createElement('br'));
         });
@@ -47,6 +51,7 @@
         console.error('Error fetching tags:', error);
       }
     };
+
     loadTopTags();
   });
 </script>
