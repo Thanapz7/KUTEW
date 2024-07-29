@@ -1210,6 +1210,9 @@ nav .search-barpage{
 .tagsearch .headtag-search{
     color: var(--green-color);
 }
+.tagsearch .headtag-search a:hover{
+    color: var(--green-color);
+}
 .middle-search .tagsearch{
     display: flex;
     flex-direction: row;
