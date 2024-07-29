@@ -32,6 +32,20 @@ body{
     background-color: var(--background-color);
     overflow-x: hidden;
 }
+/* ปรับแต่ง scroll bar ทั้งหมด */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 /* general style */
 .container{
     width: 90%;
@@ -1182,7 +1196,7 @@ nav .search-barpage{
 }
 .middle-search .search-barpageinfo input[type="search"]{
     background: transparent;
-    width: 10vw;
+    width: 30%;
     margin-left: 1rem;
     font-size: 2rem;
     color: var(--black-color);
@@ -1201,6 +1215,12 @@ nav .search-barpage{
     flex-direction: row;
     padding: 0.5rem;
     font-size: 1.5rem;
+}
+.middle-search .tagsearch i{
+    margin-top: 0.3rem;
+}
+.middle-search .tagsearch p{
+    margin-left: 0.3rem;
 }
 
 .middle-search .tagsearch a{
