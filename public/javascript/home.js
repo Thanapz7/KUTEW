@@ -55,7 +55,7 @@ document.querySelector('.create-post').addEventListener('submit', function(event
                         </div>
                     </div>
                     <span class="join">
-                        <button class="btn btn-primary">JOIN</button>
+                        <button class="btn btn-primary join-btn">JOIN</button>
                     </span>
                 </div>
                 <div class="caption">
@@ -66,12 +66,18 @@ document.querySelector('.create-post').addEventListener('submit', function(event
                 </div>
             `;
 
+            const joinButton = feed.querySelector('.join-btn');
+            joinButton.addEventListener('click', () => {
+                window.location.href = `/joinclass?tutor_name=${course.tutor_name}&date=${formattedDate}&tag=${course.tag}&details=${course.details}&location=${course.location}&profilePic=${profilePic}`;
+            });
+
             feedsContainer.appendChild(feed);
         });
     } catch (error) {
         console.error('Error fetching courses:', error);
     }
 });
+
 
 
 
