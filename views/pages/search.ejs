@@ -28,15 +28,17 @@
     <main>
         <div class="container">
             <%- include('../includes/sidebar.ejs')%>
-            <div class="middle-search">
+            <div class="middle">
+                <div class="middle-search">
                 <div class="search-barpageinfo">
                     <i class="fa-solid fa-magnifying-glass searchicon"></i>
                     <input type="search" placeholder="Search" id="searchInputMiddle" />
                 </div>
                 <div class="tagsearch">
-                    <div class="headtag-search"><i class="fa-solid fa-hashtag"></i> TAGS</div>
-                    <a href="#">MATH I</a>
-                    <a href="#">MATH II</a>
+                    <i class="fa-solid fa-hashtag"></i>
+                    <p class="text-headtag">TAGS</p>
+                    <div class="headtag-search"><i class="fa-solid fa-hashtag"></i></div>
+                        <!-- JavaScript -->
                 </div>
                 <div class="search-feed">
                     <div class="feeds" id="feedsContainer">
@@ -44,6 +46,9 @@
                     </div>
                 </div>
             </div>
+            </div>
+            
+            <%- include('../includes/rightbar.ejs')%>
         </div>
     </main>
 

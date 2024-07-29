@@ -24,8 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const formattedDate = new Date(post.date).toISOString().split('T')[0];
                 
-                //default img
-                //const profilePic = post.profilePic ? post.profilePic : './img/boy.png';
                 postElement.innerHTML = `
                     <div class="head">
                         <div class="user">
@@ -75,4 +73,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // เพิ่ม Event Listener ให้กับช่องค้นหาทั้งสอง
     searchInput.addEventListener('input', (e) => performSearch(e.target.value));
     searchInputMiddle.addEventListener('input', (e) => performSearch(e.target.value));
+
+    const loadTopTags = async () => {
+        const tagContainer = document.querySelector('.headtag-search');
+        try {
+            const response = await fetch('/post');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const posts = await response.json();
+
+            const tagCounts = posts.reduce((acc, post) => {
+                const tags = post.tag.split(','); // แยกแท็กถ้าเป็น String ที่มีหลายแท็กคั่นด้วย ,
+                tags.forEach(tag => {
+                    tag = tag.trim(); // ตัดช่องว่างหน้าหลังออก
+                    acc[tag] = (acc[tag] || 0) + 1;
+                });
+                return acc;
+            }, {});
+
+            const topTags = Object.entries(tagCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5); // เลือก 5 อันดับแท็กที่มีจำนวนมากที่สุด
+
+            tagContainer.innerHTML = ''; // ล้างแท็กเก่า
+
+            topTags.forEach(([tag, count]) => {
+                const tagElement = document.createElement('a');
+                tagElement.href = `/search?keyword=${encodeURIComponent(tag)}`;
+                tagElement.textContent = `${tag}`;
+                tagElement.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const keyword = tag;
+                    searchInput.value = keyword;
+                    searchInputMiddle.value = keyword;
+                    performSearch(keyword);
+                });
+                tagContainer.appendChild(tagElement);
+            });
+        } catch (error) {
+            console.error('Error fetching tags:', error);
+        }
+    };
+
+    loadTopTags();
 });
