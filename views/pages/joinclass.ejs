@@ -26,22 +26,21 @@
         <div class="middle">
             <div class="joinclass">
               <div class="profile">
-                <img src="/img/boy.png" alt="profiletutor">
+                <img src="" alt="profiletutor" id="profilePic">
               </div>
               <div class="head-detial-post">
-                <p>Tutor :</p>
+                <p id="tutorName">Tutor :</p>
                 <div class="icon"> 
                   <i class="fa-regular fa-star"></i>
                   <span>5</span>
                 </div>
               </div>
               <div class="detail-joinclass">
-                <p>Tag :</p>
-                <p>Location :</p>
-                <p>Date :</p>
-                <p>Price :</p>
-                <p>จำนวนคนที่รับ :</p>
-                <p>จำนวนชั่วโมงที่เรียน :</p></div>
+                <p id="tag">Tag :</p>
+                <p id="location">Location :</p>
+                <p id="date">Date :</p>
+                <p id="details">Detail :</p>
+              </div>
             </div>
           </div>
         <!-- right -->
@@ -49,6 +48,16 @@
       </div>
     </main>
 
-    <script src="javascript/home.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        document.getElementById('tutorName').textContent += ` ${urlParams.get('tutor_name')}`;
+        document.getElementById('date').textContent += ` ${urlParams.get('date')}`;
+        document.getElementById('tag').textContent += ` ${urlParams.get('tag')}`;
+        document.getElementById('details').textContent += ` ${urlParams.get('details')}`;
+        document.getElementById('location').textContent += ` ${urlParams.get('location')}`;
+        document.getElementById('profilePic').src = urlParams.get('profilePic');
+      });
+    </script>
   </body>
 </html>
