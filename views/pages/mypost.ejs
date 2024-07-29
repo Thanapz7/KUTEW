@@ -59,7 +59,7 @@
         </div>
         <div class="form-group">
           <label>ราคาที่สอน :</label>
-          <input type="text" id="editPrice" >
+          <input type="text" id="editPrice">
           <span id="editPriceError" class="error"></span>
         </div>
         <div class="form-group">
@@ -133,9 +133,78 @@
           }
         }
       
+        // เพิ่มฟังก์ชัน validate
+        function validatePrice() {
+            const price = document.getElementById('editPrice').value;
+            const priceError = document.getElementById('editPriceError');
+            if (isNaN(price)) {
+                priceError.textContent = 'กรอกเป็นตัวเลขเท่านั้น';
+            } else if (price > 500) {
+                priceError.textContent = 'ราคาต้องไม่เกิน 500';
+            } else {
+                priceError.textContent = '';
+            }
+        }
+
+        function validateParticipants() {
+            const participants = document.getElementById('editPeople').value;
+            const participantsError = document.getElementById('editParticipantsError');
+            if (isNaN(participants)) {
+                participantsError.textContent = 'กรอกเป็นตัวเลขเท่านั้น';
+            } else {
+                participantsError.textContent = '';
+            }
+        }
+
+        function validateHours() {
+            const hours = document.getElementById('editHours').value;
+            const hoursError = document.getElementById('editHoursError');
+            if (isNaN(hours)) {
+                hoursError.textContent = 'กรอกเป็นตัวเลขเท่านั้น';
+            } else {
+                hoursError.textContent = '';
+            }
+        }
+
+        function validateQR() {
+            const qr = document.getElementById('editQRcode').files[0];
+            const qrError = document.getElementById('editQRError');
+            if (qr && !qr.type.startsWith('image/')) {
+                qrError.textContent = 'อัพโหลดไฟล์รูปภาพเท่านั้น';
+            } else {
+                qrError.textContent = '';
+            }
+        }
+
+        // เพิ่ม event listeners สำหรับ validate
+        document.getElementById('editPrice').addEventListener('input', validatePrice);
+        document.getElementById('editPeople').addEventListener('input', validateParticipants);
+        document.getElementById('editHours').addEventListener('input', validateHours);
+        document.getElementById('editQRcode').addEventListener('change', validateQR);
+
         editPostForm.addEventListener('submit', async (event) => {
             event.preventDefault();
           
+            // ทำการ validate ทุกฟิลด์ก่อนส่งฟอร์ม
+            validatePrice();
+            validateParticipants();
+            validateHours();
+            validateQR();
+
+            // ตรวจสอบว่ามี error messages หรือไม่
+            const errorMessages = document.querySelectorAll('.error');
+            let hasErrors = false;
+            errorMessages.forEach(error => {
+                if (error.textContent !== '') {
+                    hasErrors = true;
+                }
+            });
+
+            if (hasErrors) {
+                // ถ้ามี error ให้ยกเลิกการส่งฟอร์ม
+                return;
+            }
+
             const editedPost = new FormData();
             editedPost.append('details', document.querySelector('#editDetails').value);
             editedPost.append('tag', document.querySelector('#editTag').value);
@@ -147,9 +216,9 @@
           
             const qrCodeFile = document.querySelector('#editQRcode').files[0];
             if (qrCodeFile) {
-              editedPost.append('QRcodePhoto', qrCodeFile); // เปลี่ยนชื่อฟิลด์เป็น QRcodePhoto
+              editedPost.append('QRcodePhoto', qrCodeFile);
             } else if (currentEditQRcode) {
-              editedPost.append('QRcodePhoto', currentEditQRcode); // ใช้ QRcodePhoto
+              editedPost.append('QRcodePhoto', currentEditQRcode);
             }
           
             try {
@@ -167,7 +236,8 @@
             } catch (error) {
               console.error('Error updating post:', error);
             }
-          });
+        });
+
         const fetchPosts = async () => {
           try {
             const response = await fetch('/post/myp');
@@ -215,7 +285,7 @@
                 const postId = event.target.getAttribute('data-post-id');
                 const post = posts.find(p => p.post_id == postId);
                 openEditModal(post);
-                console.log(post)
+                console.log(post);
               });
             });
       
@@ -260,8 +330,7 @@
         };
       
         fetchPosts();
-      });
-    </script>
-    
+    });
+  </script>
 </body>
 </html>
