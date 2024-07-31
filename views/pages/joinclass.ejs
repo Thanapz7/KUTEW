@@ -25,6 +25,33 @@
             <!-- middle -->
             <div class="middle">
                 <div class="joinclass">
+
+                  <!-- <div class="profile">
+                    <img src="/img/boy.png" alt="profiletutor" />
+                  </div>
+                  <div class="head-detial-post">
+                    <p id="tutorname">Tutor: </p>
+                    <div class="icon">
+                      <i class="fa-regular fa-star"></i>
+                      <span>5</span>
+                    </div>
+                    <div class="btn-joinclass">
+                      <button class="btn-join" id="btn-join">JOIN</button>
+                    </div>
+                  </div>
+                  <div class="detail-joinclass">
+                    <p id="tag">Tag :</p>
+                    <p id="location">Location :</p>
+                    <p id="date">Date :</p>
+                    <p id="price">Price :</p>
+                    <p id="amount">จำนวนคนที่รับ :</p>
+                    <p id="hours">จำนวนชั่วโมงที่เรียน :</p>
+                  </div>
+                  <div id="popup">
+                    <p>Join successfully!</p>
+                  </div> -->
+
+
                     <div class="profile">
                         <img src="" alt="profiletutor" id="profilePic">
                     </div>
@@ -34,12 +61,19 @@
                             <i class="fa-regular fa-star"></i>
                             <span>5</span>
                         </div>
+                        <div class="btn-joinclass">
+                          <button class="btn-join" id="joinButton">JOIN</button>
+                        </div>
                     </div>
                     <div class="detail-joinclass">
-                        <p id="tag">Tag :</p>
-                        <p id="location">Location :</p>
-                        <p id="date">Date :</p>
-                        <p id="details">Detail :</p>
+                        <p id="tag">Tag &nbsp;&nbsp;:</p>
+                        <p id="location">Location  &nbsp;&nbsp;:</p>
+                        <p id="date">Date  &nbsp;&nbsp;:</p>
+                        <p id="details">Detail  &nbsp;&nbsp;:</p>
+                        <p id="price">Price  &nbsp;&nbsp;:</p>
+                        <p id="people">จำนวนคนที่รับ  &nbsp;&nbsp;:</p>
+                        <p id="hours">จำนวนชั่วโมงที่เรียน  &nbsp;&nbsp;:</p>
+                        <p id></p>
                     </div>
                 </div>
             </div>
@@ -49,6 +83,7 @@
     </main>
 
     <script>
+      //ดึงข้อมูลจากโพสต์
         document.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const postId = urlParams.get('post_id');
@@ -67,8 +102,21 @@
                         document.getElementById('tag').textContent += ` ${postData.tag}`;
                         document.getElementById('details').textContent += ` ${postData.details}`;
                         document.getElementById('location').textContent += ` ${postData.location}`;
+                        document.getElementById('price').textContent += ` ${postData.price}`;
+                        document.getElementById('people').textContent += ` ${postData.people}`;
+                        document.getElementById('hours').textContent += ` ${postData.hours}`;
                         document.getElementById('profilePic').src = postData.profilePic ? postData.profilePic : './img/racc.jfif';
-                    } else {
+
+                        // Store postData for later use
+                        window.postData = postData;
+
+                        // Check if the number of people has reached the limit
+                      if (postData.people >= postData.maxPeople) {
+                          document.getElementById('joinButton').disabled = true;
+                          document.getElementById('joinButton').textContent = "เต็มแล้ว";
+                      }
+
+                      } else {
                         console.error('No post data found');
                     }
                 } catch (error) {
@@ -78,6 +126,52 @@
                 console.error('No post_id found in the URL');
             }
         });
+
+        async function joinGroup() {
+    const postData = window.postData;
+
+    if (postData.people < postData.maxPeople) {
+        try {
+            // Send request to join the group
+            const response = await fetch(`/join/${postId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: 'user_id' }), // Replace 'yourUserId' with the actual user ID
+            });
+
+            if (response.ok) {
+                alert('join successfully');
+                postData.people += 1;
+                document.getElementById('people').textContent = `จำนวนคนที่รับ: ${postData.people}`;
+
+                // Disable button if the limit is reached
+                if (postData.people >= postData.maxPeople) {
+                    document.getElementById('joinButton').disabled = true;
+                    document.getElementById('joinButton').textContent = "เต็มแล้ว";
+                }
+
+                // Send request to the post owner for approval
+                await fetch(`/notifyOwner/${postData.ownerId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ postId: postData.id, userId: 'yourUserId' }), // Replace 'yourUserId' with the actual user ID
+                });
+            } else {
+                alert('Error joining the group');
+            }
+        } catch (error) {
+            console.error('Error sending join request:', error);
+        }
+    } else {
+        alert('The group is already full');
+        document.getElementById('joinButton').disabled = true;
+        document.getElementById('joinButton').textContent = "เต็มแล้ว";
+    }
+}
     </script>
 </body>
 </html>
