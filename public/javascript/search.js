@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             topTags.forEach(([tag, count]) => {
                 const tagElement = document.createElement('a');
                 tagElement.href = `/search?keyword=${encodeURIComponent(tag)}`;
-                tagElement.textContent = `${tag}`;
+                tagElement.textContent = `${tag} (${count})`;
                 tagElement.addEventListener('click', (e) => {
                     e.preventDefault();
                     const keyword = tag;
