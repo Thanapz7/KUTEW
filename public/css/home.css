@@ -1178,6 +1178,9 @@ main .container .right{
     display: flex;
     align-items: center;
 }
+.right a{
+    font-size: 1.1rem;
+}
 
 /* serach page */
 nav .search-barpage{
