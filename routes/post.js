@@ -137,7 +137,7 @@ const {
 
   /**
  * @swagger
- * /post/search/{keyword}
+ * /post/search/{keyword}:
  *  get:
  *     summary: Search posts by keyword
  *     parameters:
