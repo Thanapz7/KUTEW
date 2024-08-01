@@ -160,8 +160,7 @@ exports.deletePost = async (req, res) => {
 };
 
 exports.searchPost = async (req, res) => {
-    const { keyword } = req.query;
-
+    const keyword = req.params.keyword;
     if (!keyword) {
         return res.status(400).json({ error: 'Keyword is required' });
     }

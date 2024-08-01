@@ -19,7 +19,7 @@ const options = {
       schemas: {
         posts: {
           type: "object",
-          required: ["post_id","details","tag","location","date","price","people","hours","QRcode","user_id"],
+          required: ["post_id","details","tag","location","date","price","people","hours","QRcode","user_id","tutor_name","profilePic"],
           properties: {
             post_id: {type: "integer", description: "The auto-generated id of the post",},
             details: { type: "string", description: "The post detail" },
@@ -31,6 +31,8 @@ const options = {
             hours: { type: "integer", description: "The post hours" },
             QRcode: { type: "string", description: "The post QRcode" },
             user_id: { type: "integer", description: "The post user id" },
+            tutor_name:{ type: "string", description: "The tutor name" },
+            profilePic:{ type: "string", description: "The tutor profile picture " },
           },
         },
       },

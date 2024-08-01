@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch(`/post/search?keyword=${encodeURIComponent(keyword)}`);
+            const response = await fetch(`/post/search/${encodeURIComponent(keyword)}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             topTags.forEach(([tag, count]) => {
                 const tagElement = document.createElement('a');
-                tagElement.href = `/search?keyword=${encodeURIComponent(tag)}`;
+                tagElement.href = `/search/${encodeURIComponent(tag)}`;
                 tagElement.textContent = `${tag} (${count})`;
                 tagElement.addEventListener('click', (e) => {
                     e.preventDefault();
