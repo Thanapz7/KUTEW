@@ -6,17 +6,14 @@ const path = require("path");
 const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-
 const indexRouter = require("./routes/index.js");
 const loginRouter = require("./routes/login.js");
-//const loginOauthRouter = require("./routes/loginOauth.js")
-//const productsRouter = require("./routes/products");
 const repasswordRouter = require("./routes/repassword");
 const selroleRouter = require('./routes/selrole.js');
 const postRouter = require('./routes/post.js');
 const userRouter = require('./routes/user');
 const joinRouter = require('./routes/join.js');
-//const { swaggerUi, swaggerSpec } = require("./swagger.js");
+const { swaggerUi, swaggerSpec } = require("./swagger.js");
 
 dotenv.config();
 
@@ -52,13 +49,10 @@ app.use("/post", postRouter);
 app.use("/role", selroleRouter);
 app.use("/repass", repasswordRouter);
 app.use("/", indexRouter);
-//app.use("/products", productsRouter);
 app.use("/login", loginRouter);
 app.use("/user", userRouter);
 app.use("/join", joinRouter);
-
-//app.use("/loginOauth", loginOauthRouter)
-//app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}/`);
