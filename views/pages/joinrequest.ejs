@@ -24,7 +24,6 @@
         <!-- middle -->
         <div class="middle">
           <div class="middle-join">
-            <!-- feed -->
             <div class="caption-joinrequest">
               <div class="profile-joinrequest">
                 <div class="profile-photo-joinrequest">
@@ -51,81 +50,51 @@
               <div class="joinrequest-label">
                 <label>Join</label>
               </div>
-              <div class="joinrequest-allinfo">
-                <div class="joinrequest-info">
-                  <div class="profile-photo">
-                    <img src="./img/racc.jfif" />
-                  </div>
-                  <div class="info">
-                    <label>Raccon</label>
-                  </div>
-                </div>
-                <div class="joinrequest-allbtn">
-                  <div class="bttn">
-                    <button id="Accept">Accept</button>
-                    <button id="Deny">Deny</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="joinrequest-allinfo">
-                <div class="joinrequest-info">
-                  <div class="profile-photo">
-                    <img src="./img/racc.jfif" />
-                  </div>
-                  <div class="info">
-                    <label>Raccon</label>
-                  </div>
-                </div>
-                <div class="joinrequest-allbtn">
-                  <div class="bttn">
-                    <button id="Accept">Accept</button>
-                    <button id="Deny">Deny</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="joinrequest-allinfo">
-                <div class="joinrequest-info">
-                  <div class="profile-photo">
-                    <img src="./img/racc.jfif" />
-                  </div>
-                  <div class="info">
-                    <label>Raccon</label>
-                  </div>
-                </div>
-                <div class="joinrequest-allbtn">
-                  <div class="bttn">
-                    <button id="Accept">Accept</button>
-                    <button id="Deny">Deny</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="joinrequest-allinfo">
-                <div class="joinrequest-info">
-                  <div class="profile-photo">
-                    <img src="./img/racc.jfif" />
-                  </div>
-                  <div class="info">
-                    <label>Raccon</label>
-                  </div>
-                </div>
-                <div class="joinrequest-allbtn">
-                  <div class="bttn">
-                    <button id="Accept">Accept</button>
-                    <button id="Deny">Deny</button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <!-- right -->
         <%- include('../includes/rightbar.ejs')%>
       </div>
+      </div>
     </main>
-
     <script src="javascript/joinrequest.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('postId');
+        fetch(`/join/${postId}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.message === "Get student in join successfully") {
+              const joinRequests = data.data;
+              const container = document.querySelector('.middle-join');
+    
+              joinRequests.forEach(request => {
+                const joinRequestHtml = `
+                  <div class="joinrequest-allinfo">
+                    <div class="joinrequest-info">
+                      <div class="profile-photo">
+                        <img src="${request.student_profilePic}" />
+                      </div>
+                      <div class="info">
+                        <label>${request.student_name}</label>
+                      </div>
+                    </div>
+                    <div class="joinrequest-allbtn">
+                      <div class="bttn">
+                        <button class="accept-btn" data-join-id="${request.join_id}">Accept</button>
+                        <button class="deny-btn" data-join-id="${request.join_id}">Deny</button>
+                      </div>
+                    </div>
+                  </div>
+                `;
+                container.innerHTML += joinRequestHtml;
+              });
+            }
+          })
+          .catch(error => console.error('Error fetching join requests:', error));
+      });
+    </script>
+    
   </body>
 </html>

@@ -1017,12 +1017,22 @@ textarea{
     flex-direction: column;
     justify-content: space-between;
     align-items: end;
-    height: 100%;
+    height: auto;
 }
 .card-eachpost .right-card p{
     margin: 0;
     margin: 2rem;
     font-weight: bold;
+}
+.card-eachpost .right-card button.request-post{
+    background-color: var(--green-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+.card-eachpost .right-card button.request-post:hover{
+    opacity: 0.8;
 }
 .card-eachpost .right-card span{
     font-weight: normal;
@@ -1323,6 +1333,7 @@ nav .search-barpage{
     overflow-y: auto;
     flex-direction: column;
     border-radius: 1rem;
+    margin-bottom: 1rem;
 }
 .caption-joinrequest{
     background-color: var(--white-color);
@@ -1376,7 +1387,7 @@ nav .search-barpage{
 .joinrequest-allbtn .btn{
     justify-content: space-between;
 }
-.joinrequest-allbtn .bttn #Accept{
+.joinrequest-allbtn .bttn .accept-btn{
     background-color:var(--green-color);
     border-radius: var(--border-radius);
     padding: var(--btn-paddign);
@@ -1384,11 +1395,11 @@ nav .search-barpage{
     width: 80px;
     cursor: pointer;
 }
-.joinrequest-allbtn .bttn #Accept:hover{
+.joinrequest-allbtn .bttn .accept-btn:hover{
     background-color: lightgreen;
     color: #fff;
 }
-.joinrequest-allbtn .bttn #Deny{
+.joinrequest-allbtn .bttn .deny-btn{
     background-color: red;
     border-radius: var(--border-radius);
     padding: var(--btn-paddign);
@@ -1396,7 +1407,7 @@ nav .search-barpage{
     width: 80px;
     cursor: pointer;
 }
-.joinrequest-allbtn .bttn #Deny:hover{
+.joinrequest-allbtn .bttn .deny-btn:hover{
     background-color: lightcoral;
 }
 .joinrequest-label{

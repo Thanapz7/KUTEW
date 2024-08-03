@@ -280,12 +280,21 @@
                 </div>
                 <div class="right-card">
                   <i class="fa-solid fa-gear setting-post" data-post-id="${post.post_id}"></i>
-                  <p class="head">Request : <span>${post.requests}</span></p>
+                  <button class="request-post" data-post-id="${post.post_id}"><p class="head">Request : <span>${post.requests}</span></p></button>
                   <i class="fa-solid fa-trash delete-post" data-post-id="${post.post_id}"></i>
                 </div>
               `;
       
               postsContainer.appendChild(postElement);
+            });
+
+            // Add event listener to request buttons
+            const requestButtons = document.querySelectorAll('.request-post');
+            requestButtons.forEach(button => {
+              button.addEventListener('click', (event) => {
+                const postId = event.target.getAttribute('data-post-id');
+                window.location.href = `/joinrequest?postId=${postId}`;
+              });
             });
       
             // Add event listener to edit buttons

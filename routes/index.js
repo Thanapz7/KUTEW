@@ -57,5 +57,9 @@ router.get('/joinclass', (req, res) => {
   res.render('pages/joinclass.ejs',{ pageTitle: 'Join Class' });
 });
 
+router.get('/joinrequest', (req, res) => {
+  res.render('pages/joinrequest.ejs',{ pageTitle: 'Join Class' });
+});
+
 
 module.exports = router;
