@@ -99,7 +99,7 @@ exports.insertJoin = async (req, res) => {
   exports.getJoin = async (req, res) => {
     const post_id = req.params.id;
     const query = `
-        SELECT joins.*, students.name AS student_name, students.profilePic AS student_profilePic
+        SELECT joins.*, students.student_id AS student_id, students.name AS student_name, students.profilePic AS student_profilePic
         FROM joins
         INNER JOIN students ON joins.student_id = students.student_id
         WHERE joins.post_id = ?
@@ -110,7 +110,7 @@ exports.insertJoin = async (req, res) => {
             res.status(500).json({ error: 'Failed to fetch posts' });
             return;
         }
-        res.status(200).json({ message: 'Get student in join successfully'});
+        res.status(200).json({ message: 'Get student in join successfully', data: results });
     });
 };
 
