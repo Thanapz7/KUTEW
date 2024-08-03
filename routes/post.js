@@ -163,7 +163,7 @@ const {
 
     /**
  * @swagger
- * /myp:
+ * /my/p:
  *  get:
  *     summary: Get My posts
  *     description: Get My posts
@@ -179,7 +179,7 @@ const {
  *       500:
  *         description: Some error happened
  */
-  router.get("/myp", getMyPost);
+  router.get("/my/p", getMyPost);
   
   
   

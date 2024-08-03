@@ -240,7 +240,7 @@
 
         const fetchPosts = async () => {
           try {
-            const response = await fetch('/post/myp');
+            const response = await fetch('/post/my/p');
             const posts = await response.json();
       
             const postsContainer = document.getElementById('postsContainer');
