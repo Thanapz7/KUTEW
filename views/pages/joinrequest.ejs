@@ -25,51 +25,29 @@
         <div class="middle">
           <div class="middle-join">
             <div class="caption-joinrequest">
-              <div class="profile-joinrequest">
-                <div class="profile-photo-joinrequest">
-                  <img src="./img/racc.jfif" />
-                </div>
-                <div class="info">
-                  <h3>Raccon</h3>
-                </div>
-              </div>
-              <div class="joinrequestcaption-info">
-                <div class="caption-join-1">
-                  <i class="fa-solid fa-book"></i>
-                  <p>MATH I</p>
-                </div>
-                <div class="caption-join-1">
-                  <i class="fa-solid fa-newspaper"> </i>
-                  <p>รับติววิชาคณิตศาสตร์วิศวกรรม 1</p>
-                </div>
-                <div class="caption-join-1">
-                  <i class="fa-solid fa-map-pin"></i>
-                  <p>สถานที่:</p>
-                </div>
-              </div>
               <div class="joinrequest-label">
-                <label>Join</label>
+                <label>Join Request</label>
               </div>
+            </div>
           </div>
+          <!-- right -->
         </div>
-        <!-- right -->
         <%- include('../includes/rightbar.ejs')%>
-      </div>
       </div>
     </main>
     <script src="javascript/joinrequest.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', async () => {
+      document.addEventListener("DOMContentLoaded", async () => {
         const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get('postId');
+        const postId = urlParams.get("postId");
         fetch(`/join/${postId}`)
-          .then(response => response.json())
-          .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             if (data.message === "Get student in join successfully") {
               const joinRequests = data.data;
-              const container = document.querySelector('.middle-join');
-    
-              joinRequests.forEach(request => {
+              const container = document.querySelector(".middle-join");
+
+              joinRequests.forEach((request) => {
                 const joinRequestHtml = `
                   <div class="joinrequest-allinfo">
                     <div class="joinrequest-info">
@@ -92,9 +70,10 @@
               });
             }
           })
-          .catch(error => console.error('Error fetching join requests:', error));
+          .catch((error) =>
+            console.error("Error fetching join requests:", error)
+          );
       });
     </script>
-    
   </body>
 </html>

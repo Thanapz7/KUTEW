@@ -1335,14 +1335,6 @@ nav .search-barpage{
     border-radius: 1rem;
     margin-bottom: 1rem;
 }
-.caption-joinrequest{
-    background-color: var(--white-color);
-    border-radius: 9px;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
 .caption-join-1{
     display: flex;
     margin-left: 6.6rem;
