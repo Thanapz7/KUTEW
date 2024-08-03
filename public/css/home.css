@@ -986,13 +986,31 @@ textarea{
 }
 .card-eachpost .center-card .subject,
 .card-eachpost .center-card .location,
+.card-eachpost .center-card .date,
+.card-eachpost .center-card .details,
 .card-eachpost .center-card p{
     display: flex;
     align-items: center;
 }
+.card-eachpost .center-card .subject .head,
+.card-eachpost .center-card .location .head,
+.card-eachpost .center-card .date .head,
+.card-eachpost .center-card .details .head{
+    font-weight: bold;
+    margin-left: 0.2rem;
+}
+.card-eachpost .center-card .subject p,
+.card-eachpost .center-card .location p,
+.card-eachpost .center-card .date p,
+.card-eachpost .center-card .details p{
+    margin-left: 0.4rem;
+}
+
 .card-eachpost .center-card .subject i,
-.card-eachpost .center-card .location i{
-    margin-right: 0.5rem;
+.card-eachpost .center-card .location i,
+.card-eachpost .center-card .date i,
+.card-eachpost .center-card .datails i{
+    margin-right: 0.3rem;
 }
 .card-eachpost .right-card{
     display: flex;
@@ -1004,6 +1022,10 @@ textarea{
 .card-eachpost .right-card p{
     margin: 0;
     margin: 2rem;
+    font-weight: bold;
+}
+.card-eachpost .right-card span{
+    font-weight: normal;
 }
 .card-eachpost .right-card i{
     font-size: 20px;

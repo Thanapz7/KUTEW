@@ -257,20 +257,30 @@
                   <img src="${post.image}" class="profile-mypost">
                 </div>
                 <div class="center-card">
-                  <p>${formattedDate}</p>
+                  <div class="date">
+                    <i class="fa-solid fa-clock"></i>
+                    <p class="head">Date :</p>
+                    <p>${formattedDate}</p>
+                  </div>
                   <div class="subject">
                     <i class="fa-solid fa-book"></i>
+                    <p class="head">Tag :</p>
                     <p>${post.tag}</p>
                   </div>
-                  <p>${post.details}</p>
+                  <div class="details">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <p class="head">Details :</p>
+                    <p>${post.details}</p>
+                  </div>
                   <div class="location">
-                    <i class="fa-solid fa-location-dot"></i>
+                    <i class="fa-solid fa-map-pin"></i>
+                    <p class="head">Location :</p>
                     <p>${post.location}</p>
                   </div>
                 </div>
                 <div class="right-card">
                   <i class="fa-solid fa-gear setting-post" data-post-id="${post.post_id}"></i>
-                  <p>จำนวนคำขอ : <span>${post.requests}</span></p>
+                  <p class="head">Request : <span>${post.requests}</span></p>
                   <i class="fa-solid fa-trash delete-post" data-post-id="${post.post_id}"></i>
                 </div>
               `;
