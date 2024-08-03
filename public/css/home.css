@@ -1363,6 +1363,7 @@ nav .search-barpage{
 .joinrequest-allinfo{
     justify-content: space-between;
     display: flex;
+    margin-bottom: 0.5rem;
 }
 .joinrequest-info{
     display: flex; 
@@ -1371,7 +1372,7 @@ nav .search-barpage{
     margin-right: 2rem; 
 }
 .joinrequest-info .info{
-    margin-top: 0.3rem;
+    margin-top: 0.5rem;
 }
 .joinrequest-allbtn{
     display: flex;

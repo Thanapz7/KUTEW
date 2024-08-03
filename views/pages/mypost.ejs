@@ -288,12 +288,16 @@
               postsContainer.appendChild(postElement);
             });
 
-            // Add event listener to request buttons
             const requestButtons = document.querySelectorAll('.request-post');
             requestButtons.forEach(button => {
               button.addEventListener('click', (event) => {
-                const postId = event.target.getAttribute('data-post-id');
-                window.location.href = `/joinrequest?postId=${postId}`;
+                const postId = event.currentTarget.getAttribute('data-post-id');
+                if (postId) {
+                  window.location.href = `/joinrequest?postId=${postId}`;
+                } else {
+                  console.error(`Post ID is null or undefined 
+                  * Please try again *`);
+                }
               });
             });
       
