@@ -25,55 +25,28 @@
             <!-- middle -->
             <div class="middle">
                 <div class="joinclass">
-
-                  <!-- <div class="profile">
-                    <img src="/img/boy.png" alt="profiletutor" />
-                  </div>
-                  <div class="head-detial-post">
-                    <p id="tutorname">Tutor: </p>
-                    <div class="icon">
-                      <i class="fa-regular fa-star"></i>
-                      <span>5</span>
-                    </div>
-                    <div class="btn-joinclass">
-                      <button class="btn-join" id="btn-join">JOIN</button>
-                    </div>
-                  </div>
-                  <div class="detail-joinclass">
-                    <p id="tag">Tag :</p>
-                    <p id="location">Location :</p>
-                    <p id="date">Date :</p>
-                    <p id="price">Price :</p>
-                    <p id="amount">จำนวนคนที่รับ :</p>
-                    <p id="hours">จำนวนชั่วโมงที่เรียน :</p>
-                  </div>
-                  <div id="popup">
-                    <p>Join successfully!</p>
-                  </div> -->
-
-
                     <div class="profile">
-                        <img src="" alt="profiletutor" id="profilePic">
+                        <img src="" alt="Profile Tutor" id="profilePic">
                     </div>
                     <div class="head-detial-post">
-                        <p id="tutorName">Tutor :</p>
+                        <div class="tutor"><p>Tutor :<p id="tutorName"></p></p></div>
+                        
                         <div class="icon">
                             <i class="fa-regular fa-star"></i>
                             <span>5</span>
                         </div>
                         <div class="btn-joinclass">
-                          <button class="btn-join" id="joinButton">JOIN</button>
+                          <button class="btn-join" id="joinButton" onclick="join()">JOIN</button>
                         </div>
                     </div>
                     <div class="detail-joinclass">
-                        <p id="tag">Tag &nbsp;&nbsp;:</p>
-                        <p id="location">Location  &nbsp;&nbsp;:</p>
-                        <p id="date">Date  &nbsp;&nbsp;:</p>
-                        <p id="details">Detail  &nbsp;&nbsp;:</p>
-                        <p id="price">Price  &nbsp;&nbsp;:</p>
-                        <p id="people">จำนวนคนที่รับ  &nbsp;&nbsp;:</p>
-                        <p id="hours">จำนวนชั่วโมงที่เรียน  &nbsp;&nbsp;:</p>
-                        <p id></p>
+                        <div class="tag"><p>Tag :<p id="tag" class="info"></p></p></div>
+                        <div class="tag"><p>Location :<p id="location" class="info"></p></p></div>
+                        <div class="tag"><p>Date :<p id="date" class="info"></p></p></div>
+                        <div class="tag"><p>Detail :<p id="details" class="info"></p></p></div>
+                        <div class="tag"><p>Price :<p id="price" class="info"></p></p></div>
+                        <div class="tag"><p>Student :<p id="people" class="info"></p></p></div>
+                        <div class="tag"><p>Time to learn(h) :<p id="hours" class="info"></p></p></div>
                     </div>
                 </div>
             </div>
@@ -84,94 +57,95 @@
 
     <script>
       //ดึงข้อมูลจากโพสต์
-        document.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const postId = urlParams.get('post_id');
-            console.log('Post ID:', postId);
+  document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('post_id');
+    const joinButton = document.getElementById('joinButton');
 
-            if (postId) {
-                try {
-                    const response = await fetch(`/post/${postId}`);
-                    const postDataArray = await response.json();
-                    console.log('Post Data:', postDataArray);
+    if (postId) {
+      try {
+        // ดึงข้อมูลโพสต์
+        const response = await fetch(`/post/${postId}`);
+        const postDataArray = await response.json();
 
-                    if (postDataArray.length > 0) {
-                        const postData = postDataArray[0];
-                        document.getElementById('tutorName').textContent += ` ${postData.tutor_name}`;
-                        document.getElementById('date').textContent += ` ${new Date(postData.date).toISOString().split('T')[0]}`;
-                        document.getElementById('tag').textContent += ` ${postData.tag}`;
-                        document.getElementById('details').textContent += ` ${postData.details}`;
-                        document.getElementById('location').textContent += ` ${postData.location}`;
-                        document.getElementById('price').textContent += ` ${postData.price}`;
-                        document.getElementById('people').textContent += ` ${postData.people}`;
-                        document.getElementById('hours').textContent += ` ${postData.hours}`;
-                        document.getElementById('profilePic').src = postData.profilePic ? postData.profilePic : './img/racc.jfif';
+        if (postDataArray.length > 0) {
+          const postData = postDataArray[0];
+          document.getElementById('tutorName').textContent += ` ${postData.tutor_name}`;
+          document.getElementById('date').textContent += ` ${new Date(postData.date).toISOString().split('T')[0]}`;
+          document.getElementById('tag').textContent += ` ${postData.tag}`;
+          document.getElementById('details').textContent += ` ${postData.details}`;
+          document.getElementById('location').textContent += ` ${postData.location}`;
+          document.getElementById('price').textContent += ` ${postData.price}`;
+          document.getElementById('people').textContent += ` ${postData.people}`;
+          document.getElementById('hours').textContent += ` ${postData.hours}`;
+          document.getElementById('profilePic').src = postData.profilePic ? postData.profilePic : './img/racc.jfif';
+        } else {
+          console.error('No post data found');
+        }
 
-                        // Store postData for later use
-                        window.postData = postData;
+        // ตรวจสอบสถานะการเข้าร่วม
+        const joinStatusResponse = await fetch(`/join/status/${postId}`);
+        const joinStatusData = await joinStatusResponse.json();
 
-                        // Check if the number of people has reached the limit
-                      if (postData.people >= postData.maxPeople) {
-                          document.getElementById('joinButton').disabled = true;
-                          document.getElementById('joinButton').textContent = "เต็มแล้ว";
-                      }
+        if (joinStatusData.joined) {
+          joinButton.textContent = 'JOINED';
+          joinButton.disabled = true;
+          joinButton.classList.add('joined');
+        }
+      } catch (error) {
+        console.error('Error fetching post details or join status:', error);
+      }
+    } else {
+      console.error('No post_id found in the URL');
+    }
+  });
 
-                      } else {
-                        console.error('No post data found');
-                    }
-                } catch (error) {
-                    console.error('Error fetching post details:', error);
-                }
-            } else {
-                console.error('No post_id found in the URL');
-            }
+  async function join() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('post_id');
+    const joinButton = document.getElementById('joinButton');
+
+    if (postId) {
+      try {
+        const response = await fetch(`/join/${postId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
 
-        async function joinGroup() {
-    const postData = window.postData;
-
-    if (postData.people < postData.maxPeople) {
-        try {
-            // Send request to join the group
-            const response = await fetch(`/join/${postId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userId: 'user_id' }), // Replace 'yourUserId' with the actual user ID
-            });
-
-            if (response.ok) {
-                alert('join successfully');
-                postData.people += 1;
-                document.getElementById('people').textContent = `จำนวนคนที่รับ: ${postData.people}`;
-
-                // Disable button if the limit is reached
-                if (postData.people >= postData.maxPeople) {
-                    document.getElementById('joinButton').disabled = true;
-                    document.getElementById('joinButton').textContent = "เต็มแล้ว";
-                }
-
-                // Send request to the post owner for approval
-                await fetch(`/notifyOwner/${postData.ownerId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ postId: postData.id, userId: 'yourUserId' }), // Replace 'yourUserId' with the actual user ID
-                });
-            } else {
-                alert('Error joining the group');
-            }
-        } catch (error) {
-            console.error('Error sending join request:', error);
+        if (response.ok) {
+          const result = await response.json();
+          console.log('Join successful:', result);
+          alert('You have successfully joined the class!');
+          
+          // เปลี่ยนข้อความของปุ่มเป็น "JOINED" และทำให้ปุ่มไม่สามารถกดได้
+          joinButton.textContent = 'JOINED';
+          joinButton.disabled = true;
+          joinButton.classList.add('joined');
+        } else {
+          const errorData = await response.json();
+          console.error('Error joining class:', errorData);
+          if (errorData.message === 'Student already joined this post') {
+            alert('You have already joined this class.');
+            joinButton.textContent = 'JOINED';
+            joinButton.disabled = true;
+            joinButton.classList.add('joined');
+          } else {
+            alert('Failed to join the class. Please try again.');
+          }
         }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while joining the class. Please try again.');
+      }
     } else {
-        alert('The group is already full');
-        document.getElementById('joinButton').disabled = true;
-        document.getElementById('joinButton').textContent = "เต็มแล้ว";
+      console.error('No post_id found in the URL');
+      alert('Post ID not found. Please refresh the page and try again.');
     }
-}
+  }
+
+
     </script>
 </body>
 </html>
