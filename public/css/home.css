@@ -392,7 +392,106 @@ textarea{
     background: var(--lightorange-color);
 }
 /* หน้า join class */
-.middle .joinclass{
+.middle .joinclass {
+    background-color: var(--white-color);
+    border-radius: var(--card-border-radius);
+    padding: 50px;
+    font-size: 1.5rem;
+    height: 100vh;
+    font-family: "Kanit", sans-serif;
+}
+
+.middle .head-detial-post {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.middle .head-detial-post p {
+    margin-left: 3rem;
+}
+
+.middle .profile {
+    height: auto;
+    width: 8rem;
+}
+
+.middle .joinclass .head-detial-post .tutor {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.middle .joinclass .head-detial-post .tutor #tutorName {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.middle .joinclass .detail-joinclass {
+    margin-top: 1.5rem;
+    line-height: 2;
+}
+
+.middle .joinclass .detail-joinclass .tag {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.middle .joinclass .detail-joinclass .info {
+    font-weight: 5;
+    color: var(--info-color); /* สีของข้อมูลที่อ่อนกว่า */
+}
+
+.middle .joinclass .btn-joinclass .btn-join {
+    background-color: var(--lighgreen-color);
+    color: var(--white-color);
+    cursor: pointer;
+    font-size: 2rem;
+    border-radius: var(--border-radius);
+    padding: 10px;
+}
+.joined-btn {
+    background-color: #D3D3D3;
+    cursor: not-allowed;
+}
+.btn-join.joined {
+    background-color: gray;
+    cursor: not-allowed;
+  }
+.middle .joinclass .btn-joinclass .btn-join:hover {
+    background-color: var(--green-color);
+    color: var(--white-color);
+}
+
+.middle .joinclass .detail-joinclass p {
+    flex-direction: column;
+    text-align: left;
+    margin-left: 3rem;
+    display: flex;
+    align-items: center;
+}
+
+.middle .icon {
+    color: rgb(207, 184, 6);
+    margin-left: 15vh;
+}
+
+.middle .joinclass #popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.middle .joinclass .detail-joinclass .tag p:first-child {
+    color: var(--text-color); /* สีของข้อความ */
+    margin-right: 0.5rem; /* ปรับระยะห่างระหว่างเครื่องหมาย : กับข้อความ */
+}
+
+/* .middle .joinclass{
     background-color: var(--lighgreen-color);
     border-radius: var(--card-border-radius);
     padding:50px;
@@ -444,7 +543,8 @@ textarea{
     background-color: white;
     padding: 20px;
      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-}
+} */
+
 
 /* profile */
 .profilesec{

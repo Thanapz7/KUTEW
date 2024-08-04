@@ -7,7 +7,8 @@ const {
     getJoin,
     updateJoinAccept,
     updateJoinDeny,
-    updateJoinPayment
+    updateJoinPayment,
+    checkJoinStatus
 
 
   } =require("../controllers/join");
@@ -16,6 +17,7 @@ const {
   router.put("/a/:id", updateJoinAccept);
   router.put("/d/:id", updateJoinDeny);
   router.put("/pay/:id", updateJoinPayment);
+  router.get("/status/:id", checkJoinStatus);
 
   
 
