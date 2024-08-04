@@ -1025,11 +1025,14 @@ textarea{
     font-weight: bold;
 }
 .card-eachpost .right-card button.request-post{
+    width: 8rem;
+    height: 5rem;
     background-color: var(--green-color);
     color: white;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
+    margin: 1rem;
 }
 .card-eachpost .right-card button.request-post:hover{
     opacity: 0.8;
@@ -1334,6 +1337,9 @@ nav .search-barpage{
     flex-direction: column;
     border-radius: 1rem;
     margin-bottom: 1rem;
+}
+.middle-join .no-join-info{
+    text-align: center;
 }
 .caption-join-1{
     display: flex;
