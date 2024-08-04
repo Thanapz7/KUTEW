@@ -39,36 +39,63 @@
       document.addEventListener("DOMContentLoaded", async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get("postId");
-      
+
         try {
           const response = await fetch(`/join/${postId}`);
           const data = await response.json();
-      
+
           if (data.message === "Get student in join successfully") {
             const joinRequests = data.data;
             const container = document.querySelector(".middle-join");
-      
+
             if (joinRequests.length > 0) {
               joinRequests.forEach((request) => {
-                const joinRequestHtml = `
-                  <div class="joinrequest-allinfo">
-                    <div class="joinrequest-info">
-                      <div class="profile-photo">
-                        <img src="${request.student_profilePic}" />
+                if (request.join_status === "pending") {
+                  const joinRequestHtml = `
+                    <div class="joinrequest-allinfo">
+                      <div class="joinrequest-info">
+                        <div class="profile-photo">
+                          <img src="${request.student_profilePic}" />
+                        </div>
+                        <div class="info">
+                          <label>${request.student_name}</label>
+                        </div>
                       </div>
-                      <div class="info">
-                        <label>${request.student_name}</label>
+                      <div class="joinrequest-allbtn">
+                        <div class="bttn">
+                          <button class="accept accept-btn" data-join-id="${request.join_id}">Accept</button>
+                          <button class="deny deny-btn" data-join-id="${request.join_id}">Deny</button>
+                        </div>
                       </div>
                     </div>
-                    <div class="joinrequest-allbtn">
-                      <div class="bttn">
-                        <button class="accept-btn" data-join-id="${request.join_id}">Accept</button>
-                        <button class="deny-btn" data-join-id="${request.join_id}">Deny</button>
-                      </div>
-                    </div>
-                  </div>
-                `;
-                container.innerHTML += joinRequestHtml;
+                  `;
+                  container.innerHTML += joinRequestHtml;
+                }
+              });
+
+              // Event listeners for accept and deny buttons
+              document.querySelectorAll('.accept').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                  const requestId = event.target.getAttribute('data-join-id');
+                  try {
+                    await fetch(`/join/a/${requestId}`, { method: 'PUT' });
+                    event.target.closest('.joinrequest-allinfo').remove();
+                  } catch (error) {
+                    console.error('Error accepting request:', error);
+                  }
+                });
+              });
+
+              document.querySelectorAll('.deny').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                  const requestId = event.target.getAttribute('data-join-id');
+                  try {
+                    await fetch(`/join/d/${requestId}`, { method: 'PUT' });
+                    event.target.closest('.joinrequest-allinfo').remove();
+                  } catch (error) {
+                    console.error('Error denying request:', error);
+                  }
+                });
               });
             } else {
               container.innerHTML = `<h3 class="no-join-info">No join requests yet</h3>`;
