@@ -203,12 +203,12 @@ exports.insertJoin = async (req, res) => {
 
 //ใส่Acceptเมื่อยอมรับ
 exports.updateJoinAccept = async (req, res) => {
-    const post_id = req.params.id;
+    const join_id = req.params.id;
     const query = `
         UPDATE joins SET join_status = ?
-        WHERE post_id = ?
+        WHERE join_id = ?
     `;
-    db.query(query, ['Accept', post_id], (err, results) => {
+    db.query(query, ['Accept', join_id], (err, results) => {
         if (err) {
             console.error('Error updating join:', err);
             res.status(500).json({ error: 'Failed to update join' });
@@ -220,12 +220,12 @@ exports.updateJoinAccept = async (req, res) => {
 
 //ใส่Denyเมื่อปฎิเสธ
 exports.updateJoinDeny = async (req, res) => {
-  const post_id = req.params.id;
+  const join_id = req.params.id;
   const query = `
       UPDATE joins SET join_status = ?
-      WHERE post_id = ?
+      WHERE join_id = ?
   `;
-  db.query(query, ['Deny', post_id], (err, results) => {
+  db.query(query, ['Deny', join_id], (err, results) => {
       if (err) {
           console.error('Error updating join:', err);
           res.status(500).json({ error: 'Failed to update join' });
