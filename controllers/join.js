@@ -166,7 +166,7 @@ exports.insertJoin = async (req, res) => {
             const tutor_id = tutorResult[0].tutor_id;
 
             // Insert ลงในตาราง joins
-            db.query('INSERT INTO joins (post_id, student_id, join_date, tutor_id) VALUES (?, ?, CURRENT_TIMESTAMP, ?)', [post_id, student_id, tutor_id], (err, joinResult) => {
+            db.query('INSERT INTO joins (post_id, student_id, join_date, tutor_id, join_status) VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?)', [post_id, student_id, tutor_id, "pending"], (err, joinResult) => {
               if (err) {
                 console.error(err);
                 return res.status(500).json({ message: 'Internal Server Error' });
