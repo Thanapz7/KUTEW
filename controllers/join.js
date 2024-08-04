@@ -166,7 +166,7 @@ exports.insertJoin = async (req, res) => {
             const tutor_id = tutorResult[0].tutor_id;
 
             // Insert ลงในตาราง joins
-            db.query('INSERT INTO joins (post_id, student_id, join_date, tutor_id) VALUES (?, ?, CURRENT_TIMESTAMP, ?)', [post_id, student_id, tutor_id], (err, joinResult) => {
+            db.query('INSERT INTO joins (post_id, student_id, join_date, tutor_id, join_status) VALUES (?, ?, CURRENT_TIMESTAMP, ?, ?)', [post_id, student_id, tutor_id, "pending"], (err, joinResult) => {
               if (err) {
                 console.error(err);
                 return res.status(500).json({ message: 'Internal Server Error' });
@@ -203,12 +203,12 @@ exports.insertJoin = async (req, res) => {
 
 //ใส่Acceptเมื่อยอมรับ
 exports.updateJoinAccept = async (req, res) => {
-    const student_id = req.params.id;
+    const join_id = req.params.id;
     const query = `
         UPDATE joins SET join_status = ?
-        WHERE student_id = ?
+        WHERE join_id = ?
     `;
-    db.query(query, ['Accept', student_id], (err, results) => {
+    db.query(query, ['Accept', join_id], (err, results) => {
         if (err) {
             console.error('Error updating join:', err);
             res.status(500).json({ error: 'Failed to update join' });
@@ -220,19 +220,19 @@ exports.updateJoinAccept = async (req, res) => {
 
 //ใส่Denyเมื่อปฎิเสธ
 exports.updateJoinDeny = async (req, res) => {
-    const student_id = req.params.id;
-    const query = `
-        UPDATE joins SET join_status = ?
-        WHERE student_id = ?
-    `;
-    db.query(query, ['Deny', student_id], (err, results) => {
-        if (err) {
-            console.error('Error updating join:', err);
-            res.status(500).json({ error: 'Failed to update join' });
-            return;
-        }
-        res.status(200).json({ message: 'Update join status successfully'});
-    });
+  const join_id = req.params.id;
+  const query = `
+      UPDATE joins SET join_status = ?
+      WHERE join_id = ?
+  `;
+  db.query(query, ['Deny', join_id], (err, results) => {
+      if (err) {
+          console.error('Error updating join:', err);
+          res.status(500).json({ error: 'Failed to update join' });
+          return;
+      }
+      res.status(200).json({ message: 'Update join status successfully'});
+  });
 };
 
 // เมื่อจ่ายตัง (payment)
