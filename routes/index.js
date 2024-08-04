@@ -61,5 +61,9 @@ router.get('/joinrequest', (req, res) => {
   res.render('pages/joinrequest.ejs',{ pageTitle: 'Join Class' });
 });
 
+router.get('/demonoti', (req, res) => {
+  res.render('pages/demonoti.ejs',{ pageTitle: 'Notifications' });
+});
+
 
 module.exports = router;

@@ -254,6 +254,13 @@ main .container .left .profile{
     display: block;
 
 }
+.middle .middle-notis{
+    background-color: var(--lighgreen-color);
+    height: 90vh;
+    padding: 1.5rem;
+    border-radius: var(--card-border-radius);
+    overflow-y: auto;
+}
 /* create post */
 .middle .create-post{
     width: 100%;
