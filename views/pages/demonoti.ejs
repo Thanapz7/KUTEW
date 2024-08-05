@@ -5,7 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/css/home.css" />
-  <title>My post</title>
+  <style>
+    #notification-container {
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-top: 20px;
+    }
+
+    .notification {
+      background-color: #f9f9f9;
+      border-bottom: 1px solid #eee;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .notification p {
+      margin: 0;
+    }
+
+    .notification small {
+      color: #999;
+    }
+  </style>
+  <title>noti</title>
 </head>
 <body>
   <!-- navbar -->
@@ -19,16 +41,50 @@
       <!-- middle -->
       <div class="middle">
         <div class="middle-notis">
+          <h1>notification</h1>
             <!-- content here! -->
+            <div id="notification-container"></div>
+            
         </div>
       </div>
       <!-- right -->
       <%- include('../includes/rightbar.ejs') %>
     </div>
-    
   </main>
-  <script>
+  <script src="/socket.io/socket.io.js"></script>
+<script>
+  // เชื่อมต่อกับ Socket.IO
+  const socket = io();
 
-  </script>
+    // userId ได้รับมาจากการ render หน้าด้วย Express.js จาก session
+    const userId = '<%= userId %>'; // ใช้ template engine ของ Express.js เช่น EJS หรือ Pug
+
+  // เข้าร่วมห้องที่เป็นของผู้ใช้คนนี้
+  socket.emit('join', userId);
+
+  // รับการแจ้งเตือน
+  socket.on('notification', (data) => {
+    console.log('Received notification:', data); // เพิ่มการดีบัก
+    // สร้าง HTML สำหรับการแจ้งเตือนใหม่
+    const notificationContainer = document.getElementById('notification-container');
+    const notificationElement = document.createElement('div');
+    notificationElement.className = 'notification';
+    notificationElement.innerHTML = `
+      <p>${data.message}</p>
+      <small>${new Date(data.created_at).toLocaleString()}</small>
+    `;
+    notificationContainer.appendChild(notificationElement);
+  });
+
+  // ตรวจสอบการเชื่อมต่อ
+  socket.on('connect', () => {
+    console.log('Connected to server');
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Disconnected from server');
+  });
+</script>
+
 </body>
 </html>
