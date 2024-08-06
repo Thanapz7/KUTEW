@@ -417,10 +417,22 @@ textarea{
 .middle .head-detial-post p {
     margin-left: 3rem;
 }
-
-.middle .profile {
-    height: auto;
-    width: 8rem;
+.profilePicture {
+    display: flex;
+    align-items: center; /* จัดกึ่งกลางรูปภาพในแนวตั้ง */
+    margin-bottom: 20px;
+}
+.profilePhoto {
+    border-radius: 50%;
+    overflow: hidden; /* ซ่อนส่วนที่เกิน */
+    width: 120px;
+    height: 120px; 
+    margin-left: 2.8rem;
+}
+.profilePhoto img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 .middle .joinclass .head-detial-post .tutor {
@@ -434,7 +446,7 @@ textarea{
 }
 
 .middle .joinclass .detail-joinclass {
-    margin-top: 1.5rem;
+    /* margin-top: 0.5rem; */
     line-height: 2;
 }
 
@@ -446,6 +458,8 @@ textarea{
 .middle .joinclass .detail-joinclass .info {
     font-weight: 5;
     color: var(--info-color); /* สีของข้อมูลที่อ่อนกว่า */
+    margin: 2px 30px;
+    text-align: left;
 }
 
 .middle .joinclass .btn-joinclass .btn-join {
@@ -1536,7 +1550,7 @@ nav .search-barpage{
     align-items: center;
     height: 70vh;
 }
-.middle-payment .qrcode-image img {
+.middle-payment .qrcode-image .feed-item img {
     max-width: 300px;
     height: auto;
     border: #888 solid 1px;
