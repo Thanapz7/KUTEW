@@ -5,6 +5,7 @@ const router = express.Router();
 const {
     insertJoin,
     getJoin,
+    getMyJoin,
     updateJoinAccept,
     updateJoinDeny,
     updateJoinPayment,
@@ -14,6 +15,7 @@ const {
   } =require("../controllers/join");
   router.post("/:id", insertJoin);
   router.get("/:id", getJoin);
+  router.get("/my/:id", getMyJoin);
   router.put("/a/:id", updateJoinAccept);
   router.put("/d/:id", updateJoinDeny);
   router.put("/pay/:id", updateJoinPayment);

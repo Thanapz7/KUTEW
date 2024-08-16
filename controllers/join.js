@@ -201,6 +201,27 @@ exports.insertJoin = async (req, res) => {
     });
 };
 
+//หาjoinของเรา
+exports.getMyJoin = async (req, res) => {
+  const user_id = req.session.user.user_id;
+  const query = `
+      SELECT posts.* 
+      FROM joins
+      INNER JOIN students ON joins.student_id = students.student_id
+      INNER JOIN posts ON joins.post_id = posts.post_id
+      INNER JOIN users ON students.user_id = users.user_id
+      WHERE users.user_id = ?
+  `;
+  db.query(query, [user_id], (err, results) => {
+      if (err) {
+          console.error('Error fetching posts:', err);
+          res.status(500).json({ error: 'Failed to fetch posts' });
+          return;
+      }
+      res.status(200).json({ message: 'Get your join successfully', data: results });
+  });
+};
+
 //ใส่Acceptเมื่อยอมรับ
 exports.updateJoinAccept = async (req, res) => {
     const join_id = req.params.id;
