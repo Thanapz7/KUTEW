@@ -136,6 +136,37 @@
           joinButton.textContent = 'JOINED';
           joinButton.disabled = true;
           joinButton.classList.add('joined');
+
+          //notification
+          // ส่งข้อมูล post_id และ user_id ไปที่ API /notifications
+          const userId = '<%= userId %>';
+          const name = await fetch(`/post/${postId}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const postData = await name.json(); 
+          console.log(postData);
+          const tutorName = postData[0].tutor_name; 
+          const notificationResponse = await fetch('/notifications', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              post_id: postId,
+              user_id: userId,
+              message: `คุณได้เข้ารวมPostของ Tutor: ${tutorName} นี้แล้วนะ`
+            })
+          });
+
+          if (notificationResponse.ok) {
+            console.log('Notification sent successfully');
+          } else {
+            console.error('Failed to send notification');
+          }
+          
         } else {
           const errorData = await response.json();
           console.error('Error joining class:', errorData);

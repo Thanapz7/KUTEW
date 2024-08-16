@@ -54,7 +54,8 @@ router.get('/search', (req, res) => {
   res.render('pages/search.ejs',{ pageTitle: 'Search' });
 });
 router.get('/joinclass', (req, res) => {
-  res.render('pages/joinclass.ejs',{ pageTitle: 'Join Class' });
+  const userId = req.session.user.user_id;
+  res.render('pages/joinclass.ejs',{ userId,pageTitle: 'Join Class' });
 });
 
 router.get('/joinrequest', (req, res) => {

@@ -5,7 +5,7 @@ exports.InsertNotifications = async (req, res) => {
   const { post_id, tutor_id, student_id, message, user_id } = req.body;
   
   try {
-    if (!post_id || !tutor_id || !student_id || !message || !user_id) {
+    if (!message || !user_id) {
       return res.status(400).send('Missing required fields');
     }
 
