@@ -322,3 +322,60 @@ exports.checkJoinStatus = async (req, res) => {
       });
   });
 };
+
+exports.getUserIdByJoinId = async (req, res) => {
+  const join_id = req.params.id;
+
+  if (!join_id) {
+    res.status(400).json({ error: 'Invalid join_id' });
+    return;
+  }
+
+  const query = `
+    SELECT u.user_id 
+    FROM joins j
+    LEFT JOIN students s ON j.student_id = s.student_id
+    LEFT JOIN users u ON s.user_id = u.user_id 
+    WHERE j.join_id = ?;
+  `;
+
+  db.query(query, [join_id], (err, results) => {
+      if (err) {
+          console.error('Error fetching user ID:', err);
+          res.status(500).json({ error: 'Failed to fetch user ID' });
+          return;
+      }
+
+      if (results.length > 0) {
+          res.status(200).json({ user_id: results[0].user_id });
+      } else {
+          res.status(404).json({ error: 'User not found' });
+      }
+  });
+};
+
+
+
+exports.getTutorByJoinId = async (req, res) => {
+  const join_id  = req.params.id;
+  const query = `
+  SELECT t.name 
+  FROM joins j
+  LEFT JOIN tutors t ON j.tutor_id = t.tutor_id
+  WHERE j.join_id = ?;
+  `;
+
+  db.query(query, [join_id], (err, results) => {
+      if (err) {
+          console.error('Error fetching user ID:', err);
+          res.status(500).json({ error: 'Failed to fetch user ID' });
+          return;
+      }
+
+      if (results.length > 0) {
+          res.status(200).json({ tutor_name: results[0].name });
+      } else {
+          res.status(404).json({ error: 'User not found' });
+      }
+  });
+};

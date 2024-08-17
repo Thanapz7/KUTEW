@@ -9,7 +9,9 @@ const {
     updateJoinAccept,
     updateJoinDeny,
     updateJoinPayment,
-    checkJoinStatus
+    checkJoinStatus,
+    getUserIdByJoinId,
+    getTutorByJoinId
 
 
   } =require("../controllers/join");
@@ -20,6 +22,10 @@ const {
   router.put("/d/:id", updateJoinDeny);
   router.put("/pay/:id", updateJoinPayment);
   router.get("/status/:id", checkJoinStatus);
+  router.get("/user/:id", getUserIdByJoinId);
+  router.get("/tutor/:id", getTutorByJoinId);
+
+
 
   
 
