@@ -1,101 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/css/home.css" />
-  <style>
-    #notification-container {
-      padding: 10px;
-      border: 1px solid #ccc;
-      margin-top: 20px;
-    }
+    <title>Notification Page</title>
+    <style>
+        #notification-container {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
 
-    .notification {
-      background-color: #f9f9f9;
-      border-bottom: 1px solid #eee;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
+        .notification {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
 
-    .notification p {
-      margin: 0;
-    }
+        .notification p {
+            margin: 0;
+        }
 
-    .notification small {
-      color: #999;
-    }
-  </style>
-  <title>Notification</title>
+        .notification small {
+            color: #999;
+        }
+    </style>
 </head>
 <body>
-  <!-- navbar -->
-  <%- include('../includes/navbar.ejs') %>
-
-  <!-- main -->
-  <main>
-    <div class="container">
-      <!-- left -->
-      <%- include('../includes/sidebar.ejs') %>
-      <!-- middle -->
-      <div class="middle">
-        <div class="middle-notis">
-          <h1>Notification</h1>
-          <!-- content here! -->
-          <div id="notification-container"></div>
+  <body>
+    <!-- navbar -->
+    <%- include('../includes/navbar.ejs') %>
+  
+    <!-- main -->
+    <main>
+      <div class="container">
+        <!-- left -->
+        <%- include('../includes/sidebar.ejs') %>
+        <!-- middle -->
+        <div class="middle">
+          <div class="middle-notis">
+            <h1>Notification</h1>
+            <!-- content here! -->
+            <div id="notification-container"></div>
+          </div>
         </div>
+        <!-- right -->
+        <%- include('../includes/rightbar.ejs') %>
       </div>
-      <!-- right -->
-      <%- include('../includes/rightbar.ejs') %>
-    </div>
-  </main>
-  <script src="/socket.io/socket.io.js"></script>
-<script>
-  let socket;
+    </main>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket;
 
-  function connectSocket() {
-    socket = io();
+        function connectSocket() {
+            socket = io();
 
-    const userId = '<%= userId %>';
+            const userId = '<%= userId %>'; // เปลี่ยนเป็น userId ที่ได้รับจากฝั่งเซิร์ฟเวอร์หรือการตั้งค่า
 
-    socket.emit('join', userId);
+            socket.emit('join', userId);
 
-    socket.on('notification', (data) => {
-      console.log('Received notification:', data);
-      const notificationContainer = document.getElementById('notification-container');
-      const notificationElement = document.createElement('div');
-      notificationElement.className = 'notification';
-      notificationElement.innerHTML = `
-        <p>${data.message}</p>
-        <small>${new Date(data.created_at).toLocaleString()}</small>
-      `;
-      notificationContainer.prepend(notificationElement);
-    });
+            socket.on('notification', (data) => {
+                console.log('Received notification:', data);
+                const notificationContainer = document.getElementById('notification-container');
+                const notificationElement = document.createElement('div');
+                notificationElement.className = 'notification';
+                notificationElement.innerHTML = `
+                    <p>${data.message}</p>
+                    <small>${new Date(data.created_at).toLocaleString()}</small>
+                `;
+                notificationContainer.prepend(notificationElement);
+            });
 
-    socket.on('connect', () => {
-      console.log('Connected to server');
-    });
+            socket.on('connect', () => {
+                console.log('Connected to server');
+            });
 
-    socket.on('disconnect', () => {
-      console.log('Disconnected from server');
-    });
-  }
+            socket.on('disconnect', () => {
+                console.log('Disconnected from server');
+            });
+        }
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden' && socket) {
-      socket.disconnect();
-      console.log('Disconnected because the user left the page');
-    } else if (document.visibilityState === 'visible') {
-      if (!socket || !socket.connected) {
-        connectSocket();
-        console.log('Reconnected because the user returned to the page');
-      }
-    }
-  });
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden' && socket) {
+                socket.disconnect();
+                console.log('Disconnected because the user left the page');
+            } else if (document.visibilityState === 'visible') {
+                if (!socket || !socket.connected) {
+                    connectSocket();
+                    console.log('Reconnected because the user returned to the page');
+                }
+            }
+        });
 
-  connectSocket(); // เชื่อมต่อเมื่อโหลดหน้าเว็บครั้งแรก
-</script>
-
+        connectSocket(); // เชื่อมต่อเมื่อโหลดหน้าเว็บครั้งแรก
+    </script>
 </body>
 </html>
