@@ -57,5 +57,50 @@ exports.getAllUsers = async (req, res) => {
     });
 };
 
+exports.StudentgetUser = async (req, res) => {
+    const { id } = req.params; // ดึงค่า id จาก req.params
+    const query = `
+    SELECT u.user_id 
+    FROM students s
+    JOIN users u ON s.user_id = u.user_id
+    WHERE s.student_id = ?;
+    `;
+    
+    db.query(query, [id], (err, results) => {
+        if (err) {
+            console.error('Error fetching user data:', err);
+            res.status(500).json({ error: 'Failed to fetch user data' });
+            return;
+        }
 
+        if (results.length > 0) {
+            res.status(200).json({ user_id: results[0].user_id });
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
+    });
+};
 
+exports.TutorgetUser = async (req, res) => {
+    const { id } = req.params; // ดึงค่า id จาก req.params
+    const query = `
+    SELECT u.user_id 
+    FROM students s
+    JOIN users u ON s.user_id = u.user_id
+    WHERE s.student_id = ?;
+    `;
+    
+    db.query(query, [id], (err, results) => {
+        if (err) {
+            console.error('Error fetching user data:', err);
+            res.status(500).json({ error: 'Failed to fetch user data' });
+            return;
+        }
+
+        if (results.length > 0) {
+            res.status(200).json({ user_id: results[0].user_id });
+        } else {
+            res.status(404).json({ error: 'User not found' });
+        }
+    });
+};

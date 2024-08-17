@@ -147,7 +147,6 @@
             }
           });
           const postData = await name.json(); 
-          console.log(postData);
           const tutorName = postData[0].tutor_name; 
           const notificationResponse = await fetch('/notifications', {
             method: 'POST',
@@ -166,7 +165,7 @@
           } else {
             console.error('Failed to send notification');
           }
-          
+
         } else {
           const errorData = await response.json();
           console.error('Error joining class:', errorData);
