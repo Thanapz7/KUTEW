@@ -27,7 +27,7 @@
       color: #999;
     }
   </style>
-  <title>noti</title>
+  <title>Notification</title>
 </head>
 <body>
   <!-- navbar -->
@@ -41,7 +41,7 @@
       <!-- middle -->
       <div class="middle">
         <div class="middle-notis">
-          <h1>notification</h1>
+          <h1>Notification</h1>
           <!-- content here! -->
           <div id="notification-container"></div>
         </div>
@@ -51,20 +51,18 @@
     </div>
   </main>
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    // เชื่อมต่อกับ Socket.IO
-    const socket = io();
+<script>
+  let socket;
 
-    // userId ได้รับมาจากการ render หน้าด้วย Express.js จาก session
-    const userId = '<%= userId %>'; // ใช้ template engine ของ Express.js เช่น EJS หรือ Pug
+  function connectSocket() {
+    socket = io();
 
-    // เข้าร่วมห้องที่เป็นของผู้ใช้คนนี้
+    const userId = '<%= userId %>';
+
     socket.emit('join', userId);
 
-    // รับการแจ้งเตือน
     socket.on('notification', (data) => {
-      console.log('Received notification:', data); // เพิ่มการดีบัก
-      // สร้าง HTML สำหรับการแจ้งเตือนใหม่
+      console.log('Received notification:', data);
       const notificationContainer = document.getElementById('notification-container');
       const notificationElement = document.createElement('div');
       notificationElement.className = 'notification';
@@ -72,10 +70,9 @@
         <p>${data.message}</p>
         <small>${new Date(data.created_at).toLocaleString()}</small>
       `;
-      notificationContainer.prepend(notificationElement); // เพิ่มที่ด้านบน
+      notificationContainer.prepend(notificationElement);
     });
 
-    // ตรวจสอบการเชื่อมต่อ
     socket.on('connect', () => {
       console.log('Connected to server');
     });
@@ -83,6 +80,22 @@
     socket.on('disconnect', () => {
       console.log('Disconnected from server');
     });
-  </script>
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && socket) {
+      socket.disconnect();
+      console.log('Disconnected because the user left the page');
+    } else if (document.visibilityState === 'visible') {
+      if (!socket || !socket.connected) {
+        connectSocket();
+        console.log('Reconnected because the user returned to the page');
+      }
+    }
+  });
+
+  connectSocket(); // เชื่อมต่อเมื่อโหลดหน้าเว็บครั้งแรก
+</script>
+
 </body>
 </html>
