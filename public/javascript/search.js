@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <img src="${post.tutor_profilePic}" alt="Profile Photo" />
                             </div>
                             <div class="info">
-                                <h3><a href="/profile/${post.user_id}" class="tutor-link">${post.tutor_name}</a></h3>
+                                <h3><a href="/profiletutor/${post.user_id}" class="tutor-link">${post.tutor_name}</a></h3>
                                 <small>${formattedDate}</small>
                             </div>
                         </div>

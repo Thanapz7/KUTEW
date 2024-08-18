@@ -47,10 +47,15 @@
           if (data.message === "Get student in join successfully") {
             const joinRequests = data.data;
             const container = document.querySelector(".middle-join");
-
+        
             if (joinRequests.length > 0) {
-              joinRequests.forEach((request) => {
-                if (request.join_status === "pending") {
+                for (const request of joinRequests) {
+                    if (request.join_status === "pending") {
+                        // Fetch the userid for each student
+                        const response = await fetch(`/user/su/${request.student_id}`);
+                        const userData = await response.json(); // Assuming the response is in JSON format
+                        const userid = userData.user_id; // Adjust according to the actual structure of your response
+
                   const joinRequestHtml = `
                     <div class="joinrequest-allinfo">
                       <div class="joinrequest-info">
@@ -58,7 +63,7 @@
                           <img src="${request.student_profilePic}" />
                         </div>
                         <div class="info">
-                          <label>${request.student_name}</label>
+                          <label><a href="/profilestd/${userid}">${request.student_name}</a></label>
                         </div>
                       </div>
                       <div class="joinrequest-allbtn">
@@ -69,9 +74,11 @@
                       </div>
                     </div>
                   `;
+                  console.log(joinRequests)
                   container.innerHTML += joinRequestHtml;
                 }
-              });
+              
+              };
 
               // Event listener for accept button
               document.querySelectorAll('.accept').forEach(button => {

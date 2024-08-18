@@ -62,16 +62,27 @@ router.get('/joinrequest', (req, res) => {
   res.render('pages/joinrequest.ejs',{ pageTitle: 'Join Class' });
 });
 
+router.get('/joinrequest/:id', (req, res) => {
+  const userId = req.params.id;
+  res.render('pages/joinrequest.ejs',{ userId: userId , pageTitle: 'Join Class' });
+});
+
 router.get('/demonoti', (req, res) => {
   // ดึงค่า userId จาก session ที่เก็บไว้
   const userId = req.session.user.user_id;
   res.render('pages/demonoti.ejs',{ userId, pageTitle: 'Notifications' });
 });
 
-router.get('/profile/:id', (req, res) => {
+router.get('/profiletutor/:id', (req, res) => {
   // ดึงค่า userId จาก session ที่เก็บไว้
   const userId = req.params.id;
-  res.render('pages/profile.ejs', { userId: userId });
+  res.render('pages/profiletutor.ejs', { userId: userId });
+});
+
+router.get('/profilestd/:id', (req, res) => {
+  // ดึงค่า userId จาก session ที่เก็บไว้
+  const userId = req.params.id;
+  res.render('pages/profilestd.ejs', { userId: userId });
 });
 
 router.get('/payment', (req, res) => {

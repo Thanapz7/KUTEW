@@ -289,7 +289,9 @@ main .container .left .profile{
     justify-content: space-between;
     font-size: 0.9rem;
 }
-
+.middle .feed .info a{
+    color: var(--black-color);
+}
 .middle .feed .user{
     display: flex;
     gap: 1rem;
@@ -796,7 +798,50 @@ textarea{
     color: red;
     cursor: pointer;
 }
-
+/* history */
+.profilestdhistory{
+    margin-top: 1rem;
+    background-color: var(--lighgreen-color);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-border-radius);
+}
+.profilestdhistory h4{
+    text-decoration: underline;
+}
+.profilestdhistory .allstdhistory{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0.5rem 3rem 0.5rem 3rem;
+}
+.profilestdhistory .allstdhistory .stdhistory{
+    width: calc(50% - 1rem);
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    display: flex;
+    box-sizing: border-box;
+}
+.profilestdhistory .allstdhistory .stdhistory .left-card img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.profilestdhistory .allstdhistory .stdhistory .center-card{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+}
+.profilestdhistory .allstdhistory .stdhistory .center-card .nametutor{
+    font-weight: bold;
+}
+.profilestdhistory .allstdhistory .stdhistory .center-card .subject{
+    display: flex;
+}
+.profilestdhistory .allstdhistory .stdhistory .center-card .subject i{
+    margin-right: 10px;
+    margin-top: 5px;
+}
 /* settings */
 .middle .settings{
     background: var(--white-color);
@@ -1613,6 +1658,9 @@ nav .search-barpage{
 }
 .joinrequest-info .info{
     margin-top: 0.5rem;
+}
+.joinrequest-info .info a{
+    color: var(--black-color);
 }
 .joinrequest-allbtn{
     display: flex;
