@@ -205,11 +205,13 @@ exports.insertJoin = async (req, res) => {
 exports.getMyJoin = async (req, res) => {
   const user_id = req.session.user.user_id;
   const query = `
-      SELECT posts.* 
+      SELECT posts.* ,tutors.*
       FROM joins
       INNER JOIN students ON joins.student_id = students.student_id
       INNER JOIN posts ON joins.post_id = posts.post_id
       INNER JOIN users ON students.user_id = users.user_id
+      INNER JOIN tutors ON tutors.user_id = posts.user_id
+
       WHERE users.user_id = ?
   `;
   db.query(query, [user_id], (err, results) => {

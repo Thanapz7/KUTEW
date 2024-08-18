@@ -65,7 +65,8 @@
 
                 const formattedDate = new Date(post.date).toISOString().split('T')[0];
 
-               
+              // // Check if profilePic exists, if not use the default image
+              //   const profilePic = post.profilePic ? post.profilePic : './img/racc.jfif';
                 
                 postElement.innerHTML = 
                 `
@@ -73,16 +74,17 @@
                   <img src="${post.profilePic}" class="profile-mypost">
                 </div>
                 <div class="center-card">
+                  <div class="name">
+                    <i class="fa-solid fa-user"></i>
+                    <p class="head">Tutor Name :</p>
+                    <p>${post.name}</p>
+                  </div>
                   <div class="date">
                     <i class="fa-solid fa-clock"></i>
                     <p class="head">Date :</p>
                     <p>${formattedDate}</p>
                   </div>
-                  <div class="subject">
-                    <i class="fa-solid fa-book"></i>
-                    <p class="head">Tag :</p>
-                    <p>${post.tag}</p>
-                  </div>
+                  
                   <div class="details">
                     <i class="fa-solid fa-newspaper"></i>
                     <p class="head">Details :</p>
@@ -98,11 +100,6 @@
                   <button class="request-post" data-post-id="${post.join_id}"><p class="head">Join Requested</p></button>
                 </div>
               `;
-                // `
-                //     <h2>${post.title}</h2>
-                //     <p>${post.content}</p>
-                //     <p><strong>Date:</strong> ${new Date(post.date).toLocaleDateString()}</p>
-                // `;
 
                 container.appendChild(postElement);
             });
