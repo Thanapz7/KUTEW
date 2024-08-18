@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <img src="${post.tutor_profilePic}" alt="Profile Photo" />
                             </div>
                             <div class="info">
-                                <h3>${post.tutor_name}</h3>
+                                <h3><a href="/profilepage?tutor_id=${post.user_id}" class="tutor-link">${post.tutor_name}</a></h3>
                                 <small>${formattedDate}</small>
                             </div>
                         </div>
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span>${post.request}</span>
                         </div>
                         <span class="join">
-                            <button class="btn btn-primary">JOIN</button>
+                            <button class="btn btn-primary join-btn">JOIN</button>
                         </span>
                         </div>
                     <div class="caption">
@@ -49,6 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <i class="fa-solid fa-map-pin"><p>Lacation:<p class="p-font">${post.location}</p> </p></i>
                     </div>
                 `;
+
+                const joinButton = postElement.querySelector('.join-btn');
+                joinButton.addEventListener('click', () => {
+                    window.location.href = `/joinclass?post_id=${post.post_id}`;
+                });
 
                 feedsContainer.appendChild(postElement);
             });
