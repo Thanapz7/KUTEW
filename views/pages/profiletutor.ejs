@@ -228,8 +228,8 @@
                     const SiderData = await sidebarres.json();
         
                     // เส้นทางรูปภาพที่ได้จากฐานข้อมูล (หากมี)
-                    const profilePicPath = userData[0].profilePic ? `/${userData[0].profilePic}` : './img/boy.png';
-                    const sidebarProfilePicPath = SiderData.profilePic ? `/${SiderData.profilePic}` : './img/boy.png';
+                    const sidebarProfilePicPath = userData[0].profilePic ? `/${userData[0].profilePic}` : './img/boy.png';
+                    const profilePicPath = SiderData.profilePic ? `/${SiderData.profilePic}` : './img/boy.png';
         
                     // กำหนดค่าให้กับ element ต่าง ๆ ในหน้า
                     document.getElementById('user-name').textContent = SiderData.name; // sidebar
