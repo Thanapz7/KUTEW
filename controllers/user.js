@@ -104,3 +104,25 @@ exports.TutorgetUser = async (req, res) => {
         }
     });
 };
+
+exports.getTutordata = async (req, res) => {
+    const { id } = req.params; // ดึงค่า id จาก req.params
+    const query = `
+    SELECT * 
+    FROM users u
+    JOIN tutors t ON t.user_id = u.user_id 
+    WHERE u.user_id = ?;
+    `;
+    
+    db.query(query, [id], (err, results) => {
+        if (err) {
+            console.error('Error fetching user data:', err);
+            res.status(500).json({ error: 'Failed to fetch user data' });
+            return;
+        }
+
+        // ส่งผลลัพธ์กลับไปยัง client
+        res.json(results);
+    });
+};
+

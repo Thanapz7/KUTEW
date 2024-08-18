@@ -6,7 +6,8 @@ const {
     getAllStudents,
     getAllUsers,
     StudentgetUser,
-    TutorgetUser
+    TutorgetUser,
+    getTutordata
     
 
   } =require("../controllers/user");
@@ -15,6 +16,7 @@ const {
   router.get("/u", getAllUsers);
   router.get("/su/:id", StudentgetUser);
   router.get("/tu/:id", TutorgetUser);
+  router.get("/tdata/:id", getTutordata);
   
   
   

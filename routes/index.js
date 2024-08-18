@@ -68,5 +68,11 @@ router.get('/demonoti', (req, res) => {
   res.render('pages/demonoti.ejs',{ userId, pageTitle: 'Notifications' });
 });
 
+router.get('/profile/:id', (req, res) => {
+  // ดึงค่า userId จาก session ที่เก็บไว้
+  const userId = req.params.id;
+  res.render('pages/profile.ejs', { userId: userId });
+});
+
 
 module.exports = router;

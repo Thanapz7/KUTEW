@@ -51,7 +51,7 @@ document.querySelector('.create-post').addEventListener('submit', function(event
                             <img src="${profilePic}" alt="Tutor Profile Picture">
                         </div>
                         <div class="info">
-                            <h3>${course.tutor_name}</h3>
+                            <h3><a href="/profile/${course.user_id}" class="tutor-link">${course.tutor_name}</a></h3>
                             <small>${formattedDate}</small>
                         </div>
                     </div>
