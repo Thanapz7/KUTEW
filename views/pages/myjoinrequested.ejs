@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/css/home.css" />
+    <title>My post</title>
+  </head>
+  <body>
+    <!-- navbar -->
+    <%- include('../includes/navbar.ejs') %>
+
+    <!-- main -->
+    <main>
+      <div class="container">
+        <!-- left -->
+        <%- include('../includes/sidebar.ejs') %>
+        <!-- middle -->
+        <div class="middle">
+          <div class="myjoin" id="joinContainer">
+            
+            <!-- join requested will be loaded here -->
+          </div>
+        </div>
+        <!-- right -->
+        <%- include('../includes/rightbar.ejs') %>
+      </div>
+    </main>
+
+    <script>
+      async function fetchJoinedPosts() {
+            try {
+                const response = await fetch('/join/my/${user_id}');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch posts');
+                }
+                const result = await response.json();
+
+                // Check if data exists
+                if (result.data && result.data.length > 0) {
+                    displayPosts(result.data);
+                } else {
+                    document.getElementById('joinContainer').innerText = 'No joined posts found.';
+                }
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+                document.getElementById('joinContainer').innerText = 'Error fetching join requested.';
+            }
+        }
+
+        function displayPosts(posts) {
+            const container = document.getElementById('joinContainer');
+            container.innerHTML = ''; // Clear existing content
+
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('card-eachjoin');
+
+                const formattedDate = new Date(post.date).toISOString().split('T')[0];
+
+               
+                
+                postElement.innerHTML = 
+                `
+                <div class="left-card">
+                  <img src="${post.profilePic}" class="profile-mypost">
+                </div>
+                <div class="center-card">
+                  <div class="date">
+                    <i class="fa-solid fa-clock"></i>
+                    <p class="head">Date :</p>
+                    <p>${formattedDate}</p>
+                  </div>
+                  <div class="subject">
+                    <i class="fa-solid fa-book"></i>
+                    <p class="head">Tag :</p>
+                    <p>${post.tag}</p>
+                  </div>
+                  <div class="details">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <p class="head">Details :</p>
+                    <p>${post.details}</p>
+                  </div>
+                  <div class="location">
+                    <i class="fa-solid fa-map-pin"></i>
+                    <p class="head">Location :</p>
+                    <p>${post.location}</p>
+                  </div>
+                </div>
+                <div class="right-card">
+                  <button class="request-post" data-post-id="${post.join_id}"><p class="head">Join Requested</p></button>
+                </div>
+              `;
+                // `
+                //     <h2>${post.title}</h2>
+                //     <p>${post.content}</p>
+                //     <p><strong>Date:</strong> ${new Date(post.date).toLocaleDateString()}</p>
+                // `;
+
+                container.appendChild(postElement);
+            });
+        }
+
+        // Fetch and display posts when the page loads
+        fetchJoinedPosts();
+    </script>
+  </body>
+</html>

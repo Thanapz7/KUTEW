@@ -20,6 +20,9 @@
         <a class="menu-item" id="mypost" href="/mypost">
             <span><i class="fa-solid fa-newspaper"></i></span><h3>Post</h3>
         </a>
+        <a class="menu-item" id="myjoin" href="/myjoin">
+            <span><i class="fa-solid fa-newspaper"></i></span><h3>Join request</h3>
+        </a>
         <a class="menu-item" id="chat-notifications">
             <span><i class="fa-solid fa-comments"></i></i></span><h3>Chat</h3>
         </a>
@@ -44,6 +47,13 @@
 
             // เพิ่มการตรวจสอบ URL ของรูปภาพ
             console.log('Profile Pic URL:', userData.profilePic);
+
+            // ตรวจสอบ role และซ่อนแถบตามเงื่อนไข
+            if (userData.role === 'student') {
+                document.getElementById('mypost').style.display = 'none';
+            } else if (userData.role === 'tutor') {
+                document.getElementById('myjoin').style.display = 'none';
+            }
 
         } catch (error) {
             console.error('Error fetching user data:', error);

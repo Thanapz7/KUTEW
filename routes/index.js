@@ -74,5 +74,10 @@ router.get('/profile/:id', (req, res) => {
   res.render('pages/profile.ejs', { userId: userId });
 });
 
-
+router.get('/payment', (req, res) => {
+  res.render('pages/payment.ejs',{ pageTitle: 'Payment' });
+});
+router.get('/myjoin', (req, res) => {
+  res.render('pages/myjoinrequested.ejs',{ pageTitle: 'My Join Requested' });
+});
 module.exports = router;

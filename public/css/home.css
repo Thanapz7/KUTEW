@@ -1060,7 +1060,118 @@ textarea{
 .group-btn .cancel-logout-btn:hover{
     background-color: var(--lighgreen-color);
 }
+/* my join requested */
+.myjoin{
+    background: var(--lighgreen-color);
+    height: 90vh;
+    padding: 1.5rem;
+    border-radius: var(--card-border-radius);
+    overflow-y: auto;
+}
+.card-eachjoin{
+    background: var(--white-color);
+    border-radius: var(--card-border-radius);
+    padding: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.card-eachjoin .left-card,
+.card-eachjoin .center-card,
+.card-eachjoin .right-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.card-eachjoin .left-card{
+    align-items: center;
+}
+.card-eachjoin .left-card .profile-mypost{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.card-eachjoin .center-card{
+    flex: 1;
+    margin: 0 20px;
+}
+.card-eachjoin .center-card .nametutor{
+    font-size: 18px;
+}
+.card-eachjoin .center-card p{
+    margin: 5px 0;
+}
+.card-eachjoin .center-card .subject,
+.card-eachjoin .center-card .location,
+.card-eachjoin .center-card .date,
+.card-eachjoin .center-card .details,
+.card-eachjoin .center-card p{
+    display: flex;
+    align-items: center;
+}
+.card-eachjoin .center-card .subject .head,
+.card-eachjoin .center-card .location .head,
+.card-eachjoin .center-card .date .head,
+.card-eachjoin .center-card .details .head{
+    font-weight: bold;
+    margin-left: 0.2rem;
+}
+.card-eachjoin .center-card .subject p,
+.card-eachjoin .center-card .location p,
+.card-eachjoin .center-card .date p,
+.card-eachjoin .center-card .details p{
+    margin-left: 0.4rem;
+}
 
+.card-eachjoin .center-card .subject i,
+.card-eachjoin .center-card .location i,
+.card-eachjoin .center-card .date i,
+.card-eachjoin .center-card .datails i{
+    margin-right: 0.3rem;
+}
+.card-eachjoin .right-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+    height: auto;
+}
+.card-eachjoin .right-card p{
+    margin: 0;
+    margin: 2rem;
+    font-weight: bold;
+}
+.card-eachjoin .right-card button.request-post{
+    width: 8rem;
+    height: 5rem;
+    background-color: var(--green-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    margin: 1rem;
+}
+.card-eachjoin .right-card button.request-post:hover{
+    opacity: 0.8;
+}
+.card-eachjoin .right-card span{
+    font-weight: normal;
+}
+.card-eachjoin .right-card i{
+    font-size: 20px;
+    cursor: pointer;
+}
+.card-eachjoin .right-card i.setting-post{
+    margin-bottom: auto;
+    color: #888;
+}
+.card-eachjoin .right-card i.delete-post{
+    margin-top: auto;
+    color: red;
+}
 /* my posts */
 .myposts{
     background: var(--lighgreen-color);
@@ -1173,6 +1284,8 @@ textarea{
     margin-top: auto;
     color: red;
 }
+
+
    /* delete my post */
 .modal-deletepost{
     display: none;
