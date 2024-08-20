@@ -137,7 +137,7 @@
           joinButton.disabled = true;
           joinButton.classList.add('joined');
 
-          //notification
+          //notification ส่งให้นักเรียนเอง
           // ส่งข้อมูล post_id และ user_id ไปที่ API /notifications
           const userId = '<%= userId %>';
           const name = await fetch(`/post/${postId}`, {
@@ -148,7 +148,7 @@
           });
           const postData = await name.json(); 
           const tutorName = postData[0].tutor_name; 
-          const notificationResponse = await fetch('/notifications', {
+          const NotiStudentResponse = await fetch('/notifications', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -159,11 +159,36 @@
               message: `คุณได้เข้ารวมPostของ Tutor: ${tutorName} นี้แล้วนะ`
             })
           });
-
-          if (notificationResponse.ok) {
-            console.log('Notification sent successfully');
+          if (NotiStudentResponse.ok) {
+            console.log(' Student Notification sent successfully');
           } else {
-            console.error('Failed to send notification');
+            console.error('Failed to send student notification');
+          } 
+          const postdetails = postData[0].details;
+          const postuserid = postData[0].user_id; 
+          // Fetch tutor name
+          const studentResponse= await fetch(`/user/sdata/${userId}`, { method: 'GET' });
+          const studentdata = await studentResponse.json();
+          const studentname = studentdata[0].name;
+          console.log(studentdata);
+          console.log(studentname);
+
+
+          const NotiTutorResponse = await fetch('/notifications', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              post_id: postId,
+              user_id: postuserid,
+              message: `Student: ${studentname} ได้ส่งคำขอมายัง Post: ${postdetails} ของคุณ`
+            })
+          });
+          if (NotiTutorResponse.ok) {
+            console.log('Tutor Notification sent successfully');
+          } else {
+            console.error('Failed to send Tutor notification');
           }
 
         } else {

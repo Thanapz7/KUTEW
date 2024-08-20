@@ -89,7 +89,8 @@
                     try {
                         // Accept the join request
                         await fetch(`/join/a/${requestId}`, { method: 'PUT' });
-            
+
+                        //notification
                         // Fetch user ID from the join request
                         const userjoinResponse = await fetch(`/join/user/${requestId}`, { method: 'GET' });
                         const userjoinData = await userjoinResponse.json();
@@ -128,6 +129,30 @@
                   const requestId = event.target.getAttribute('data-join-id');
                   try {
                     await fetch(`/join/d/${requestId}`, { method: 'PUT' });
+
+                    //notification
+                    // Fetch user ID from the join request
+                    const userjoinResponse = await fetch(`/join/user/${requestId}`, { method: 'GET' });
+                    const userjoinData = await userjoinResponse.json();
+                    const userjoin = userjoinData.user_id;
+        
+                    // Fetch tutor name
+                    const tutorNameResponse = await fetch(`/join/tutor/${requestId}`, { method: 'GET' });
+                    const tutorNameData = await tutorNameResponse.json();
+                    const tutor_name = tutorNameData.tutor_name;
+        
+                    // Send notification
+                    await fetch('/notifications', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: `Tutor: ${tutor_name} ได้ปฎิเสธคุณแล้ว`,
+                            user_id: userjoin,
+                            join_id: requestId
+                        })
+                    });
                     event.target.closest('.joinrequest-allinfo').remove();
                   } catch (error) {
                     console.error('Error denying request:', error);

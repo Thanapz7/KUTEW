@@ -87,7 +87,7 @@ exports.getAllPost = async (req, res) => {
 exports.getPostById = (req, res) => {
     const { id } = req.params;
     const query = `
-        SELECT posts.*, tutors.name AS tutor_name, tutors.profilePic 
+        SELECT posts.*, tutors.name AS tutor_name, tutors.profilePic ,tutors.tutor_id
         FROM posts 
         JOIN tutors ON posts.user_id = tutors.user_id
         WHERE post_id = ?

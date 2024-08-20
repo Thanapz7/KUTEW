@@ -67,10 +67,10 @@ router.get('/joinrequest/:id', (req, res) => {
   res.render('pages/joinrequest.ejs',{ userId: userId , pageTitle: 'Join Class' });
 });
 
-router.get('/demonoti', (req, res) => {
+router.get('/notifications', (req, res) => {
   // ดึงค่า userId จาก session ที่เก็บไว้
   const userId = req.session.user.user_id;
-  res.render('pages/demonoti.ejs',{ userId, pageTitle: 'Notifications' });
+  res.render('pages/notifications.ejs',{ userId, pageTitle: 'Notifications' });
 });
 
 router.get('/profiletutor/:id', (req, res) => {

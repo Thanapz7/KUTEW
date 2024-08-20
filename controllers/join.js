@@ -361,7 +361,7 @@ exports.getUserIdByJoinId = async (req, res) => {
 exports.getTutorByJoinId = async (req, res) => {
   const join_id  = req.params.id;
   const query = `
-  SELECT t.name 
+  SELECT t.name ,t.tutor_id
   FROM joins j
   LEFT JOIN tutors t ON j.tutor_id = t.tutor_id
   WHERE j.join_id = ?;
