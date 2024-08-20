@@ -261,6 +261,28 @@ main .container .left .profile{
     border-radius: var(--card-border-radius);
     overflow-y: auto;
 }
+.middle .middle-notis h1{
+    color: white;
+}
+.middle .middle-notis .notification-container{
+    padding: var(--card-padding);
+    margin-top: 0.5rem;
+}
+.middle .middle-notis .notification{
+    background-color: var(--white-color);
+    padding: 0.5rem;
+    border-radius: var(--card-border-radius);
+    margin-bottom: 0.4rem;
+}
+.middle .middle-notis .notification p{
+    padding-top: 0.3rem;
+    font-size: 18px;
+    font-weight: 500;
+}
+.middle .middle-notis .notification small{
+    color: gray;
+    font-style: italic;
+}
 /* create post */
 .middle .create-post{
     width: 100%;
