@@ -1743,6 +1743,7 @@ nav .search-barpage{
     max-width: 300px;
     height: auto;
     border: #888 solid 1px;
+    border-radius: 7px;
 }
 .middle-payment .feed-payment .form-payment{
     display: flex;

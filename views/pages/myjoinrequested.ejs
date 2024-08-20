@@ -25,7 +25,6 @@
         <!-- middle -->
         <div class="middle">
           <div class="myjoin" id="joinContainer">
-            
             <!-- join requested will be loaded here -->
           </div>
         </div>
@@ -36,40 +35,41 @@
 
     <script>
       async function fetchJoinedPosts() {
-            try {
-                const response = await fetch('/join/my/${user_id}');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch posts');
-                }
-                const result = await response.json();
+        try {
+          const response = await fetch("/join/my/${user_id}");
+          if (!response.ok) {
+            throw new Error("Failed to fetch posts");
+          }
+          const result = await response.json();
 
-                // Check if data exists
-                if (result.data && result.data.length > 0) {
-                    displayPosts(result.data);
-                } else {
-                    document.getElementById('joinContainer').innerText = 'No joined posts found.';
-                }
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-                document.getElementById('joinContainer').innerText = 'Error fetching join requested.';
-            }
+          // Check if data exists
+          if (result.data && result.data.length > 0) {
+            displayPosts(result.data);
+          } else {
+            document.getElementById("joinContainer").innerText =
+              "No joined posts found.";
+          }
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+          document.getElementById("joinContainer").innerText =
+            "Error fetching join requested.";
         }
+      }
 
-        function displayPosts(posts) {
-            const container = document.getElementById('joinContainer');
-            container.innerHTML = ''; // Clear existing content
+      function displayPosts(posts) {
+        const container = document.getElementById("joinContainer");
+        container.innerHTML = ""; // Clear existing content
 
-            posts.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.classList.add('card-eachjoin');
+        posts.forEach((post) => {
+          const postElement = document.createElement("div");
+          postElement.classList.add("card-eachjoin");
 
-                const formattedDate = new Date(post.date).toISOString().split('T')[0];
+          const formattedDate = new Date(post.date).toISOString().split("T")[0];
 
-              // // Check if profilePic exists, if not use the default image
-              //   const profilePic = post.profilePic ? post.profilePic : './img/racc.jfif';
-                
-                postElement.innerHTML = 
-                `
+          // // Check if profilePic exists, if not use the default image
+          //   const profilePic = post.profilePic ? post.profilePic : './img/racc.jfif';
+
+          postElement.innerHTML = `
                 <div class="left-card">
                   <img src="${post.profilePic}" class="profile-mypost">
                 </div>
@@ -97,16 +97,24 @@
                   </div>
                 </div>
                 <div class="right-card">
-                  <button class="request-post" data-post-id="${post.join_id}"><p class="head">Join Requested</p></button>
+                  <button class="request-post" data-post-id="${post.post_id}"><p class="head">Join Requested</p></button>
                 </div>
               `;
 
-                container.appendChild(postElement);
-            });
-        }
-
-        // Fetch and display posts when the page loads
-        fetchJoinedPosts();
+          container.appendChild(postElement);
+        });
+        // เพิ่ม Event เมื่อกดปุ่ม joinrequested
+        document.querySelectorAll(".request-post").forEach((button) => {
+          button.addEventListener("click", () => {
+            const postId = button.getAttribute("data-post-id");
+            if (postId) {
+              window.location.href = `/payment?post_id=${postId}`;
+            }
+          });
+        });
+      }
+      // Fetch and display posts when the page loads
+      fetchJoinedPosts();
     </script>
   </body>
 </html>

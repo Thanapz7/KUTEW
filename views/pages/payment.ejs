@@ -22,11 +22,12 @@
         <!-- left -->
         <%- include('../includes/sidebar.ejs')%>
         <!-- middle -->
+       <div class="middle">
         <div class="middle-payment">
           <!-- feed -->
           <div class="feeds">
-            <div class="qrcode-image">
-              <img src="https://cdn.pixabay.com/photo/2016/10/16/07/29/the-eiffel-tower-1744574_640.jpg" alt="" />
+            <div class="qrcode-image" id="qrcode-image">
+              
             </div>
             <div class="feed-payment">
               <div class="form-payment">
@@ -34,10 +35,10 @@
                     <label for="file-upload">สลิปโอนเงิน :</label>
                     <input type="file" id="file-upload"/>
                 </div>
-                <div class="coupong">
+                <!-- <div class="coupong">
                     <label for="coupong">ใส่คูปอง :</label>
                 <input type="text" id="coupong"/>
-                </div>
+                </div> -->
               </div>
               <div class="payment-submit">
                 <button type="submit" class="btn-payment">ไปที่แชท</button>
@@ -45,11 +46,82 @@
             </div>
           </div>
         </div>
+      </div>
         <!-- right -->
         <%- include('../includes/rightbar.ejs')%>
       </div>
     </main>
 
-    <script src="javascript/home.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('post_id');
+
+    if (postId) {
+      try {
+        // ดึงข้อมูลโพสต์
+        const response = await fetch(`/post/${postId}`);
+        const postDataArray = await response.json();
+
+        if (postDataArray.length > 0) {
+          const postData = postDataArray[0];
+          // ดึงข้อมูลรูปภาพ
+          const feedsContainer = document.getElementById('qrcode-image');
+                        const feed = document.createElement('div');
+                        feed.classList.add('feed-item');
+                        
+                        const QRcode = postData.QRcode ? postData.QRcode : './img/qrcode.jpg';
+
+                        feed.innerHTML = `
+                            <div class="">
+                                <img src="./img/qrcode.jpg" alt="QR Code">
+                            </div>
+                        `;
+                        feedsContainer.appendChild(feed);
+        }else {
+        console.error('QR Code data not found');  // แจ้งเตือนหากไม่มีฟิลด์ QRcode
+      }
+    } catch (error) {
+      console.error('Error fetching post:', error);  // แสดงข้อความผิดพลาดในกรณีที่ดึงข้อมูลไม่สำเร็จ
+    }
+  } else {
+    console.error('No post ID found in the URL');
+  }
+});
+// document.addEventListener('DOMContentLoaded', async () => {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const postId = urlParams.get('post_id');
+
+//     if (postId) {
+//      try {
+//         const response = await fetch(`/post/${postId}`);
+//         const data = await response.json();
+        
+//         console.log('Data fetched from API:', data); // แสดงข้อมูลที่ได้จาก API
+
+//         const feedsContainer = document.getElementById('qrcode-image');
+      
+//       if (data && data.length > 0 && data[0].QRcode) {  // ตรวจสอบว่าอาร์เรย์มีข้อมูลและมีฟิลด์ QRcode
+//         const postDiv = document.createElement('div');
+//         postDiv.classList.add('feed-item');
+        
+//         const postImage = document.createElement('img');
+//         postImage.src = data[0].QRcode; // เข้าถึงฟิลด์ QRcode จากออบเจ็กต์ในอาร์เรย์
+//         postImage.alt = 'QR Code';
+        
+//         postDiv.appendChild(postImage);
+//         feedsContainer.appendChild(postDiv);
+//       } else {
+//         console.error('QR Code data not found');  // แจ้งเตือนหากไม่มีฟิลด์ QRcode
+//       }
+//     } catch (error) {
+//       console.error('Error fetching post:', error);  // แสดงข้อความผิดพลาดในกรณีที่ดึงข้อมูลไม่สำเร็จ
+//     }
+//   } else {
+//     console.error('No post ID found in the URL');
+//   }
+// });
+    </script>
+    </script>
   </body>
 </html>
