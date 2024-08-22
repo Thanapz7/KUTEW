@@ -1147,7 +1147,8 @@ textarea{
 }
 .card-eachjoin .left-card,
 .card-eachjoin .center-card,
-.card-eachjoin .right-card{
+.card-eachjoin .right-card,
+.card-eachjoin .status{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1237,14 +1238,29 @@ textarea{
     font-size: 20px;
     cursor: pointer;
 }
-.card-eachjoin .right-card i.setting-post{
-    margin-bottom: auto;
-    color: #888;
+.card-eachjoin .status{
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
 }
-.card-eachjoin .right-card i.delete-post{
-    margin-top: auto;
+
+.status.accept {
+    color: green;
+}
+
+.status.pending {
+    color: rgb(224, 224, 4);
+}
+
+.status.deny {
     color: red;
 }
+.card-eachjoin .right-card .request-post[disabled] {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+  }
 /* my posts */
 .myposts{
     background: var(--lighgreen-color);

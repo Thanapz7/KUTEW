@@ -205,7 +205,7 @@ exports.insertJoin = async (req, res) => {
 exports.getMyJoin = async (req, res) => {
   const user_id = req.session.user.user_id;
   const query = `
-      SELECT posts.* ,tutors.*
+      SELECT posts.* ,tutors.* ,joins.*
       FROM joins
       INNER JOIN students ON joins.student_id = students.student_id
       INNER JOIN posts ON joins.post_id = posts.post_id

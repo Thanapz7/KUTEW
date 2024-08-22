@@ -66,8 +66,22 @@
 
           const formattedDate = new Date(post.date).toISOString().split("T")[0];
 
-          // // Check if profilePic exists, if not use the default image
-          //   const profilePic = post.profilePic ? post.profilePic : './img/racc.jfif';
+          // กำหนดสีและข้อความตามสถานะที่ได้จากฐานข้อมูล
+          let statusClass = "";
+          let statusText = "";
+          let buttonDisabled = true;
+
+          if (post.join_status === "Accept") {
+            statusClass = "accept";
+            statusText = "Accept";
+            buttonDisabled = false; 
+          } else if (post.join_status === "pending") {
+            statusClass = "pending";
+            statusText = "Pending";
+          } else if (post.join_status === "Deny") {
+            statusClass = "deny";
+            statusText = "Deny";
+          }
 
           postElement.innerHTML = `
                 <div class="left-card">
@@ -96,23 +110,27 @@
                     <p>${post.location}</p>
                   </div>
                 </div>
+                <div class="status ${statusClass}" id="statusBar">
+                  <p>${statusText}</p>
+                </div>
                 <div class="right-card">
-                  <button class="request-post" data-post-id="${post.post_id}"><p class="head">Join Requested</p></button>
+                    <button class="request-post" data-post-id="${post.post_id}" ${buttonDisabled ? 'disabled' : ''}><p class="head">Payment</p></button>
                 </div>
               `;
-
           container.appendChild(postElement);
         });
-        // เพิ่ม Event เมื่อกดปุ่ม joinrequested
-        document.querySelectorAll(".request-post").forEach((button) => {
-          button.addEventListener("click", () => {
-            const postId = button.getAttribute("data-post-id");
-            if (postId) {
-              window.location.href = `/payment?post_id=${postId}`;
-            }
-          });
+        // เพิ่ม Event เมื่อกดปุ่ม Payment
+      document.querySelectorAll(".request-post").forEach((button) => {
+        if (!button.disabled) { // เพิ่มเช็คว่าปุ่มถูกเปิดใช้งานหรือไม่
+        button.addEventListener("click", () => {
+        const postId = button.getAttribute("data-post-id");
+          if (postId) {
+            window.location.href = `/payment?post_id=${postId}`;
+          }
         });
-      }
+        }
+      });
+    }
       // Fetch and display posts when the page loads
       fetchJoinedPosts();
     </script>

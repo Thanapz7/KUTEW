@@ -88,39 +88,6 @@
     console.error('No post ID found in the URL');
   }
 });
-// document.addEventListener('DOMContentLoaded', async () => {
-//     const urlParams = new URLSearchParams(window.location.search);
-//     const postId = urlParams.get('post_id');
-
-//     if (postId) {
-//      try {
-//         const response = await fetch(`/post/${postId}`);
-//         const data = await response.json();
-        
-//         console.log('Data fetched from API:', data); // แสดงข้อมูลที่ได้จาก API
-
-//         const feedsContainer = document.getElementById('qrcode-image');
-      
-//       if (data && data.length > 0 && data[0].QRcode) {  // ตรวจสอบว่าอาร์เรย์มีข้อมูลและมีฟิลด์ QRcode
-//         const postDiv = document.createElement('div');
-//         postDiv.classList.add('feed-item');
-        
-//         const postImage = document.createElement('img');
-//         postImage.src = data[0].QRcode; // เข้าถึงฟิลด์ QRcode จากออบเจ็กต์ในอาร์เรย์
-//         postImage.alt = 'QR Code';
-        
-//         postDiv.appendChild(postImage);
-//         feedsContainer.appendChild(postDiv);
-//       } else {
-//         console.error('QR Code data not found');  // แจ้งเตือนหากไม่มีฟิลด์ QRcode
-//       }
-//     } catch (error) {
-//       console.error('Error fetching post:', error);  // แสดงข้อความผิดพลาดในกรณีที่ดึงข้อมูลไม่สำเร็จ
-//     }
-//   } else {
-//     console.error('No post ID found in the URL');
-//   }
-// });
     </script>
     </script>
   </body>
