@@ -1,94 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="/css/home.css" />
-    <title>Home Page</title>
-  </head>
-  <body>
-    <%- include('../includes/navbar.ejs')%>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="/css/home.css" />
+  <title>Home Page</title>
+</head>
+
+<body>
+  <%- include('../includes/navbar.ejs')%>
 
     <!-- main -->
     <main>
       <div class="container">
         <!-- left -->
         <%- include('../includes/sidebar.ejs')%>
-        <!-- middle -->
-       <div class="middle">
-        <div class="middle-payment">
-          <!-- feed -->
-          <div class="feeds">
-            <div class="qrcode-image" id="qrcode-image">
-              
-            </div>
-            <div class="feed-payment">
-              <div class="form-payment">
-                <div class="slip-payment">
-                    <label for="file-upload">สลิปโอนเงิน :</label>
-                    <input type="file" id="file-upload"/>
+          <!-- middle -->
+          <div class="middle">
+            <div class="middle-payment">
+              <!-- feed -->
+              <div class="feeds">
+                <div class="qrcode-image" id="qrcode-image">
+                  <!-- Placeholder for QR code -->
                 </div>
-                <!-- <div class="coupong">
-                    <label for="coupong">ใส่คูปอง :</label>
-                <input type="text" id="coupong"/>
-                </div> -->
-              </div>
-              <div class="payment-submit">
-                <button type="submit" class="btn-payment">ไปที่แชท</button>
+                <div class="feed-payment">
+                  <form id="paymentForm" enctype="multipart/form-data">
+                    <!-- เพิ่มฟิลด์ hidden เพื่อเก็บ post_id -->
+                    <input type="hidden" id="post_id" name="post_id" value="<%= post_id %>" />
+
+                    <div class="form-payment">
+                      <div class="slip-payment">
+                        <label for="file-upload">สลิปโอนเงิน :</label>
+                        <input type="file" id="file-upload" name="paymentPic" accept="image/*" required />
+                      </div>
+                    </div>
+                    <div class="payment-submit">
+                      <button type="submit" class="btn-payment">จ่ายตัง</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-        <!-- right -->
-        <%- include('../includes/rightbar.ejs')%>
+          <!-- right -->
+          <%- include('../includes/rightbar.ejs')%>
       </div>
     </main>
 
     <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('post_id');
+      document.addEventListener('DOMContentLoaded', async () => {
+        const postId = '<%= post_id %>'; // ดึง post_id จากค่า server-side
+        
+        if (postId) {
+          try {
+            // ดึงข้อมูลโพสต์
+            const response = await fetch(`/post/${postId}`);
+            const postDataArray = await response.json();
 
-    if (postId) {
-      try {
-        // ดึงข้อมูลโพสต์
-        const response = await fetch(`/post/${postId}`);
-        const postDataArray = await response.json();
+            if (postDataArray.length > 0) {
+              const postData = postDataArray[0];
+              // ดึงข้อมูลรูปภาพ
+              const feedsContainer = document.getElementById('qrcode-image');
+              const feed = document.createElement('div');
+              feed.classList.add('feed-item');
 
-        if (postDataArray.length > 0) {
-          const postData = postDataArray[0];
-          // ดึงข้อมูลรูปภาพ
-          const feedsContainer = document.getElementById('qrcode-image');
-                        const feed = document.createElement('div');
-                        feed.classList.add('feed-item');
-                        
-                        const QRcode = postData.QRcode ? postData.QRcode : './img/qrcode.jpg';
+              const QRcode = postData.QRcode ? postData.QRcode : './img/qrcode.jpg';
+              console.log(QRcode);
 
-                        feed.innerHTML = `
-                            <div class="">
-                                <img src="${QRcode}" alt="QR Code">
-                            </div>
-                        `;
-                        feedsContainer.appendChild(feed);
-        }else {
-        console.error('QR Code data not found');  // แจ้งเตือนหากไม่มีฟิลด์ QRcode
-      }
-    } catch (error) {
-      console.error('Error fetching post:', error);  // แสดงข้อความผิดพลาดในกรณีที่ดึงข้อมูลไม่สำเร็จ
-    }
-  } else {
-    console.error('No post ID found in the URL');
-  }
-});
+              feed.innerHTML = `
+                <div class="">
+                    <img src="/${QRcode}" alt="QR Code">
+                </div>
+              `;
+              feedsContainer.appendChild(feed);
+            } else {
+              console.error('QR Code data not found');  // แจ้งเตือนหากไม่มีฟิลด์ QRcode
+            }
+          } catch (error) {
+            console.error('Error fetching post:', error);  // แสดงข้อความผิดพลาดในกรณีที่ดึงข้อมูลไม่สำเร็จ
+          }
+        } else {
+          console.error('No post ID found in the URL');
+        }
+      });
+
+      // Handle form submission
+      document.getElementById('paymentForm').addEventListener('submit', function(event){
+        event.preventDefault();
+        
+        const formData = new FormData(this);
+        const postId = document.getElementById('post_id').value;  // ดึง post_id จากฟอร์ม
+
+        if (!postId) {
+          alert('Post ID is missing.');
+          return;
+        }
+    
+        fetch(`/join/pay/${postId}`, {  // ส่ง postId ผ่าน URL
+            method: 'PUT',
+            body: formData
+        })
+        .then(response => {
+            console.log('Received response:', response);
+            if (response.ok) {
+                alert('การส่งแบบฟอร์มสำเร็จ');
+                window.location.href = '/home'; 
+            } else {
+                console.error('การส่งล้มเหลว:', response);
+                throw new Error('Submission failed');
+            }
+        })
+        .catch(error => {
+            console.error('เกิดข้อผิดพลาด:', error);
+            alert('การส่งข้อมูลล้มเหลว: ' + error.message);
+        });
+    });
     </script>
-    </script>
-  </body>
+</body>
+
 </html>

@@ -85,8 +85,10 @@ router.get('/profilestd/:id', (req, res) => {
   res.render('pages/profilestd.ejs', { userId: userId });
 });
 
-router.get('/payment', (req, res) => {
-  res.render('pages/payment.ejs',{ pageTitle: 'Payment' });
+router.get('/payment/:id', (req, res) => {
+  const post_id = req.params.id;
+  const userId = req.session.user.user_id;
+  res.render('pages/payment.ejs',{ post_id, userId, pageTitle: 'Payment' });
 });
 
 router.get('/myjoin', (req, res) => {

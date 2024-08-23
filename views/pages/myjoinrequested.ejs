@@ -125,7 +125,7 @@
         button.addEventListener("click", () => {
         const postId = button.getAttribute("data-post-id");
           if (postId) {
-            window.location.href = `/payment?post_id=${postId}`;
+            window.location.href = `/payment/${postId}`;
           }
         });
         }
