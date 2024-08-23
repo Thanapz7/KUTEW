@@ -88,7 +88,13 @@ router.get('/profilestd/:id', (req, res) => {
 router.get('/payment', (req, res) => {
   res.render('pages/payment.ejs',{ pageTitle: 'Payment' });
 });
+
 router.get('/myjoin', (req, res) => {
   res.render('pages/myjoinrequested.ejs',{ pageTitle: 'My Join Requested' });
+});
+
+router.get('/chat', (req, res) => {
+  const userId = req.session.user.user_id;
+  res.render('pages/chat.ejs',{userId, pageTitle: 'Chat' });
 });
 module.exports = router;

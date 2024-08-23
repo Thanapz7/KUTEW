@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat App</title>
+  <link rel="stylesheet" href="/css/chat.css">
+</head>
+<body>
+  <div id="chat-container"> <!-- ส่วนหลักของแอปแชท -->
+    <div id="group-list"><!-- ส่วนสำหรับแสดงรายการกลุ่มแชท -->
+      <h3>เลือกห้องแชท</h3><a href="/login">logout</a>
+       <ul id="groupSelect"><!--</ul>รายการกลุ่มแชท -->
+    </div>
+     <div id="chat-section"><!--ส่วนสำหรับแสดงการแชท -->
+       <div id="chat-header">ชื่อห้องแชท</div> <!--หัวข้อที่จะแสดงชื่อห้องแชทปัจจุบัน -->
+       <ul id="messages"></ul> <!--รายการข้อความแชท -->
+       <form id="messageForm" enctype="multipart/form-data"> <!--ฟอร์มสำหรับส่งข้อความและไฟล์รูปภาพ -->
+        <input id="messageInput" autocomplete="off" placeholder="พิมพ์ข้อความของคุณ..." />
+        <input type="file" id="imageInput" accept="image/*" />
+        <button type="submit">ส่ง</button>
+      </form>
+      
+    </div>
+  </div>
+  <div id="notification-container"></div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // สร้างการเชื่อมต่อ Socket.IO
+    const socket = io();
+
+    // เรียกใช้ element ต่างๆ จาก HTML
+    const form = document.getElementById('messageForm');
+    const input = document.getElementById('messageInput');
+    const messages = document.getElementById('messages');
+    const groupSelect = document.getElementById('groupSelect');
+    const chatHeader = document.getElementById('chat-header');
+    const imageInput = document.getElementById('imageInput');
+
+    let currentGroup = null;
+    const userId = '<%= userId %>';
+    console.log(userId);
+
+    // ฟังก์ชันสำหรับเลื่อนหน้าจอไปด้านล่างสุดของการแชท
+    function scrollToBottom() {
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // ฟังก์ชันสำหรับส่งการแจ้งเตือนผ่านเบราว์เซอร์
+    function sendNotification(title, body) {
+      if (Notification.permission === 'granted') {
+        new Notification(title, { body });
+      }
+    }
+
+    // ขออนุญาตการแจ้งเตือนเมื่อโหลดหน้าเพจ
+    document.addEventListener('DOMContentLoaded', () => {
+      if (Notification.permission !== 'granted') {
+        Notification.requestPermission();
+      }
+    });
+
+    // ฟังก์ชันสำหรับแสดงการแจ้งเตือนในเว็บ
+    function showWebNotification(message) {
+      const notificationContainer = document.getElementById('notification-container');
+      const notification = document.createElement('div');
+      notification.className = 'web-notification';
+      notification.innerHTML = `
+        <div class="notification-content">
+          <span>${message}</span>
+          <button class="close-notification">&times;</button>
+        </div>
+      `;
+
+      notificationContainer.appendChild(notification);
+
+      // ลบการแจ้งเตือนเมื่อคลิกปุ่มปิด
+      notification.querySelector('.close-notification').addEventListener('click', () => {
+        notificationContainer.removeChild(notification);
+      });
+
+      // ลบการแจ้งเตือนหลังจาก 5 วินาที
+      setTimeout(() => {
+        if (notificationContainer.contains(notification)) {
+          notificationContainer.removeChild(notification);
+        }
+      }, 5000);
+    }
+
+    // ดึงข้อมูลกลุ่มแชทจากเซิร์ฟเวอร์และสร้างรายการกลุ่มแชทใน HTML
+    fetch('/chat/groups').then(res => {
+      if (res.status === 401) {
+        window.location.href = '/home';
+      } else {
+        return res.json();
+      }
+    }).then(groups => {
+      groups.forEach(group => {
+        const li = document.createElement('li');
+        li.textContent = group.name;
+        li.dataset.groupId = group.id;
+        groupSelect.appendChild(li);
+      });
+    });
+
+    // เปลี่ยนกลุ่มแชทที่เลือกเมื่อคลิกที่รายการกลุ่มแชท
+    groupSelect.addEventListener('click', (e) => {
+      if (e.target.tagName === 'LI') {
+        currentGroup = e.target.dataset.groupId;
+        chatHeader.textContent = e.target.textContent;
+        socket.emit('join group', currentGroup);
+        messages.innerHTML = ''; // ลบข้อความเก่าออก
+      }
+    });
+
+    // ส่งข้อความแชทและอัปโหลดไฟล์รูปภาพเมื่อส่งฟอร์ม
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (input.value && currentGroup) {
+          socket.emit('chat message', { groupId: currentGroup, userId, msg: input.value });
+          input.value = '';
+        }
+      
+      
+
+      // อัปโหลดไฟล์รูปภาพ
+      if (imageInput.files.length > 0 && currentGroup) {
+        const file = imageInput.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          socket.emit('file message', { groupId: currentGroup, userId, file: event.target.result, filename: file.name, filetype: file.type });
+          imageInput.value = ''; // ล้าง input หลังจากส่งไฟล์
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // ส่งข้อความแชทเมื่อกดปุ่ม Enter
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault(); // ป้องกันการขึ้นบรรทัดใหม่
+        if (input.value && currentGroup) {
+          socket.emit('chat message', { groupId: currentGroup, userId, msg: input.value });
+          input.value = '';
+        }
+      }
+    });
+
+    // โหลดข้อความแชทเมื่อเข้าร่วมกลุ่ม
+    socket.on('load messages', (loadedMessages) => {
+      loadedMessages.forEach(({ username, content, filetype }) => {
+        const item = document.createElement('li');
+        if (filetype && filetype.startsWith('image/')) {
+          item.className = 'image-message';
+          item.innerHTML = `<span class="message-header">${username}:</span> <img src="${content}" alt="Image">`;
+        } else {
+          item.innerHTML = `<span class="message-header">${username}:</span> <span class="message-content">${content}</span>`;
+        }
+        messages.appendChild(item);
+      });
+      scrollToBottom();
+    });    
+
+     // รับข้อความแชทใหม่
+     socket.on('chat message', ({ userId, username, msg }) => {
+        console.log('Received message:', msg); // เพิ่มการ debug
+      
+        const item = document.createElement('li');
+        item.innerHTML = `<span class="message-header">${username}:</span> <span class="message-content">${msg}</span>`;
+        messages.appendChild(item);
+        scrollToBottom(); // เลื่อนหน้าจอไปด้านล่างสุดเมื่อรับข้อความใหม่
+      
+        // แสดงการแจ้งเตือนในเว็บ
+        showWebNotification(`ข้อความใหม่จาก ${username}: ${msg}`);
+      
+        // ส่งการแจ้งเตือนหากหน้าจอไม่อยู่ในโฟกัส
+        if (document.hidden) {
+          sendNotification(`ข้อความใหม่จาก ${username}`, msg);
+        }
+      });
+      
+
+    // รับไฟล์ในแชท
+    socket.on('file message', ({ userId, username, file, filename, filetype }) => {
+      const item = document.createElement('li');
+      if (filetype.startsWith('image/')) {
+        item.className = 'image-message';
+        item.innerHTML = `<span class="message-header">${username}:</span> <img src="${file}" alt="Image">`;
+      } else {
+        item.innerHTML = `<span class="message-header">${username}:</span> <a href="${file}" download="${filename}">Download ${filename}</a>`;
+      }
+      messages.appendChild(item);
+      scrollToBottom(); // เลื่อนหน้าจอไปด้านล่างสุด
+
+      // แสดงการแจ้งเตือนในเว็บ
+      showWebNotification(`ไฟล์ใหม่จาก ${username}: ${filename}`);
+
+      // ส่งการแจ้งเตือนหากหน้าจอไม่อยู่ในโฟกัส
+      if (document.hidden) {
+        sendNotification(`ไฟล์ใหม่จาก ${username}`, filename);
+      }
+    });
+  </script>
+</body>
+</html>
