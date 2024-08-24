@@ -20,7 +20,7 @@
       <div class="middle">
         <div id="chat-container"> <!-- ส่วนหลักของแอปแชท -->
           <div id="group-list"><!-- ส่วนสำหรับแสดงรายการกลุ่มแชท -->
-            <h3>Select Group Chat</h3><a href="/login">logout</a>
+            <h3>Select Group Chat</h3>
              <ul id="groupSelect"><!--</ul>รายการกลุ่มแชท -->
           </div>
            <div id="chat-section"><!--ส่วนสำหรับแสดงการแชท -->
@@ -167,37 +167,27 @@
       }
     });
 
-    // โหลดข้อความแชทเมื่อเข้าร่วมกลุ่ม
-    socket.on('load messages', (loadedMessages) => {
-      loadedMessages.forEach(({ username, content, filetype }) => {
-        const item = document.createElement('li');
-        if (filetype && filetype.startsWith('image/')) {
-          item.className = 'image-message';
-          item.innerHTML = `<span class="message-header">${username}:</span> <img src="${content}" alt="Image">`;
-        } else {
-          item.innerHTML = `<span class="message-header">${username}:</span> <span class="message-content">${content}</span>`;
-        }
-        messages.appendChild(item);
+      // โหลดข้อความแชทเมื่อเข้าร่วมกลุ่ม
+      socket.on('load messages', (loadedMessages) => {
+        loadedMessages.forEach(({ username, content, filetype }) => {
+          const item = document.createElement('li');
+          if (filetype && filetype.startsWith('image/')) {
+            item.className = 'image-message';
+            item.innerHTML = `<span class="message-header">${username}:</span> <img src="${content}" alt="Image">`;
+          } else {
+            item.innerHTML = `<span class="message-header">${username}:</span> <span class="message-content">${content}</span>`;
+          }
+          messages.appendChild(item);
+        });
+        scrollToBottom(); // เลื่อนหน้าจอไปด้านล่างสุด
       });
-      scrollToBottom();
-    });    
 
-     // รับข้อความแชทใหม่
-     socket.on('chat message', ({ userId, username, msg }) => {
-        console.log('Received message:', msg); // เพิ่มการ debug
-      
+      // รับข้อความแชทใหม่
+      socket.on('chat message', ({ userId, username, msg }) => {
         const item = document.createElement('li');
         item.innerHTML = `<span class="message-header">${username}:</span> <span class="message-content">${msg}</span>`;
         messages.appendChild(item);
-        scrollToBottom(); // เลื่อนหน้าจอไปด้านล่างสุดเมื่อรับข้อความใหม่
-      
-        // แสดงการแจ้งเตือนในเว็บ
-        showWebNotification(`ข้อความใหม่จาก ${username}: ${msg}`);
-      
-        // ส่งการแจ้งเตือนหากหน้าจอไม่อยู่ในโฟกัส
-        if (document.hidden) {
-          sendNotification(`ข้อความใหม่จาก ${username}`, msg);
-        }
+        scrollToBottom(); // เลื่อนหน้าจอไปด้านล่างสุด
       });
       
 

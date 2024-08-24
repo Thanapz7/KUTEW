@@ -1,22 +1,34 @@
 module.exports = (io, socket, db) => {
   // Handle joining a chat group
-  socket.on('join group', (groupId) => {
+  socket.on('join group', (groupId,userId ) => {
     try {
       if (!groupId) {
         socket.emit('error', 'Invalid group ID');
         return;
       }
-
-      db.query('SELECT id FROM chat_groups WHERE id = ?', [groupId], (err, groupRows) => {
+      if (!userId) {
+        socket.emit('error', 'User not authenticated');
+        return;
+      }  
+  
+      // ตรวจสอบว่าผู้ใช้เป็นสมาชิกของกลุ่มหรือไม่
+      const query = `
+        SELECT cg.id 
+        FROM chat_groups cg
+        JOIN group_members gm ON cg.id = gm.group_id
+        WHERE cg.id = ? AND gm.user_id = ?
+      `;
+  
+      db.query(query, [groupId, userId], (err, groupRows) => {
         if (err) {
           console.error('Error joining group:', err);
           socket.emit('error', 'Error joining group');
           return;
         }
-
+  
         if (groupRows.length > 0) {
           socket.join(groupId);
-
+  
           const query = `
             SELECT m.*, u.username 
             FROM messages m
@@ -29,11 +41,11 @@ module.exports = (io, socket, db) => {
               socket.emit('error', 'Error loading messages');
               return;
             }
-
+  
             socket.emit('load messages', messages);
           });
         } else {
-          socket.emit('error', 'Invalid group ID');
+          socket.emit('error', 'You are not a member of this group');
         }
       });
     } catch (err) {
@@ -41,6 +53,8 @@ module.exports = (io, socket, db) => {
       socket.emit('error', 'Unexpected error');
     }
   });
+  
+  
 
   // Handle sending a chat message
   socket.on('chat message', ({ groupId, userId, msg }) => {
@@ -50,15 +64,23 @@ module.exports = (io, socket, db) => {
         socket.emit('error', 'Invalid data');
         return;
       }
-
+  
       console.log('Received chat message:', { groupId, userId, msg });
-      db.query('SELECT id FROM chat_groups WHERE id = ?', [groupId], (err, groupRows) => {
+  
+      const query = `
+        SELECT cg.id 
+        FROM chat_groups cg
+        JOIN group_members gm ON cg.id = gm.group_id
+        WHERE cg.id = ? AND gm.user_id = ?
+      `;
+  
+      db.query(query, [groupId, userId], (err, groupRows) => {
         if (err) {
           console.error('Error finding group:', err);
           socket.emit('error', 'Error finding group');
           return;
         }
-
+  
         if (groupRows.length > 0) {
           const query = 'INSERT INTO messages (group_id, user_id, content) VALUES (?, ?, ?)';
           db.query(query, [groupId, userId, msg], (err) => {
@@ -67,14 +89,14 @@ module.exports = (io, socket, db) => {
               socket.emit('error', 'Error inserting message');
               return;
             }
-
+  
             db.query('SELECT username FROM users WHERE user_id = ?', [userId], (err, userRows) => {
               if (err) {
                 console.error('Error finding user:', err);
                 socket.emit('error', 'Error finding user');
                 return;
               }
-
+  
               if (userRows.length > 0) {
                 const username = userRows[0].username;
                 io.to(groupId).emit('chat message', { userId, username, msg });
@@ -85,7 +107,7 @@ module.exports = (io, socket, db) => {
             });
           });
         } else {
-          socket.emit('error', 'Invalid group ID');
+          socket.emit('error', 'You are not a member of this group');
         }
       });
     } catch (err) {
@@ -93,6 +115,7 @@ module.exports = (io, socket, db) => {
       socket.emit('error', 'Unexpected error');
     }
   });
+  
 
   // Handle sending a file message
   socket.on('file message', ({ groupId, userId, file, filename, filetype }) => {

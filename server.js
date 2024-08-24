@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const socketIo = require('socket.io');
 const http = require('http');
 const socketHandler = require('./socket');
+const sharedSession = require('socket.io-express-session');
 const db = require("./db");
 
 dotenv.config();
@@ -18,14 +19,19 @@ const port = 3000;
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Session and middlewares
-app.use(session({
+// ตั้งค่า session middleware
+const sessionMiddleware = session({
   secret: 'your_secret_key',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false }
-}));
+  cookie: { secure: false } // ตั้งค่า secure เป็น true ถ้าใช้ HTTPS
+});
 
+app.use(sessionMiddleware);
+// แชร์ session กับ socket.io
+io.use(sharedSession(sessionMiddleware, {
+  autoSave: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
@@ -34,6 +40,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(cookieParser());
+
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
