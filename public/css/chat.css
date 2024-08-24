@@ -1,138 +1,176 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-  }
-  #chat-container {
-    display: flex;
-    width: 80%;
-    max-width: 1000px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  }
-  #group-list {
-    width: 30%;
-    border-right: 1px solid #ddd;
-    padding: 10px;
-  }
-  #group-list ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  #group-list li {
-    padding: 10px;
-    margin: 5px 0;
-    cursor: pointer;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-  }
-  #group-list li:hover {
-    background-color: #e9e9e9;
-  }
-  #chat-section {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-  }
-  #chat-header {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  #messages {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    height: 600px; /* กำหนดความสูงคงที่ */
-    overflow-y: auto; /* ทำให้สามารถเลื่อนดูได้ */
-    border-bottom: 1px solid #ddd;
-  }
-  #messages li {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  #messageForm {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #ddd;
-  }
-  #messageInput {
-    flex: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-  }
-  button {
-    padding: 10px 20px;
-    margin-left: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  button:hover {
-    background-color: #0056b3;
-  }
-  #messages img {
-    max-width: 200px;
-    max-height: 200px;
-    border-radius: 5px;
-  }
-  
-  #notification-container {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
-  }
-  
-  .web-notification {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    animation: fadein 0.5s, fadeout 0.5s 4.5s;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .notification-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .close-notification {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-  }
-  
-  @keyframes fadein {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes fadeout {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
-  
+:root{
+  --white-color: hsl(0,0%,100%);
+  --black-color: hsl(0,0%,0%);
+  --green-color: rgba(63,112,33,255);
+  --lighgreen-color: rgba(140,165,125,255);
+  --background-color:rgba(217,217,217,255);
+  --orange-color: rgb(255, 165, 0);
+  --lightorange-color: rgb(255, 192, 76);
+
+  --border-radius: 2rem;
+  --card-border-radius: 1rem;
+  --btn-paddign: 0.6rem;
+  --search-padding: 0.6rem;
+  --card-padding: 1rem;
+
+  --sticky-top-left: 5.4rem;
+  --sticky-top-right: -18rem;
+}
+#chat-container {
+  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  background-color: #fff;
+  border-radius: var(--card-border-radius);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+#group-list {
+  width: 30%;
+  border-right: 1px solid #ddd;
+  padding: 10px;
+}
+#group-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+#group-list li {
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  background-color: #d4d4d4;
+  border-radius: var(--card-border-radius);
+  transition: all 0.3s ease ;
+}
+#group-list li:hover {
+  transform: scale(1.09);
+  opacity: 0.7;
+}
+#groupSelect{
+  margin-bottom: 10px;
+}
+#chat-section {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+.message-header{
+  font-weight: 500;
+}
+.message-content{
+  font-weight: 300;
+}
+#chat-header {
+  padding: 10px;
+  border-bottom: 1px solid var(--background-color);
+  font-size: 18px;
+  font-weight: bold;
+}
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 10px;
+  height: 600px; /* กำหนดความสูงคงที่ */
+  overflow-y: auto; /* ทำให้สามารถเลื่อนดูได้ */
+  border-bottom: 1px solid var(--background-color);
+}
+#messages li {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: var(--card-border-radius);
+  background-color: #eeeeee;
+}
+#messageForm {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+#messageInput {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--card-border-radius);
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.custom-file-upload {
+  display: inline-block;
+  padding: 2px 8px;
+  cursor: pointer;
+  border-radius: var(--card-border-radius);
+  font-size: 25px;
+  color: var(--orange-color);
+  transition: all 0.3s ease;
+}
+.custom-file-upload:hover{
+  transform: scale(1.09);
+  opacity: 0.8;
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: var(--border-radius);
+  background-color: var(--green-color);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+button:hover {
+  transform: scale(1.09);
+  opacity: 0.8;
+}
+#messages img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 5px;
+}
+
+#notification-container {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.web-notification {
+  background-color: var(--lighgreen-color);
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: var(--card-border-radius);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: fadein 0.5s, fadeout 0.5s 4.5s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.close-notification {
+  background: none;
+  border: none;
+  color: var(--orange-color);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeout {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
