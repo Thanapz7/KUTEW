@@ -2,53 +2,53 @@ const express = require("express")
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('pages/login.ejs');
+    res.render('pages/login.ejs',{ pageTitle: 'Login' });
   });
 
 router.get('/home', (req, res) => {
    if (!req.session.user) {
     return res.status(401).json({ error: 'User not logged in' });
   }
-  res.render('pages/home.ejs');
+  res.render('pages/home.ejs', { pageTitle: 'Home' });
   });
 
   router.get('/selrole', (req, res) => {
-    res.render('pages/selrole.ejs');
+    res.render('pages/selrole.ejs',{ pageTitle: 'Selrole' });
   });
 
 router.get('/register', (req,res) =>{
-  res.render('pages/register.ejs');
+  res.render('pages/register.ejs',{ pageTitle: 'Register' });
 })
 
 router.get('/repassword', (req,res) =>{
-  res.render('pages/repassword.ejs');
+  res.render('pages/repassword.ejs',{ pageTitle: 'Repassword' });
 })
 
 router.get('/newpassword', (req,res) =>{
-  res.render('pages/newpassword.ejs');
+  res.render('pages/newpassword.ejs',{ pageTitle: 'Repassword' });
 })
 
 router.get('/registteacher', (req,res) =>{
-  res.render('pages/registteacher.ejs');
+  res.render('pages/registteacher.ejs',{ pageTitle: 'Register' });
 })
 
 router.get('/regisstu', (req,res) =>{
-  res.render('pages/regisstu.ejs');
+  res.render('pages/regisstu.ejs',{ pageTitle: 'Register' });
 })
 
 router.get('/createpost', (req,res) =>{
-  res.render('pages/createpost.ejs');
+  res.render('pages/createpost.ejs',{ pageTitle: 'Creatpost' });
 })
 
 router.get('/profilepage', (req,res) =>{
-  res.render('pages/profilepage.ejs');
+  res.render('pages/profilepage.ejs',{ pageTitle: 'Profile' });
 })
 
 router.get('/mypost', (req,res) =>{
-  res.render('pages/mypost.ejs');
+  res.render('pages/mypost.ejs',{ pageTitle: 'Mypost' });
 })
 router.get('/setting', (req,res) =>{
-  res.render('pages/setting.ejs');
+  res.render('pages/setting.ejs',{ pageTitle: 'Setting' });
 })
 router.get('/search', (req, res) => {
   res.render('pages/search.ejs',{ pageTitle: 'Search' });
@@ -76,13 +76,13 @@ router.get('/notifications', (req, res) => {
 router.get('/profiletutor/:id', (req, res) => {
   // ดึงค่า userId จาก session ที่เก็บไว้
   const userId = req.params.id;
-  res.render('pages/profiletutor.ejs', { userId: userId });
+  res.render('pages/profiletutor.ejs', { userId: userId, pageTitle: 'Profile' });
 });
 
 router.get('/profilestd/:id', (req, res) => {
   // ดึงค่า userId จาก session ที่เก็บไว้
   const userId = req.params.id;
-  res.render('pages/profilestd.ejs', { userId: userId });
+  res.render('pages/profilestd.ejs', { userId: userId, pageTitle: 'Profile' });
 });
 
 router.get('/payment/:id', (req, res) => {
@@ -92,7 +92,7 @@ router.get('/payment/:id', (req, res) => {
 });
 
 router.get('/myjoin', (req, res) => {
-  res.render('pages/myjoinrequested.ejs',{ pageTitle: 'My Join Requested' });
+  res.render('pages/myjoinrequested.ejs',{ pageTitle: 'Join Request' });
 });
 
 router.get('/chat', (req, res) => {

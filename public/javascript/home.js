@@ -79,6 +79,28 @@ document.querySelector('.create-post').addEventListener('submit', function(event
     }
 });
 
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // เรียก API เพื่อตรวจสอบบทบาทของผู้ใช้
+        const response = await fetch('/user/u');
+        const userData = await response.json();
+
+        const userRole = userData.role;
+
+        // ซ่อนฟอร์มถ้าผู้ใช้เป็น student
+        if (userRole === 'student') {
+            const createPostForm = document.querySelector('.create-post');
+            if (createPostForm) {
+                createPostForm.style.display = 'none';
+            }
+        }
+
+        // โค้ดอื่น ๆ ของคุณ...
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+});
+
 
 
 
