@@ -3,26 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <title>Chat App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/css/chat.css">
+  <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
-  <div id="chat-container"> <!-- ส่วนหลักของแอปแชท -->
-    <div id="group-list"><!-- ส่วนสำหรับแสดงรายการกลุ่มแชท -->
-      <h3>เลือกห้องแชท</h3><a href="/login">logout</a>
-       <ul id="groupSelect"><!--</ul>รายการกลุ่มแชท -->
+  <!-- navbar -->
+  <%- include('../includes/navbar.ejs') %>
+
+  <!-- main -->
+  <main>
+    <div class="container">
+      <!-- left -->
+      <%- include('../includes/sidebar.ejs') %>
+      <!-- middle -->
+      <div class="middle">
+        <div id="chat-container"> <!-- ส่วนหลักของแอปแชท -->
+          <div id="group-list"><!-- ส่วนสำหรับแสดงรายการกลุ่มแชท -->
+            <h3>Select Group Chat</h3><a href="/login">logout</a>
+             <ul id="groupSelect"><!--</ul>รายการกลุ่มแชท -->
+          </div>
+           <div id="chat-section"><!--ส่วนสำหรับแสดงการแชท -->
+             <div id="chat-header">Name's Group Chat</div> <!--หัวข้อที่จะแสดงชื่อห้องแชทปัจจุบัน -->
+             <ul id="messages"></ul> <!--รายการข้อความแชท -->
+             <form id="messageForm" enctype="multipart/form-data"> <!--ฟอร์มสำหรับส่งข้อความและไฟล์รูปภาพ -->
+              <input id="messageInput" autocomplete="off" placeholder="Type Yours message..." />
+              <label for="imageInput" class="custom-file-upload">
+                <i class="fas fa-image"></i>
+              </label>
+              <input type="file" id="imageInput" accept="image/*" style="display: none;" />
+              <!-- <span id="fileName"></span> -->
+              <button type="submit">Send</button>
+            </form>
+            
+          </div>
+        </div>
+        <div id="notification-container"></div>
+      </div>
+      <!-- right -->
+      <%- include('../includes/rightbar.ejs') %>
     </div>
-     <div id="chat-section"><!--ส่วนสำหรับแสดงการแชท -->
-       <div id="chat-header">ชื่อห้องแชท</div> <!--หัวข้อที่จะแสดงชื่อห้องแชทปัจจุบัน -->
-       <ul id="messages"></ul> <!--รายการข้อความแชท -->
-       <form id="messageForm" enctype="multipart/form-data"> <!--ฟอร์มสำหรับส่งข้อความและไฟล์รูปภาพ -->
-        <input id="messageInput" autocomplete="off" placeholder="พิมพ์ข้อความของคุณ..." />
-        <input type="file" id="imageInput" accept="image/*" />
-        <button type="submit">ส่ง</button>
-      </form>
-      
-    </div>
-  </div>
-  <div id="notification-container"></div>
+  </main>
+
   <script src="/socket.io/socket.io.js"></script>
   <script>
     // สร้างการเชื่อมต่อ Socket.IO
