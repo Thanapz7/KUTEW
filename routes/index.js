@@ -99,4 +99,23 @@ router.get('/chat', (req, res) => {
   const userId = req.session.user.user_id;
   res.render('pages/chat.ejs',{userId, pageTitle: 'Chat' });
 });
+
+router.get('/admin', (req,res) =>{
+  res.render('pages/adChartHome.ejs');
+})
+
+router.get('/tutorrequest', (req,res) =>{
+  res.render('pages/adTutorreq.ejs');
+})
+
+router.get('/chatadmin', (req,res) =>{
+  res.render('pages/adChat.ejs');
+})
+
+router.get('/reportadmin', (req,res) =>{
+  res.render('pages/adReport.ejs');
+})
+
+
+
 module.exports = router;

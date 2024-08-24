@@ -1,0 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root{
+    --white-color: hsl(0,0%,100%);
+    --black-color: hsl(0,0%,0%);
+    --green-color: rgba(63,112,33,255);
+    --lighgreen-color: rgba(140,165,125,255);
+    --background-color:rgba(217,217,217,255);
+
+    --border-radius: 2rem;
+    --card-border-radius: 1rem;
+    --btn-paddign: 0.6rem;
+    --search-padding: 0.6rem;
+    --card-padding: 1rem;
+
+    --sticky-top-left: 5.4rem;
+    --sticky-top-right: -18rem;
+}
+*, *::before, *::after{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    border: none;
+}
+body{
+    font-family: "Kanit", sans-serif;
+    background-color: var(--background-color);
+    overflow-x: hidden;
+}
+/* general style */
+.container{
+    width: 90%;
+    margin: 0 auto;
+}
+img{
+    display: block;
+    width: 100%;
+}
+.btn{
+    display: inline-block;
+    padding: var(--btn-paddign);
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 300ms ease;
+}
+.btn:hover{
+    opacity: 0.8;
+}
+.btn-primary{
+    background-color: var(--green-color);
+    color: var(--white-color);
+}
+.text-bold{
+    font-weight: 500;
+}
+.text-muted{
+    color: lightgray;
+}
+
+/* nav */
+nav{
+    width: 100%;
+    background: var(--green-color);
+    padding: 0.7rem 0;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+}
+nav .container{
+    display: flex;
+    align-items: center;
+    color: var(--white-color);
+}
+nav .logo{
+    font-size: 2rem;
+    color: var(--white-color);
+}
+main{
+    position: relative;
+    top: 5.4rem;
+}
+main .container{
+    display: grid;
+    grid-template-columns: 18vw auto;
+    column-gap: 2rem;
+    position: relative;
+}
+main .container .left{
+    height: max-content;
+    position: sticky;
+    top: var(--sticky-top-left);
+}
+.left .sidebar{
+    margin-top: 1rem;
+    background: var(--white-color);
+    border-radius: var(--card-border-radius);
+}
+.left .sidebar .menu-item{
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    cursor: pointer;
+    transition: all 300ms ease ;
+    position: relative;
+}
+.left .sidebar .menu-item:hover{
+    background-color: lightgray;
+}
+.left .sidebar i{
+    font-size: 1.4rem;
+    color: var(--black-color);
+    margin-left: 2rem;
+    position: relative;
+}
+.left .sidebar a{
+    color: var(--black-color);
+}
+.left .sidebar h3{
+    margin-left: 1.5rem;
+    font-size: 1rem;
+}
+.left .sidebar .active{
+    background: var(--background-color);
+}
+.left .sidebar .active i, .left .sidebar .active h3{
+    color: var(--green-color);
+}
+.left .sidebar .active::before{
+    content: "";
+    display: block;
+    width: 0.5rem;
+    height: 100%;
+    position: absolute;
+    background: var(--green-color);
+}
+.left .sidebar .menu-item:first-child.active{
+    border-top-left-radius: var(--card-border-radius);
+    overflow: hidden;
+}
+.left .sidebar .menu-item:last-child.active{
+    border-bottom-left-radius: var(--card-border-radius);
+    overflow: hidden;
+}
+/* right */
+.right .right-background{
+    background: var(--lighgreen-color);
+    height: 100%;
+    padding: 1.5rem;
+    border-radius: var(--card-border-radius);
+}
+.right .show-charts{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+.right .show-chart{
+    flex: 1 1 calc(50% - 1rem);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.show-chart .chart{
+    background: var(--white-color);
+    width: 100%;
+    height: 50vh;
+    border-radius: var(--card-border-radius);
+    margin-top: 0.5rem;
+}
+.show-chart h3{
+    color: var(--white-color);
+}
+/* tutor request */
+.tutor-requests{
+    background-color: var(--white-color);
+    border-radius: var(--card-border-radius);
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+}
+.tutor-requests .tutor-request{
+    display: flex;
+    justify-content: space-between;
+}
+.tutor-request .profiles{
+    display: flex;
+    align-items: center;
+}
+.tutor-request .profiles img{
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+}
+.tutor-request .profiles h3{
+    margin-left: 1.5rem;
+}
+.tutor-request .profiles a{
+    color: var(--black-color);
+}
+.tutor-request .permission{
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+}
+.permission button{
+    padding: var(--btn-paddign);
+    margin: 1rem;
+    width: 6rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    color: var(--white-color);
+    font-weight: 800;
+}
+.permission .accept{
+    background: var(--green-color);
+}
+.permission .deny{
+    background: red;
+}
+.permission .accept:hover{
+    opacity: 0.7;
+}
+.permission .deny:hover{
+    opacity: 0.7;
+}
+/* request info */
+.req-info{
+    background: var(--white-color);
+    border-radius: var(--card-border-radius);
+    padding: 1rem;
+}
+.req-info .back{
+    font-size: 20px;
+    color: var(--black-color);
+}
+.req-info .back:hover{
+    color: var(--green-color);
+}
+.req-info .info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+.req-info .info .profile{
+    border-radius: 50%;
+    width: 170px;
+    height: 170px;
+    align-self: center;
+    margin-bottom: 1rem;
+}
+.req-info .info .info-group{
+    display: flex;
+    width: 100%;
+}
+.req-info .info .info-group p{
+    margin-right: 2rem;
+}
+.req-info .info p{
+    font-size: 20px;
+    margin-bottom: 0.5rem;
+}
+.req-info .info span{
+    background: var(--background-color);
+    flex-grow: 1;
+    width: 100%;
+    border-radius: var(--card-border-radius);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: var(--green-color);
+}
+.req-info .info .idcard, 
+.req-info .info .certi {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+.req-info .info .picinfo{
+    width: 500px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: var(--card-border-radius);
+    display: block;
+    margin: 0 auto;
+}
+/* chat */
+.ad-chats{
+    background-color: var(--white-color);
+    border-radius: var(--card-border-radius);
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+}
+.ad-chats .ad-chat{
+    display: flex;
+    justify-content: space-between;
+}
+.ad-chat .profiles{
+    display: flex;
+    align-items: center;
+}
+.ad-chat .profiles img{
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+}
+.ad-chat .name-chat{
+    margin-left: 1.5rem;
+}
+.ad-chat .profiles a{
+    color: var(--black-color);
+}
+.ad-chat .profiles p{
+    margin-top: 0.5rem;
+    color: red;
+}
+.ad-chat .profiles span{
+    color: var(--black-color);
+}
+/* report */
+.reports{
+    background-color: var(--white-color);
+    border-radius: var(--card-border-radius);
+    padding: 0.7rem;
+    margin-bottom: 1rem;
+}
+.reports .report{
+    display: flex;
+    justify-content: space-between;
+}
+.reports .profiles{
+    display: flex;
+    align-items: center;
+}
+.report .profiles img{
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+}
+.report .profiles p{
+    color: red;
+}
+.report .profiles span{
+    color: var(--black-color);
+}
+.report .name-report{
+    margin-left: 1.5rem;
+}
+.report .profiles a{
+    color: var(--black-color);
+}
+.report .permission{
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+}
+.report .permission button{
+    padding: var(--btn-paddign);
+    margin: 1rem;
+    width: 6rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    color: var(--white-color);
+    font-weight: 800;
+}
+.report .permission .delete{
+    background: red;
+}
+.report .permission .ignore{
+    background: navy;
+}
+.report .permission .delete:hover{
+    opacity: 0.7;
+}
+.report .permission .ignore:hover{
+    opacity: 0.7;
+}
+/* responsive */
+@media  screen and (max-width: 1200px) {
+    .container{
+        width: 96%;
+    }
+    main .container{
+        grid-template-columns: 5rem auto 30vw;
+        gap: 1rem;
+    }
+    .left{
+        width: 5rem;
+        z-index: 5;
+    }
+    
+    .sidebar h3{
+        display: none;
+    }
+    .left h4{
+        display: none;
+    }
+}
+/* mobile */
+@media screen and (max-width:992px){
+    main .container{
+        grid-template-columns: 0 auto ;
+    }
+    main .container .left{
+        grid-column: 1/4;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        
+    }
+    main .container .right{
+        grid-column: 1/3;
+    }
+    
+}
