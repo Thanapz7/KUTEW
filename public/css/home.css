@@ -759,6 +759,7 @@ textarea{
     padding: var(--card-padding);
     border-radius: var(--card-border-radius);
     margin-top: 0.8rem;
+    white-space: nowrap;
 }
 .profileinfo p{
     margin-top: 5px;
@@ -766,6 +767,7 @@ textarea{
 }
 .infomyprofile{
     padding-left: 20px;
+    margin-left: 0.77rem;
 }
 .profileinfo .profileinfos-major{
     display: flex;
@@ -1130,7 +1132,7 @@ textarea{
 /* my join requested */
 .myjoin{
     background: var(--lighgreen-color);
-    height: 90vh;
+    height: auto;
     padding: 1.5rem;
     border-radius: var(--card-border-radius);
     overflow-y: auto;
@@ -1144,6 +1146,7 @@ textarea{
     align-items: center;
     width: 100%;
     margin-bottom: 1rem;
+    white-space: nowrap;
 }
 .card-eachjoin .left-card,
 .card-eachjoin .center-card,
@@ -1155,7 +1158,7 @@ textarea{
 }
 .card-eachjoin .left-card{
     align-items: center;
-    margin-left: 2rem;
+    margin-left: 1.3rem;
 }
 .card-eachjoin .left-card .profile-mypost{
     width: 5rem;
@@ -1264,10 +1267,11 @@ textarea{
 /* my posts */
 .myposts{
     background: var(--lighgreen-color);
-    height: 90vh;
+    height: auto;
     padding: 1.5rem;
     border-radius: var(--card-border-radius);
     overflow-y: auto;
+    white-space: nowrap;
 }
 .card-eachpost{
     background: var(--white-color);
@@ -1341,8 +1345,7 @@ textarea{
     height: auto;
 }
 .card-eachpost .right-card p{
-    margin: 0;
-    margin: 2rem;
+    margin: 1.3rem;
     font-weight: bold;
 }
 .card-eachpost .right-card button.request-post{
