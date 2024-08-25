@@ -92,7 +92,12 @@
   border: 1px solid #ddd;
   font-size: 16px;
 }
-
+#fileName{
+  margin-left: 10px;
+  margin-top: 7px;
+  font-style: italic;
+  color: #666;
+}
 .custom-file-upload {
   display: inline-block;
   padding: 2px 8px;

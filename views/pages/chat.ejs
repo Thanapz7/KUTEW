@@ -32,7 +32,7 @@
                 <i class="fas fa-image"></i>
               </label>
               <input type="file" id="imageInput" accept="image/*" style="display: none;" />
-              <!-- <span id="fileName"></span> -->
+              <span id="fileName"></span>
               <button type="submit">Send</button>
             </form>
             
@@ -61,6 +61,16 @@ const imageInput = document.getElementById('imageInput');
 let currentGroup = null;
 const userId = '<%= userId %>';
 console.log(userId);
+
+// แสดงชื่อไฟล์ที่เลือก
+imageInput.addEventListener('change', () => {
+  const fileNameSpan = document.getElementById('fileName');
+  if (imageInput.files.length > 0) {
+    fileNameSpan.textContent = imageInput.files[0].name; // แสดงชื่อไฟล์
+  } else {
+    fileNameSpan.textContent = ''; // ลบชื่อไฟล์หากไม่มีการเลือก
+  }
+});
 
 // ฟังก์ชันสำหรับเลื่อนหน้าจอไปด้านล่างสุดของการแชท
 function scrollToBottom() {
@@ -149,6 +159,7 @@ form.addEventListener('submit', (e) => {
     reader.onload = (event) => {
       socket.emit('file message', { groupId: currentGroup, userId, file: event.target.result, filename: file.name, filetype: file.type });
       imageInput.value = ''; // ล้าง input หลังจากส่งไฟล์
+      document.getElementById('fileName').textContent = ''; // ล้างชื่อไฟล์หลังจากส่งไฟล์
     };
     reader.readAsDataURL(file);
   }
