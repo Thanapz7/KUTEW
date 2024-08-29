@@ -1,16 +1,19 @@
 const express = require("express")
 const router = express.Router();
+const recordUserActivity = require('../middleware');
 
 router.get('/', (req, res) => {
     res.render('pages/login.ejs',{ pageTitle: 'Login' });
   });
 
-router.get('/home', (req, res) => {
-   if (!req.session.user) {
-    return res.status(401).json({ error: 'User not logged in' });
-  }
-  res.render('pages/home.ejs', { pageTitle: 'Home' });
+  router.get('/home', recordUserActivity, (req, res) => {
+    if (!req.session.user) {
+      return res.status(401).json({ error: 'User not logged in' });
+    }
+  
+    res.render('pages/home.ejs', { pageTitle: 'Home' });
   });
+  
 
   router.get('/selrole', (req, res) => {
     res.render('pages/selrole.ejs',{ pageTitle: 'Selrole' });

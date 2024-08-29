@@ -49,9 +49,9 @@ exports.AddTutor = (req, res) => {
                 return res.status(500).json({ error: err.message });
             }
 
-            // เรียกฟังก์ชัน UpdateForm เพื่ออัปเดตสถานะการทำแบบฟอร์ม
-            const updateFormSql = 'UPDATE users SET form = ? WHERE user_id = ?';
-            db.query(updateFormSql, ['completed', userId], (updateErr, updateResults) => {
+            // เรียกฟังก์ชันเพื่ออัปเดตสถานะการทำแบบฟอร์ม และroleของผู้ใช้งาน
+            const updateFormRoleSql = 'UPDATE users SET role = ? ,form = ? WHERE user_id = ?';
+            db.query(updateFormRoleSql, ['tutor','completed', userId], (updateErr, updateResults) => {
                 if (updateErr) {
                     console.error('Error updating form status:', updateErr.stack);
                     return res.status(500).send({ message: 'Failed to update form status' });
@@ -88,9 +88,9 @@ exports.AddStudent = (req, res) => {
                 return res.status(500).json({ error: err.message });
             }
 
-            // เรียกฟังก์ชัน UpdateForm เพื่ออัปเดตสถานะการทำแบบฟอร์ม
-            const updateFormSql = 'UPDATE users SET form = ? WHERE user_id = ?';
-            db.query(updateFormSql, ['completed', userId], (updateErr, updateResults) => {
+            // เรียกฟังก์ชันเพื่ออัปเดตสถานะการทำแบบฟอร์ม และroleของผู้ใช้งาน
+            const updateFormRoleSql = 'UPDATE users SET role = ? ,form = ? WHERE user_id = ?';
+            db.query(updateFormRoleSql, ['student','completed', userId], (updateErr, updateResults) => {
                 if (updateErr) {
                     console.error('Error updating form status:', updateErr.stack);
                     return res.status(500).send({ message: 'Failed to update form status' });

@@ -45,7 +45,7 @@ exports.updateDenyTutor = async (req, res) => {
 };
 
 exports.getUserActivity = async (req, res) => {
-    const query = 'SELECT date, user_count FROM user_activity';
+    const query = 'SELECT date, tutor_count, student_count FROM user_activity';
 
     db.query(query, (err, results) => {
         if (err) {
