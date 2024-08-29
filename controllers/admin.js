@@ -43,3 +43,16 @@ exports.updateDenyTutor = async (req, res) => {
         res.status(200).json({ message: 'Update join status successfully'});
     });
 };
+
+exports.getUserActivity = async (req, res) => {
+    const query = 'SELECT date, user_count FROM user_activity';
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error Get Count', err);
+            res.status(500).json({ error: 'Failed to Get Count' });
+            return;
+        }
+        res.status(200).json({ message: 'Get User Count successfully'});
+    });
+};

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const recordUserActivity = require('../middleware');
 
 const {
     LoginSignup,
@@ -7,7 +8,7 @@ const {
 
   } =require("../controllers/login");
   router.post("/signup", LoginSignup);
-  router.post("/signin", LoginSignin);
+  router.post("/signin",recordUserActivity , LoginSignin);
   
 
 module.exports = router;
