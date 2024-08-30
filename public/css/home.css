@@ -160,6 +160,9 @@ main .container .left .profile{
     column-gap: 1rem;
     width: 100%;
 }
+.left .handle h4{
+    color: var(--black-color);
+}
 
 .left .sidebar{
     margin-top: 1rem;
