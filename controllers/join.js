@@ -335,3 +335,21 @@ exports.getStudentpay = async (req, res) => {
 
   });
 };
+
+exports.updatepoststatus = async (req, res) => {
+  const post_id  = req.params.post_id;
+  const query = `
+  UPDATE joins SET course_status = ?
+  WHERE post_id  = ? ;
+  `;
+
+  db.query(query, ['done',post_id], (err, results) => {
+      if (err) {
+          console.error('Error fetching user ID:', err);
+          res.status(500).json({ error: 'Failed to fetch user ID' });
+          return;
+      }
+      res.json(results);
+
+  });
+};
