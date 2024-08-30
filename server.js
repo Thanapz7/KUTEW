@@ -46,6 +46,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/QRcode', express.static(path.join(__dirname, 'QRcode')));
+app.use('/payment', express.static(path.join(__dirname, 'payment')));
 
 // Views
 app.set('views', path.join(__dirname, 'views'));

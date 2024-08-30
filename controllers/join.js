@@ -353,3 +353,20 @@ exports.updatepoststatus = async (req, res) => {
 
   });
 };
+
+exports.getpoststatus = async (req, res) => {
+  const post_id  = req.params.post_id;
+  const query = `
+  SELECT course_status FROM joins WHERE post_id = ?  ;
+  `;
+
+  db.query(query, [post_id], (err, results) => {
+      if (err) {
+          console.error('Error fetching user ID:', err);
+          res.status(500).json({ error: 'Failed to fetch user ID' });
+          return;
+      }
+      res.json(results);
+
+  });
+};

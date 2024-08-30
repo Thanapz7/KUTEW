@@ -13,7 +13,8 @@ const {
     getUserIdByJoinId,
     getTutorByJoinId,
     getStudentpay,
-    updatepoststatus
+    updatepoststatus,
+    getpoststatus
 
 
   } =require("../controllers/join");
@@ -27,7 +28,8 @@ const {
   router.get("/user/:id", getUserIdByJoinId);
   router.get("/tutor/:id", getTutorByJoinId);
   router.get("/studentpay/:join_id/:student_id", getStudentpay);
-  router.get("/postdone", updatepoststatus);
+  router.put("/postdone/:post_id", updatepoststatus);
+  router.get("/postdone/:post_id" , getpoststatus)
 
 
 
