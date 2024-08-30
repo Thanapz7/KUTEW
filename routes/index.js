@@ -88,10 +88,11 @@ router.get('/profilestd/:id', (req, res) => {
   res.render('pages/profilestd.ejs', { userId: userId, pageTitle: 'Profile' });
 });
 
-router.get('/payment/:id', (req, res) => {
-  const post_id = req.params.id;
+router.get('/payment/:tutor_id/:post_id', (req, res) => {
+  const post_id = req.params.post_id;
+  const tutor_id = req.params.tutor_id;
   const userId = req.session.user.user_id;
-  res.render('pages/payment.ejs',{ post_id, userId, pageTitle: 'Payment' });
+  res.render('pages/payment.ejs',{ post_id, tutor_id, userId, pageTitle: 'Payment' });
 });
 
 router.get('/myjoin', (req, res) => {

@@ -73,14 +73,14 @@
 
           if (post.join_status === "Accept") {
             statusClass = "accept";
-            statusText = "Accept";
+            statusText = "Accepted";
             buttonDisabled = false; 
           } else if (post.join_status === "pending") {
             statusClass = "pending";
             statusText = "Pending";
           } else if (post.join_status === "Deny") {
             statusClass = "deny";
-            statusText = "Deny";
+            statusText = "Denied";
           }
 
           postElement.innerHTML = `
@@ -114,7 +114,7 @@
                   <p>${statusText}</p>
                 </div>
                 <div class="right-card">
-                    <button class="request-post" data-post-id="${post.post_id}" ${buttonDisabled ? 'disabled' : ''}><p class="head">Payment</p></button>
+                    <button class="request-post" data-post-id="${post.post_id}" data-tutor-id="${post.tutor_id}" ${buttonDisabled ? 'disabled' : ''}><p class="head">Payment</p></button>
                 </div>
               `;
           container.appendChild(postElement);
@@ -122,16 +122,17 @@
         // เพิ่ม Event เมื่อกดปุ่ม Payment
       document.querySelectorAll(".request-post").forEach((button) => {
         if (!button.disabled) { // เพิ่มเช็คว่าปุ่มถูกเปิดใช้งานหรือไม่
-        button.addEventListener("click", () => {
+        button.addEventListener("click", () => { 
         const postId = button.getAttribute("data-post-id");
-          if (postId) {
-            window.location.href = `/payment/${postId}`;
+        const tutorId = button.getAttribute("data-tutor-id");
+          if (postId && tutorId) {
+            window.location.href = `/payment/${tutorId}/${postId}`;
           }
         });
         }
       });
     }
-      // Fetch and display posts when the page loads
+      // Fetch and display 
       fetchJoinedPosts();
     </script>
   </body>
