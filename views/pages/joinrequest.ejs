@@ -30,12 +30,25 @@
               </div>
             </div>
           </div>
+          <div class="joined-info">
+            <div class="all-joined">
+              <div class="accepted">
+                <label class="htext">Accepted</label>
+                <div class="accepted-allinfo">
+                </div>
+              </div>
+              <div class="end-course">
+                <button class="endcourse">End Course</button>
+              </div>
+            </div>
+          </div>
           <!-- right -->
         </div>
         <%- include('../includes/rightbar.ejs')%>
       </div>
     </main>
     <script>
+      /*
       document.addEventListener("DOMContentLoaded", async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get("postId");
@@ -161,6 +174,172 @@
               });
             } else {
               container.innerHTML = `<h3 class="no-join-info">No join requests yet</h3>`;
+            }
+          } else {
+            console.error("Error fetching join requests:", data.message);
+            document.querySelector(".middle-join").innerHTML = "<p>Error retrieving join request data</p>";
+          }
+        } catch (error) {
+          console.error("Error fetching join requests:", error);
+          document.querySelector(".middle-join").innerHTML = "<p>Error retrieving join request data</p>";
+        }
+      });
+      */
+      document.addEventListener("DOMContentLoaded", async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get("postId");
+
+        try {
+          const response = await fetch(`/join/${postId}`);
+          const data = await response.json();
+
+          if (data.message === "Get student in join successfully") {
+            const joinRequests = data.data;
+            const pendingContainer = document.querySelector(".middle-join");
+            const acceptedContainer = document.querySelector(".accepted-allinfo");
+        
+            if (joinRequests.length > 0) {
+              for (const request of joinRequests) {
+                // Fetch the userid for each student
+                const userResponse = await fetch(`/user/su/${request.student_id}`);
+                const userData = await userResponse.json();
+                const userid = userData.user_id;
+
+                if (request.join_status === "pending") {
+                  // Render pending requests
+                  const joinRequestHtml = `
+                    <div class="joinrequest-allinfo">
+                      <div class="joinrequest-info">
+                        <div class="profile-photo">
+                          <img src="${request.student_profilePic}" />
+                        </div>
+                        <div class="info">
+                          <label><a href="/profilestd/${userid}">${request.student_name}</a></label>
+                        </div>
+                      </div>
+                      <div class="joinrequest-allbtn">
+                        <div class="bttn">
+                          <button class="accept accept-btn" data-join-id="${request.join_id}">Accept</button>
+                          <button class="deny deny-btn" data-join-id="${request.join_id}">Deny</button>
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                  pendingContainer.innerHTML += joinRequestHtml;
+
+                } else if (request.join_status === "Accept") {
+                  // Render accepted requests
+                  const acceptedRequestHtml = `
+                    <div class="accepted-info">
+                      <div class="profile-infos">
+                        <div class="profile-photo">
+                          <img src="${request.student_profilePic}" />
+                        </div>
+                        <div class="info">
+                          <label><a href="/profilestd/${userid}">${request.student_name}</a></label>
+                        </div>
+                      </div>
+                      <div class="see-payment-btn">
+                        <button class="payment">Show Payment</button>
+                      </div>
+                    </div>
+                  `;
+                  acceptedContainer.innerHTML += acceptedRequestHtml;
+                }
+              };
+
+              // Event listeners for accept and deny buttons
+              document.querySelectorAll('.accept').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                  const requestId = event.target.getAttribute('data-join-id');
+              
+                  try {
+                    // Accept the join request
+                    await fetch(`/join/a/${requestId}`, { method: 'PUT' });
+              
+                    // Fetch user ID from the join request
+                    const userjoinResponse = await fetch(`/join/user/${requestId}`, { method: 'GET' });
+                    const userjoinData = await userjoinResponse.json();
+                    const userjoin = userjoinData.user_id;
+              
+                    // Fetch tutor name
+                    const tutorNameResponse = await fetch(`/join/tutor/${requestId}`, { method: 'GET' });
+                    const tutorNameData = await tutorNameResponse.json();
+                    const tutor_name = tutorNameData.tutor_name;
+              
+                    // Send notification
+                    await fetch('/notifications', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                        message: `Tutor: ${tutor_name} รับคุณแล้วนะ`,
+                        user_id: userjoin,
+                        join_id: requestId
+                      })
+                    });
+              
+                    // Move the join request to the "Accepted" section
+                    const joinRequestElement = event.target.closest('.joinrequest-allinfo');
+                    const acceptedSection = document.querySelector('.accepted .accepted-allinfo');
+              
+                    // Create a new element for the "Accepted" section
+                    const acceptedInfoHtml = `
+                      <div class="accepted-info">
+                        ${joinRequestElement.querySelector('.profile-photo').outerHTML}
+                        ${joinRequestElement.querySelector('.info').outerHTML}
+                      </div>
+                      <div class="see-payment-btn">
+                        <button class="payment">See Payment</button>
+                      </div>
+                    `;
+              
+                    // Add the new element to the "Accepted" section
+                    acceptedSection.innerHTML += acceptedInfoHtml;
+              
+                    // Remove the join request from the "Pending" section
+                    joinRequestElement.remove();
+              
+                  } catch (error) {
+                    console.error('Error processing request:', error);
+                  }
+                });
+              });
+
+              document.querySelectorAll('.deny').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                  const requestId = event.target.getAttribute('data-join-id');
+                  try {
+                    await fetch(`/join/d/${requestId}`, { method: 'PUT' });
+
+                    // Notification
+                    const userjoinResponse = await fetch(`/join/user/${requestId}`);
+                    const userjoinData = await userjoinResponse.json();
+                    const userjoin = userjoinData.user_id;
+
+                    const tutorNameResponse = await fetch(`/join/tutor/${requestId}`);
+                    const tutorNameData = await tutorNameResponse.json();
+                    const tutor_name = tutorNameData.tutor_name;
+
+                    // Send notification
+                    await fetch('/notifications', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        message: `Tutor: ${tutor_name} ได้ปฎิเสธคุณแล้ว`,
+                        user_id: userjoin,
+                        join_id: requestId
+                      })
+                    });
+                    event.target.closest('.joinrequest-allinfo').remove();
+                  } catch (error) {
+                    console.error('Error denying request:', error);
+                  }
+                });
+              });
+            } else {
+              pendingContainer.innerHTML = `<h3 class="no-join-info">No join requests yet</h3>`;
             }
           } else {
             console.error("Error fetching join requests:", data.message);
