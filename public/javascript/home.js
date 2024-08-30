@@ -29,6 +29,11 @@ document.querySelector('.create-post').addEventListener('submit', function(event
 
   document.addEventListener('DOMContentLoaded', async () => {
     try {
+        // Fetch user data to check their role
+        const userResponse = await fetch('/user/u');
+        const userData = await userResponse.json();
+        const userRole = userData.role;
+        
         const response = await fetch('/post/');
         const courses = await response.json();
 
@@ -67,6 +72,13 @@ document.querySelector('.create-post').addEventListener('submit', function(event
                 </div>
             `;
 
+            // ซ่อนปุ่ม "JOIN" เมื่อผู้ใช้เป็นติวเตอร์
+        if (userRole === 'tutor') {
+            const joinButtonSpan = feed.querySelector('.join');
+            if (joinButtonSpan) {
+                joinButtonSpan.style.display = 'none';
+            }
+        }
             const joinButton = feed.querySelector('.join-btn');
             joinButton.addEventListener('click', () => {
                 window.location.href = `/joinclass?post_id=${post_id}`;
@@ -95,7 +107,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        // โค้ดอื่น ๆ ของคุณ...
+
     } catch (error) {
         console.error('Error fetching user data:', error);
     }
