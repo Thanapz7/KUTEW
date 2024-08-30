@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/adminpage.css">
+    <title>admin</title>
+</head>
+<body>
+    <!-- navbar -->
+    <%- include('../includes/navbar_admin.ejs') %>
+    <!-- main -->
+    <main>
+        <div class="container">
+            <!-- left -->
+            <%- include('../includes/sidebar_admin.ejs') %>
+            <!-- right -->
+            <div class="right">
+                <div class="right-background">
+                    <div class="req-info">
+                        <a href="/tutorrequest"><i class="fa-solid fa-arrow-left back"></i></a>
+                        <form action="" class="info">
+                            <img src="../img/racc.jfif" class="profile">
+                            <p>ชื่อ-นามสกุล : <span>Paxton Clinton</span></p>
+                            <div class="info-group">
+                                <p>คณะ : <span>วิทยาศาสตร์และวิศวกรรมศาสตร์</span></p>
+                                <p>สาขา : <span>วิศวกรรมคอมพิวเตอร์</span></p>
+                                <p>ชั้นปี : <span>4</span></p>
+                            </div>
+                            <div class="info-group">
+                                <p>เบอร์โทร : <span>0987654321</span></p>
+                                <p>เลขบัตรประชาชน : <span>11223344567890</span></p>
+                            </div>
+                            <p>ที่อยู่ : <span>123/1 R.AA T.AA A.CC P.SK Thailand</span></p>
+                            <div class="idcard">
+                                <p>รูปคู่กับบัตรประชาชน :</p>
+                                <img src="../img/cover.jpg" alt="" class="picinfo">
+                            </div>
+                            <div class="certi">
+                                <p>รูปเกียรติบัตรหรือรูปการสอน : </p>
+                                <img src="../img/cover.jpg" alt="" class="picinfo">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+    </main>
+
+    <script></script>
+</body>
+</html>

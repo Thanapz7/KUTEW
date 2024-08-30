@@ -377,6 +377,65 @@ main .container .left{
 .report .permission .ignore:hover{
     opacity: 0.7;
 }
+/* request info */
+.req-info{
+    background: var(--white-color);
+    border-radius: var(--card-border-radius);
+    padding: 1rem;
+}
+.req-info .back{
+    font-size: 20px;
+    color: var(--black-color);
+}
+.req-info .back:hover{
+    color: var(--green-color);
+}
+.req-info .info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+}
+.req-info .info .profile{
+    border-radius: 50%;
+    width: 170px;
+    height: 170px;
+    align-self: center;
+    margin-bottom: 1rem;
+}
+.req-info .info .info-group{
+    display: flex;
+    width: 100%;
+}
+.req-info .info .info-group p{
+    margin-right: 2rem;
+}
+.req-info .info p{
+    font-size: 20px;
+    margin-bottom: 0.5rem;
+}
+.req-info .info span{
+    background: var(--background-color);
+    flex-grow: 1;
+    width: 100%;
+    border-radius: var(--card-border-radius);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: var(--green-color);
+}
+.req-info .info .idcard, 
+.req-info .info .certi {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+.req-info .info .picinfo{
+    width: 500px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: var(--card-border-radius);
+    display: block;
+    margin: 0 auto;
+}
 /* responsive */
 @media  screen and (max-width: 1200px) {
     .container{

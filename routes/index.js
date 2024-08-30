@@ -120,6 +120,10 @@ router.get('/reportadmin', (req,res) =>{
   res.render('pages/adReport.ejs');
 })
 
+router.get('/tutorinfo', (req,res) =>{
+  res.render('pages/adReqinfo.ejs');
+})
+
 
 
 module.exports = router;
