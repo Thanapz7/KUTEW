@@ -7,7 +7,7 @@ const {
 
   } =require("../controllers/login");
   router.post("/signup", LoginSignup);
-  router.post("/signin", LoginSignin);
+  router.post("/signin" , LoginSignin);
   
 
 module.exports = router;
