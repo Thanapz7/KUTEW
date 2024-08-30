@@ -1724,7 +1724,7 @@ nav .search-barpage{
     cursor: pointer;
 }
 .joinrequest-allbtn .bttn .accept-btn:hover{
-    background-color: lightgreen;
+    opacity: 0.5;
     color: #fff;
 }
 .joinrequest-allbtn .bttn .deny-btn{
@@ -1736,7 +1736,7 @@ nav .search-barpage{
     cursor: pointer;
 }
 .joinrequest-allbtn .bttn .deny-btn:hover{
-    background-color: lightcoral;
+    opacity: 0.5;
 }
 .joinrequest-label{
     font-size: 20px;
@@ -1746,6 +1746,88 @@ nav .search-barpage{
 .caption-joinrequest .joinrequestcaption-info{
     margin-top: -2.5rem;
     border-bottom: 1px solid #ccc;
+}
+.all-joined{
+    display: flex;
+    justify-content: space-around;
+    padding: 2rem;
+    background-color:#fff ;
+    height: auto;
+    overflow-y: auto;
+    flex-direction: column;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+.accepted{
+    margin-bottom: 2rem;
+}
+.accepted label.htext{
+    font-size: 20px;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    color: darkgreen;
+}
+.accepted .accepted-allinfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+.accepted .accepted-info{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center; /* จัดให้อยู่กลางแถวในแนวตั้ง */
+    margin-bottom: 0.5rem; /* เพิ่ม margin เพื่อเว้นระยะห่าง */
+}
+.accepted .accepted-info .profile-infos{
+    display: flex; 
+    justify-content: space-between;
+}
+
+.accepted .accepted-info .profile-photo{
+    margin-right: 2rem; 
+}
+.accepted .accepted-info .info{
+    margin-top: 0.5rem;
+}
+.accepted .accepted-info .info a{
+    color: var(--black-color);
+}
+.accepted .see-payment-btn{
+    display: flex;
+}
+.accepted .see-payment-btn .payment{
+    background-color: var(--orange-color);
+    border-radius: var(--border-radius);
+    padding: var(--btn-paddign);
+    color: #fff;
+    width: 120px;
+    cursor: pointer;
+}
+.accepted .see-payment-btn .payment:hover{
+    opacity: 0.5;
+}
+.all-joined .end-course{
+    border-top: 1px solid #cccccc;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.all-joined .end-course .endcourse{
+    margin-top: 1rem;
+    padding: var(--btn-paddign);
+    width: 140px;
+    border-radius: var(--card-border-radius);
+    color: var(--white-color);
+    background-color: navy;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.all-joined .end-course .endcourse:hover{
+    transform: scale(1.09);
+    opacity: 0.7;
 }
 /* payment */
 .middle-payment{
