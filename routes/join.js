@@ -11,7 +11,8 @@ const {
     updateJoinPayment,
     checkJoinStatus,
     getUserIdByJoinId,
-    getTutorByJoinId
+    getTutorByJoinId,
+    getStudentpay
 
 
   } =require("../controllers/join");
@@ -24,6 +25,7 @@ const {
   router.get("/status/:id", checkJoinStatus);
   router.get("/user/:id", getUserIdByJoinId);
   router.get("/tutor/:id", getTutorByJoinId);
+  router.get("/studentpay/:join_id/:student_id", getStudentpay);
 
 
 

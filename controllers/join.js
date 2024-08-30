@@ -291,8 +291,6 @@ exports.getUserIdByJoinId = async (req, res) => {
   });
 };
 
-
-
 exports.getTutorByJoinId = async (req, res) => {
   const join_id  = req.params.id;
   const query = `
@@ -314,5 +312,26 @@ exports.getTutorByJoinId = async (req, res) => {
       } else {
           res.status(404).json({ error: 'User not found' });
       }
+  });
+};
+
+exports.getStudentpay = async (req, res) => {
+  const join_id  = req.params.join_id;
+  const student_id  = req.params.student_id;
+
+  const query = `
+  SELECT paymentPic ,payment_date
+  FROM joins 
+  WHERE join_id = ? AND student_id = ?;
+  `;
+
+  db.query(query, [join_id,student_id], (err, results) => {
+      if (err) {
+          console.error('Error fetching user ID:', err);
+          res.status(500).json({ error: 'Failed to fetch user ID' });
+          return;
+      }
+      res.json(results);
+
   });
 };
