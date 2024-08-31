@@ -18,6 +18,10 @@
             <!-- right -->
             <div class="right">
                 <div class="right-background">
+                    <div class="show-chart">
+                        <h3>จำนวนการเข้าใช้งานของ Tutor และ Student</h3>
+                        <canvas id="combinedChart"></canvas>
+                    </div>
                     <div class="show-charts">
                         <div class="show-chart">
                             <h3>จำนวนการเข้าใช้งานของ Tutor</h3>
@@ -27,10 +31,6 @@
                             <h3>จำนวนการเข้าใช้งานของ Student</h3>
                             <canvas id="studentsChart"></canvas>
                         </div>
-                    </div>
-                    <div class="show-chart">
-                        <h3>จำนวนการเข้าใช้งานของ Tutor และ Student</h3>
-                        <canvas id="combinedChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                     datasets: [{
                         label: 'จำนวน Tutor',
                         data: tutorCounts,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.75)',
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 1,
                         fill: false
@@ -101,7 +101,7 @@
                     datasets: [{
                         label: 'จำนวน Student',
                         data: studentCounts,
-                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        backgroundColor: 'rgba(153, 102, 255, 0.75)',
                         borderColor: 'rgba(153, 102, 255, 1)',
                         borderWidth: 1,
                         fill: false
@@ -132,16 +132,16 @@
                         {
                             label: 'จำนวน Tutor',
                             data: tutorCounts,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)', // สีสำหรับ tutor
+                            backgroundColor: 'rgba(75, 192, 192, 0.75)', // สีสำหรับ tutor
                             borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
+                            borderWidth: 2
                         },
                         {
                             label: 'จำนวน Student',
                             data: studentCounts,
-                            backgroundColor: 'rgba(153, 102, 255, 0.2)', // สีสำหรับ student
+                            backgroundColor: 'rgba(153, 102, 255, 0.75)', // สีสำหรับ student
                             borderColor: 'rgba(153, 102, 255, 1)',
-                            borderWidth: 1
+                            borderWidth: 2
                         }
                     ]
                 },
