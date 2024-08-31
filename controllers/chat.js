@@ -45,7 +45,7 @@ exports.CreateChatGroupWithMembers = async (req, res) => {
       let groupId;
       if (groupResults.length > 0) {
         groupId = groupResults[0].id;
-        addMembersToGroup(groupId, userId, tutor_id, res);
+        addMembersToGroupForTutor(groupId, userId, tutor_id, res);
       } else {
         const sqlInsertGroup = `
           INSERT INTO chat_groups (name, tutor_id, post_id)
@@ -62,13 +62,13 @@ exports.CreateChatGroupWithMembers = async (req, res) => {
           }
   
           groupId = insertResults.insertId;
-          addMembersToGroup(groupId, userId, tutor_id, res);
+          addMembersToGroupForTutor(groupId, userId, tutor_id, res);
         });
       }
     });
   };
   
-  function addMembersToGroup(groupId, userId, tutor_id, res) {
+  function addMembersToGroupForTutor(groupId, userId, tutor_id, res) {
     // ฟังก์ชันตรวจสอบและเพิ่มสมาชิก
     const addMember = (groupId, user_id, res, callback) => {
       const sqlCheckMember = `
@@ -115,3 +115,72 @@ exports.CreateChatGroupWithMembers = async (req, res) => {
     });
   }
   
+//เพิ่มทั้งกลุ่มและสมาชิกในครั้งเดียว สำหรับadmin
+exports.CreateChatGroupWithAdmin = async (req, res) => {
+  const admin_id = 25; // คุณสามารถเปลี่ยนเป็น req.params หรือค่าอื่น ๆ ตามความจำเป็น
+  //const userId = req.session.user.user_id;
+  const {userId} = req.body;
+
+  const sqlInsertGroup = `
+    INSERT INTO chat_groups (name)
+    VALUES (
+      CONCAT('admin-', (SELECT username FROM users WHERE user_id = ?))
+    );
+  `;
+
+  db.query(sqlInsertGroup, [userId], (err, insertResults) => {
+    if (err) {
+      console.error('Error adding chat group:', err);
+      return res.status(500).send({ message: 'Failed to add chat group' });
+    }
+
+    const groupId = insertResults.insertId;
+    addMembersToGroupForAdmin(groupId, userId, admin_id, res);
+  });
+};
+
+function addMembersToGroupForAdmin(groupId, userId, admin_id, res) {
+  const addMember = (groupId, user_id, res, callback) => {
+    const sqlCheckMember = `
+      SELECT * FROM group_members WHERE group_id = ? AND user_id = ?
+    `;
+    db.query(sqlCheckMember, [groupId, user_id], (err, memberResults) => {
+      if (err) {
+        console.error('Error checking group member:', err);
+        return res.status(500).send({ message: 'Failed to check group member' });
+      }
+
+      if (memberResults.length === 0) {
+        const sqlInsertMember = `
+          INSERT INTO group_members (group_id, user_id)
+          VALUES (?, ?)
+        `;
+        db.query(sqlInsertMember, [groupId, user_id], (err) => {
+          if (err) {
+            console.error('Error adding group member:', err);
+            return res.status(500).send({ message: 'Failed to add group member' });
+          }
+          callback();
+        });
+      } else {
+        callback();
+      }
+    });
+  };
+
+  // เรียกใช้ฟังก์ชันเพื่อเพิ่ม user และ admin
+  addMember(groupId, userId, res, () => {
+    const adminUserIdQuery = `SELECT user_id FROM users WHERE user_id = ?`;
+    db.query(adminUserIdQuery, [admin_id], (err, results) => {
+      if (err) {
+        console.error('Error fetching admin user_id:', err);
+        return res.status(500).send({ message: 'Failed to fetch admin user_id' });
+      }
+
+      const adminUserId = results[0].user_id;
+      addMember(groupId, adminUserId, res, () => {
+        res.json({ message: 'Chat group and members added successfully', groupId });
+      });
+    });
+  });
+}
