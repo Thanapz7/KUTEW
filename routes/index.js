@@ -113,7 +113,8 @@ router.get('/tutorrequest', (req,res) =>{
 })
 
 router.get('/chatadmin', (req,res) =>{
-  res.render('pages/adChat.ejs');
+  const userId = req.session.user.user_id;
+  res.render('pages/adChat.ejs',{userId});
 })
 
 router.get('/reportadmin', (req,res) =>{

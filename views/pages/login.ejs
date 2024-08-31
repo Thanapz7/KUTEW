@@ -87,53 +87,72 @@
       });
 
       // handle login form submission
-document.getElementById('login-form').addEventListener('submit', async function(event) {
-  event.preventDefault();
-
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-
-  try {
-      const response = await fetch('/login/signin', {
-          method: 'POST',
-          headers: {
+      document.getElementById('login-form').addEventListener('submit', async function (event) {
+        event.preventDefault();
+      
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+      
+        try {
+          const response = await fetch('/login/signin', {
+            method: 'POST',
+            headers: {
               'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ username, password })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-          // เช็คสถานะการทำแบบฟอร์ม
-          const formResponse = await fetch('/role/form', {
+            },
+            body: JSON.stringify({ username, password })
+          });
+      
+          const data = await response.json();
+      
+          if (response.ok) {
+            // ตรวจสอบบทบาทของผู้ใช้จาก session หรือข้อมูลที่ส่งกลับจาก API
+            const roleResponse = await fetch('/user/u', {
               method: 'GET',
               headers: {
-                  'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
               }
-          });
-
-          const formData = await formResponse.json();
-
-          if (formResponse.ok) {
-              if (formData.formCompleted) {
-                  window.location.href = '/home';
+            });
+      
+            const roleData = await roleResponse.json();
+            console.log(roleData)
+      
+            if (roleResponse.ok) {
+              // ถ้าเป็นแอดมิน ให้ไปที่หน้าของแอดมิน
+              if (roleData.role === 'admin') {
+                window.location.href = '/admin';
               } else {
-                  window.location.href = '/selrole';
+                // ถ้าไม่ใช่แอดมิน เช็คสถานะการทำแบบฟอร์ม
+                const formResponse = await fetch('/role/form', {
+                  method: 'GET',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
+                });
+      
+                const formData = await formResponse.json();
+      
+                if (formResponse.ok) {
+                  if (formData.formCompleted) {
+                    window.location.href = '/home';
+                  } else {
+                    window.location.href = '/selrole';
+                  }
+                } else {
+                  alert(formData.message);
+                }
               }
+            } else {
+              alert('Unable to determine user role.');
+            }
           } else {
-              alert(formData.message);
+            alert(data.message);
           }
-      } else {
-          alert(data.message);
-      }
-  } catch (error) {
-      console.error('Error logging in:', error);
-      alert('มีข้อผิดพลาดในการเข้าสู่ระบบ');
-  }
-});
-
-
+        } catch (error) {
+          console.error('Error logging in:', error);
+          alert('มีข้อผิดพลาดในการเข้าสู่ระบบ');
+        }
+      });
+      
 </script>
   </body>
 </html>
