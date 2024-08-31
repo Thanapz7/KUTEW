@@ -152,6 +152,12 @@ main .container .left{
     padding: 1.5rem;
     border-radius: var(--card-border-radius);
 }
+.right .right-background-treq{
+    background: var(--lighgreen-color);
+    height: 80vh;
+    padding: 1.5rem;
+    border-radius: var(--card-border-radius);
+}
 .right .show-charts{
     display: flex;
     flex-wrap: wrap;
