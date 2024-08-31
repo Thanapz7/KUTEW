@@ -159,6 +159,9 @@ main .container .left{
     justify-content: center;
 }
 .right .show-chart{
+    background-color: var(--white-color);
+    padding: 10px;
+    border-radius: var(--card-border-radius);
     flex: 1 1 calc(50% - 1rem);
     display: flex;
     flex-direction: column;
@@ -173,7 +176,7 @@ main .container .left{
     margin-top: 0.5rem;
 }
 .show-chart h3{
-    color: var(--white-color);
+    color: var(--green-color);
 }
 /* tutor request */
 .tutor-requests{

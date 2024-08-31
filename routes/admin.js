@@ -11,7 +11,7 @@ const {
   router.get("/tutorstatus", getAllTutorsPending);
   router.put("/accept/:id", updateAcceptTutor);
   router.put("/deny/:id", updateDenyTutor);
-  router.put("/count", getUserActivity);
+  router.get("/count", getUserActivity);
 
   
 module.exports = router;

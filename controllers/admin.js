@@ -53,6 +53,6 @@ exports.getUserActivity = async (req, res) => {
             res.status(500).json({ error: 'Failed to Get Count' });
             return;
         }
-        res.status(200).json({ message: 'Get User Count successfully'});
+        res.status(200).json({ message: 'Get User Count successfully',results});
     });
 };
