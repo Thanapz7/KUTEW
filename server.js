@@ -63,6 +63,7 @@ const joinRouter = require('./routes/join.js');
 const notificationRouter = require('./routes/notifications.js');
 const chatRouter = require('./routes/chat.js');
 const adminRouter = require('./routes/admin.js');
+const commentRouter = require('./routes/comment.js');
 const { swaggerUi, swaggerSpec } = require("./swagger.js");
 
 app.use("/post", postRouter);
@@ -75,6 +76,7 @@ app.use("/join", joinRouter);
 app.use(notificationRouter);
 app.use("/chat", chatRouter);
 app.use("/admin", adminRouter);
+app.use("/comment", commentRouter);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Socket.IO setup

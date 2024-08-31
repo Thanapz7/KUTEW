@@ -36,11 +36,7 @@ exports.getAllUsers = async (req, res) => {
         COALESCE(tutors.phone, students.phone) AS phone,
         COALESCE(tutors.address, students.address) AS address,
         COALESCE(tutors.profilePic, students.profilePic) AS profilePic,
-        CASE
-            WHEN tutors.user_id IS NOT NULL THEN 'tutor'
-            WHEN students.user_id IS NOT NULL THEN 'student'
-            ELSE 'unknow'
-        END AS role
+        users.role
     FROM
         users
     LEFT JOIN
