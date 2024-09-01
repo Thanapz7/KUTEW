@@ -40,6 +40,16 @@
                 // Clear any existing content
                 tutorRequestsContainer.innerHTML = '';
 
+                // Check if there are no tutor requests
+                if (tutors.length === 0) {
+                    tutorRequestsContainer.innerHTML = '<p>Don\'t have any tutor\'s request</p>';
+                    
+                    tutorRequestsContainer.style.backgroundColor = 'transparent';
+                    tutorRequestsContainer.style.padding = '0';
+                    tutorRequestsContainer.style.color = 'var(--black-color)';
+                    return;
+                }
+
                 // Loop and create the HTML for each one
                 tutors.forEach(tutor => {
                     const tutorElement = document.createElement('div');

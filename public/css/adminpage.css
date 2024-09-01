@@ -194,6 +194,7 @@ main .container .left{
 .tutor-requests .tutor-request{
     display: flex;
     justify-content: space-between;
+    margin: 20px;
 }
 .tutor-request .profiles{
     display: flex;

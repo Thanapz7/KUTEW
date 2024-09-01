@@ -231,6 +231,14 @@
                     document.getElementById('user-address').textContent = `ที่อยู่: ${userData.address}`;
                     document.getElementById('profilePic').src = userData.profilePic || './img/racc.jfif';
                     document.getElementById('profileImage').src = userData.profilePic || './img/racc.jfif';
+
+                    // ตรวจสอบ role และซ่อนแถบตามเงื่อนไข
+                    if (userData.role === 'student') {
+                        document.getElementById('mypost').style.display = 'none';
+                    } else if (userData.role === 'tutor') {
+                        document.getElementById('myjoin').style.display = 'none';
+                    }
+
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                     document.getElementById('user-name').textContent = 'Error loading name';
