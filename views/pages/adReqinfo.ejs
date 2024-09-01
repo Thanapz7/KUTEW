@@ -21,34 +21,59 @@
                     <div class="req-info">
                         <a href="/tutorrequest"><i class="fa-solid fa-arrow-left back"></i></a>
                         <form action="" class="info">
-                            <img src="../img/racc.jfif" class="profile">
-                            <p>ชื่อ-นามสกุล : <span>Paxton Clinton</span></p>
+                            <img src="../img/racc.jfif" class="profile" id="profilePic">
+                            <p id="user-name">ชื่อ-นามสกุล : <span></span></p>
                             <div class="info-group">
-                                <p>คณะ : <span>วิทยาศาสตร์และวิศวกรรมศาสตร์</span></p>
-                                <p>สาขา : <span>วิศวกรรมคอมพิวเตอร์</span></p>
-                                <p>ชั้นปี : <span>4</span></p>
+                                <p id="user-faculty">คณะ : <span></span></p>
+                                <p id="user-major">สาขา : <span></span></p>
+                                <p id="user-year">ชั้นปี : <span></span></p>
                             </div>
                             <div class="info-group">
-                                <p>เบอร์โทร : <span>0987654321</span></p>
-                                <p>เลขบัตรประชาชน : <span>11223344567890</span></p>
+                                <p id="user-phone">เบอร์โทร : <span></span></p>
                             </div>
-                            <p>ที่อยู่ : <span>123/1 R.AA T.AA A.CC P.SK Thailand</span></p>
-                            <div class="idcard">
-                                <p>รูปคู่กับบัตรประชาชน :</p>
-                                <img src="../img/cover.jpg" alt="" class="picinfo">
-                            </div>
+                            <p id="user-address">ที่อยู่ : <span></span></p>
                             <div class="certi">
-                                <p>รูปเกียรติบัตรหรือรูปการสอน : </p>
-                                <img src="../img/cover.jpg" alt="" class="picinfo">
+                                <p>รูปเกียรติบัตรหรือรูปการสอน </p>
+                                <img src="../img/cover.jpg" alt="" class="picinfo"  id="certi">
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-            
     </main>
 
-    <script></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userId = window.location.pathname.split('/').pop(); // assuming the ID is in the URL
+            try {
+                const response = await fetch(`/user/t/${userId}`,{
+                    method : 'POST',
+                    headers: {
+                        "Content-Type":"application/json", 
+                    }
+                });
+                const data = await response.json();
+
+                if (data.length > 0) {
+                    const user = data[0];
+                    document.getElementById('user-name').querySelector('span').textContent = user.name;
+                    document.getElementById('user-faculty').querySelector('span').textContent = user.faculty;
+                    document.getElementById('user-major').querySelector('span').textContent = user.major;
+                    document.getElementById('user-year').querySelector('span').textContent = user.year;
+                    document.getElementById('user-phone').querySelector('span').textContent = user.phone;
+                    document.getElementById('user-address').querySelector('span').textContent = user.address;
+                    
+                    document.getElementById('profilePic').src = `/${user.profilePic}`;
+                    document.getElementById('certi').src = `/${user.certificatePic}`;
+
+                } else {
+                    console.error('No user found with this ID');
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        });
+    </script>
 </body>
 </html>

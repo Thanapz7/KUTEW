@@ -121,8 +121,9 @@ router.get('/reportadmin', (req,res) =>{
   res.render('pages/adReport.ejs');
 })
 
-router.get('/tutorinfo', (req,res) =>{
-  res.render('pages/adReqinfo.ejs');
+router.get('/tutorinfo/:tutor_id', (req,res) =>{
+  const tutor_id = req.params.tutor_id;
+  res.render('pages/adReqinfo.ejs',{tutor_id});
 })
 
 

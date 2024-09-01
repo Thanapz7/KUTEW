@@ -149,7 +149,7 @@ exports.getStudentdata = async (req, res) => {
 };
 
 exports.getAllTutorsByID = async (req, res) => {
-    const { tutor_id } = req.params.tutor_id;
+    const tutor_id= req.params.tutor_id;
     const query = 'SELECT * FROM tutors WHERE tutor_id = ?';
     db.query(query, [tutor_id],(err, results) => {
         if (err) {
