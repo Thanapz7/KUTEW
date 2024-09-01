@@ -10,7 +10,7 @@ const {
     
 
   } =require("../controllers/comment.js");
-  router.post("/", insertComment);
+  router.post("/:tutor_id", insertComment);
   router.put("/report/:comment_id", ReportComment);
   router.put("/reject/:comment_id", RejectReportComment);
   router.get("/:tutor_id", GetAllCommentByIdTutor);

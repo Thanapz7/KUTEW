@@ -33,6 +33,31 @@
       </div>
     </main>
 
+    <!-- Modal for review -->
+    <div id="reviewModal" class="modal-review" style="display: none;">
+      <div class="modal-review-content">
+        <span class="close-btn"><i class="fa-solid fa-x"></i></span>
+        <h2>เพิ่มความคิดเห็น</h2>
+        <div class="modal-body-review">
+          <div class="uploadreview-section">
+            <label for="reviewRating">คะแนน:</label>
+            <select id="reviewRating">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <div class="upload-section">
+            <label for="text">ความคิดเห็น:</label>
+            <textarea id="text" rows="4"></textarea>
+          </div>
+          <button class="save-review-btn">บันทึก</button>
+        </div>
+      </div>
+    </div>
+
     <script>
       async function fetchJoinedPosts() {
         try {
@@ -41,7 +66,7 @@
             throw new Error("Failed to fetch posts");
           }
           const result = await response.json();
-
+    
           // Check if data exists
           if (result.data && result.data.length > 0) {
             displayPosts(result.data);
@@ -55,26 +80,26 @@
             "Error fetching join requested.";
         }
       }
-
+    
       function displayPosts(posts) {
         const container = document.getElementById("joinContainer");
         container.innerHTML = ""; // Clear existing content
-
+    
         posts.forEach((post) => {
           const postElement = document.createElement("div");
           postElement.classList.add("card-eachjoin");
-
+    
           const formattedDate = new Date(post.date).toISOString().split("T")[0];
-
-          // กำหนดสีและข้อความตามสถานะที่ได้จากฐานข้อมูล
+    
+          // Determine status and button behavior
           let statusClass = "";
           let statusText = "";
           let buttonDisabled = true;
-
+    
           if (post.join_status === "Accept") {
             statusClass = "accept";
             statusText = "Accepted";
-            buttonDisabled = false; 
+            buttonDisabled = false;
           } else if (post.join_status === "pending") {
             statusClass = "pending";
             statusText = "Pending";
@@ -82,57 +107,131 @@
             statusClass = "deny";
             statusText = "Denied";
           }
-
+    
+          // Determine course status
+          let courseStatusText = "";
+          let courseButtonDisabled = true;
+    
+          if (post.course_status === "do") {
+            courseStatusClass = "studying";
+            courseStatusText = "Studying";
+            courseButtonDisabled = true; // Disable button
+          } else if (post.course_status === "done") {
+            courseStatusClass = "studied";
+            courseStatusText = "Studied";
+            courseButtonDisabled = false; // Enable button
+          }
+    
           postElement.innerHTML = `
-                <div class="left-card">
-                  <img src="${post.profilePic}" class="profile-mypost">
-                </div>
-                <div class="center-card">
-                  <div class="name">
-                    <i class="fa-solid fa-user"></i>
-                    <p class="head">Tutor Name :</p>
-                    <p>${post.name}</p>
-                  </div>
-                  <div class="date">
-                    <i class="fa-solid fa-clock"></i>
-                    <p class="head">Date :</p>
-                    <p>${formattedDate}</p>
-                  </div>
-                  
-                  <div class="details">
-                    <i class="fa-solid fa-newspaper"></i>
-                    <p class="head">Details :</p>
-                    <p>${post.details}</p>
-                  </div>
-                  <div class="location">
-                    <i class="fa-solid fa-map-pin"></i>
-                    <p class="head">Location :</p>
-                    <p>${post.location}</p>
-                  </div>
-                </div>
-                <div class="status ${statusClass}" id="statusBar">
-                  <p>${statusText}</p>
-                </div>
-                <div class="right-card">
-                    <button class="request-post" data-post-id="${post.post_id}" data-tutor-id="${post.tutor_id}" ${buttonDisabled ? 'disabled' : ''}><p class="head">Payment</p></button>
-                </div>
-              `;
+            <div class="left-card">
+              <img src="${post.profilePic}" class="profile-mypost">
+            </div>
+            <div class="center-card">
+              <div class="name">
+                <i class="fa-solid fa-user"></i>
+                <p class="head">Tutor Name :</p>
+                <p>${post.name}</p>
+              </div>
+              <div class="date">
+                <i class="fa-solid fa-clock"></i>
+                <p class="head">Date :</p>
+                <p>${formattedDate}</p>
+              </div>
+              <div class="details">
+                <i class="fa-solid fa-newspaper"></i>
+                <p class="head">Details :</p>
+                <p>${post.details}</p>
+              </div>
+              <div class="location">
+                <i class="fa-solid fa-map-pin"></i>
+                <p class="head">Location :</p>
+                <p>${post.location}</p>
+              </div>
+            </div>
+            <div class="right-cards">
+              <div class="status ${statusClass}" id="statusBar">
+                <p>${statusText}</p>
+              </div>
+              <div class="right-card">
+                <button class="request-post" data-post-id="${post.post_id}" data-tutor-id="${post.tutor_id}" ${buttonDisabled ? 'disabled' : ''}><p class="head">Payment</p></button>
+              </div>
+              <div class="status status-course ${courseStatusClass}" id="status-courseBar">
+                <p>${courseStatusText}</p>
+              </div>
+              <div class="right-card">
+                <button class="request-post review-btn" data-tutor-id="${post.tutor_id}" ${courseButtonDisabled ? 'disabled' : ''}><p class="head">Review</p></button>
+              </div>
+            </div>
+          `;
+    
           container.appendChild(postElement);
         });
-        // เพิ่ม Event เมื่อกดปุ่ม Payment
-      document.querySelectorAll(".request-post").forEach((button) => {
-        if (!button.disabled) { // เพิ่มเช็คว่าปุ่มถูกเปิดใช้งานหรือไม่
-        button.addEventListener("click", () => { 
-        const postId = button.getAttribute("data-post-id");
-        const tutorId = button.getAttribute("data-tutor-id");
-          if (postId && tutorId) {
-            window.location.href = `/payment/${tutorId}/${postId}`;
+    
+        // Add event listeners to enabled buttons
+        document.querySelectorAll(".request-post").forEach((button) => {
+          if (!button.disabled) {
+            button.addEventListener("click", () => {
+              const postId = button.getAttribute("data-post-id");
+              const tutorId = button.getAttribute("data-tutor-id");
+              if (postId && tutorId) {
+                window.location.href = `/payment/${tutorId}/${postId}`;
+              }
+            });
           }
         });
+
+        // Add event listeners for the review buttons
+        document.querySelectorAll(".review-btn").forEach((button) => {
+          if (!button.disabled) {
+            button.addEventListener("click", () => {
+              const tutorId = button.getAttribute("data-tutor-id");
+              openReviewModal(tutorId);
+            });
+          }
+        });
+      }
+
+      function openReviewModal(tutorId) {
+        const modal = document.getElementById("reviewModal");
+        modal.style.display = "flex";
+
+        const closeButton = modal.querySelector(".close-btn");
+        closeButton.addEventListener("click", () => {
+          modal.style.display = "none";
+        });
+
+        const saveButton = modal.querySelector(".save-review-btn");
+        saveButton.onclick = () => {
+          submitReview(tutorId);
+        };
+      }
+
+      async function submitReview(tutorId) {
+       // const name = document.getElementById("reviewName").value;
+        const rating = document.getElementById("reviewRating").value;
+
+        try {
+          const response = await fetch(`/comment/${tutorId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ rating, text }),
+          });
+
+          if (response.ok) {
+            alert("Review submitted successfully!");
+            document.getElementById("reviewModal").style.display = "none";
+          } else {
+            throw new Error("Failed to submit review");
+          }
+        } catch (error) {
+          console.error("Error submitting review:", error);
+          alert("Error submitting review. Please try again.");
         }
-      });
-    }
-      // Fetch and display 
+      }
+
+      // Fetch and display posts
       fetchJoinedPosts();
     </script>
   </body>

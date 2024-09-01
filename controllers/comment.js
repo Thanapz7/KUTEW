@@ -4,18 +4,18 @@ exports.insertComment = (req, res) => {
     const userId = req.session.user.user_id;
     const tutor_id = req.params.tutor_id;
 
-    const { text } = req.body;
+    const { text ,rating } = req.body;
 
     if (!text ) {
         return res.status(400).json({ error: 'Text are required' });
     }
 
     const sql = `
-        INSERT INTO comments (text, tutor_id, student_id)
-        VALUES (?, ?, (SELECT student_id FROM students WHERE user_id = ?))
+        INSERT INTO comments (text, rating, tutor_id, student_id)
+        VALUES (?, ?, ?, (SELECT student_id FROM students WHERE user_id = ?))
     `;
 
-    db.query(sql, [text, tutor_id, userId], (err, result) => {
+    db.query(sql, [text, rating, tutor_id, userId], (err, result) => {
         if (err) {
             return res.status(500).json({ error: err.message });
         }

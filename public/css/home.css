@@ -122,9 +122,10 @@ nav .search-bars .btn-logout{
     align-items: center;
     margin-left: 1rem;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 nav .search-bars .btn-logout:hover{
-    font-size: 1.4rem;
+    transform: scale(1.5);
 }
 nav .page{
     font-size: large;
@@ -1154,7 +1155,8 @@ textarea{
 .card-eachjoin .left-card,
 .card-eachjoin .center-card,
 .card-eachjoin .right-card,
-.card-eachjoin .status{
+.card-eachjoin .status,
+.card-eachjoin .right-cards{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1225,8 +1227,6 @@ textarea{
     font-weight: bold;
 }
 .card-eachjoin .right-card button.request-post{
-    width: 8rem;
-    height: 5rem;
     background-color: var(--green-color);
     color: white;
     border: none;
@@ -1254,8 +1254,14 @@ textarea{
 .status.accept {
     color: green;
 }
+.status.studied {
+    color: green;
+}
 
 .status.pending {
+    color: rgb(224, 224, 4);
+}
+.status.studying {
     color: rgb(224, 224, 4);
 }
 
