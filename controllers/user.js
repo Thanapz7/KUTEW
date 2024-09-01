@@ -147,3 +147,16 @@ exports.getStudentdata = async (req, res) => {
         res.json(results);
     });
 };
+
+exports.getAllTutorsByID = async (req, res) => {
+    const { tutor_id } = req.params.tutor_id;
+    const query = 'SELECT * FROM tutors WHERE tutor_id = ?';
+    db.query(query, [tutor_id],(err, results) => {
+        if (err) {
+            console.error('Error fetching posts:', err);
+            res.status(500).json({ error: 'Failed to fetch posts' });
+            return;
+        }
+        res.json(results);
+    });
+};
