@@ -204,6 +204,7 @@ main .container .left{
     border-radius: 50%;
     width: 70px;
     height: 70px;
+    object-fit: cover;
 }
 .tutor-request .profiles h3{
     margin-left: 1.5rem;
@@ -242,6 +243,7 @@ main .container .left{
     background: var(--white-color);
     border-radius: var(--card-border-radius);
     padding: 1rem;
+    height: auto;
 }
 .req-info .back{
     font-size: 20px;
@@ -261,11 +263,13 @@ main .container .left{
     width: 170px;
     height: 170px;
     align-self: center;
-    margin-bottom: 1rem;
+    margin: 0 1rem;
+    object-fit: cover;
 }
 .req-info .info .info-group{
     display: flex;
     width: 100%;
+    white-space: nowrap;
 }
 .req-info .info .info-group p{
     margin-right: 2rem;

@@ -36,6 +36,10 @@
                                 <p>รูปเกียรติบัตรหรือรูปการสอน </p>
                                 <img src="../img/cover.jpg" alt="" class="picinfo"  id="certi">
                             </div>
+                            <div class="idcard">
+                                <p>รูปถ่ายคู่กับบัตรประจำตัวประชาชน </p>
+                                <img src="../img/cover.jpg" alt="" class="picinfo"  id="idcard">
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -66,6 +70,7 @@
                     
                     document.getElementById('profilePic').src = `/${user.profilePic}`;
                     document.getElementById('certi').src = `/${user.certificatePic}`;
+                    document.getElementById('idcard').src = `/${user.idPic}`;
 
                 } else {
                     console.error('No user found with this ID');
