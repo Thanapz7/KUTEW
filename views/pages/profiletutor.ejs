@@ -244,6 +244,14 @@
                     // ตั้งค่า src ของรูปภาพ
                     document.getElementById('profilePic').src = profilePicPath; // รูปโปรไฟล์ในหน้าหลัก
                     document.getElementById('profileImage').src = sidebarProfilePicPath; // รูปโปรไฟล์ใน sidebar
+
+                    // ตรวจสอบ role และซ่อนแถบตามเงื่อนไข
+                    if (SiderData.role === 'student') {
+                        document.getElementById('mypost').style.display = 'none';
+                    } else if (SiderData.role === 'tutor') {
+                        document.getElementById('myjoin').style.display = 'none';
+                    }
+
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                     document.getElementById('user-name').textContent = 'Error loading name';
