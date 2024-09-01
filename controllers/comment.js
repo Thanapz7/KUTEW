@@ -73,6 +73,26 @@ exports.RejectReportComment = (req, res) => {
     });
 };
 
+exports.DeleteReportComment = (req, res) => {
+    const comment_id = req.params.comment_id;
+
+    if (!comment_id) {
+        return res.status(400).json({ error: 'Comment ID is required' });
+    }
+
+    const sql = `
+        DELETE FROM comments
+        WHERE comment_id = ?
+    `;
+
+    db.query(sql, [comment_id], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.status(200).json({ message: 'delete successfully' });
+    });
+};
+
 exports.GetAllCommentByIdTutor = (req, res) => {
     const tutor_id = req.params.tutor_id;
 
@@ -101,7 +121,7 @@ exports.GetAllCommentByIdTutor = (req, res) => {
 
 exports.GetAllCommentReport = (req, res) => {
     const sql = `
-        SELECT text, tutor_id, student_id 
+        SELECT *
         FROM comments
         WHERE status = ?
     `;
@@ -111,10 +131,12 @@ exports.GetAllCommentReport = (req, res) => {
             return res.status(500).json({ error: err.message });
         }
 
+        // ถ้าไม่มีผลลัพธ์
         if (results.length === 0) {
-            return res.status(404).json({ error: 'No comments found for this tutor' });
+            return res.status(200).json({ comments: [] }); // ส่งอาร์เรย์ว่างแทน
         }
 
+        // ถ้ามีผลลัพธ์ ส่งผลลัพธ์ออกไป
         res.status(200).json({ comments: results });
     });
 };

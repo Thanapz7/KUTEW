@@ -5,6 +5,7 @@ const {
     insertComment,
     ReportComment,
     RejectReportComment,
+    DeleteReportComment,
     GetAllCommentByIdTutor,
     GetAllCommentReport
     
@@ -13,6 +14,7 @@ const {
   router.post("/:tutor_id", insertComment);
   router.put("/report/:comment_id", ReportComment);
   router.put("/reject/:comment_id", RejectReportComment);
+  router.delete("/delete/:comment_id", DeleteReportComment);
   router.get("/:tutor_id", GetAllCommentByIdTutor);
   router.get("/", GetAllCommentReport);
 
