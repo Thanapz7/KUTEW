@@ -149,18 +149,23 @@
               </div>
             </div>
             <div class="right-cards">
-              <div class="status ${statusClass}" id="statusBar">
-                <p>${statusText}</p>
+              <div class="status-secs">
+                <div class="status ${statusClass}" id="statusBar">
+                  <p>${statusText}</p>
+                </div>
+                <div class="right-card">
+                  <button class="request-post" data-post-id="${post.post_id}" data-tutor-id="${post.tutor_id}" ${buttonDisabled ? 'disabled' : ''}><p class="head">Payment</p></button>
+                </div>
               </div>
-              <div class="right-card">
-                <button class="request-post" data-post-id="${post.post_id}" data-tutor-id="${post.tutor_id}" ${buttonDisabled ? 'disabled' : ''}><p class="head">Payment</p></button>
+              <div class="status-secs">
+                <div class="status status-course ${courseStatusClass}" id="status-courseBar">
+                  <p>${courseStatusText}</p>
+                </div>
+                <div class="right-card">
+                  <button class="request-post review-btn" data-tutor-id="${post.tutor_id}" ${courseButtonDisabled ? 'disabled' : ''}><p class="head">Review</p></button>
+                </div>
               </div>
-              <div class="status status-course ${courseStatusClass}" id="status-courseBar">
-                <p>${courseStatusText}</p>
-              </div>
-              <div class="right-card">
-                <button class="request-post review-btn" data-tutor-id="${post.tutor_id}" ${courseButtonDisabled ? 'disabled' : ''}><p class="head">Review</p></button>
-              </div>
+              
             </div>
           `;
     
@@ -209,6 +214,7 @@
       async function submitReview(tutorId) {
        // const name = document.getElementById("reviewName").value;
         const rating = document.getElementById("reviewRating").value;
+        const text = document.getElementById("text").value;
 
         try {
           const response = await fetch(`/comment/${tutorId}`, {

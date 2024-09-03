@@ -1214,12 +1214,19 @@ textarea{
 .card-eachjoin .center-card .datails i{
     margin-right: 0.3rem;
 }
+.card-eachjoin .right-cards{
+    display: flex;
+    flex-direction: column;
+}
+.card-eachjoin .status-secs{
+    display: flex;
+    flex-direction: row;
+}
 .card-eachjoin .right-card{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: end;
-    height: auto;
+    align-items: center;
 }
 .card-eachjoin .right-card p{
     margin: 0;
@@ -1227,12 +1234,18 @@ textarea{
     font-weight: bold;
 }
 .card-eachjoin .right-card button.request-post{
+    width: 120px;
+    height: 50px;
     background-color: var(--green-color);
     color: white;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    margin: 1rem;
+    margin: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 .card-eachjoin .right-card button.request-post:hover{
     opacity: 0.8;
@@ -1358,14 +1371,18 @@ textarea{
     font-weight: bold;
 }
 .card-eachpost .right-card button.request-post{
-    width: 8rem;
-    height: 5rem;
+    width: 130px;
+    height: 50px;
     background-color: var(--green-color);
     color: white;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
     margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 .card-eachpost .right-card button.request-post:hover{
     opacity: 0.8;
