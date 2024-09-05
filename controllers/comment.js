@@ -101,7 +101,7 @@ exports.GetAllCommentByIdTutor = (req, res) => {
     }
 
     const sql = `
-        SELECT c.text, c.tutor_id, c.student_id ,c.rating ,t.name as tutor_name ,s.name as student_name
+        SELECT c.comment_id, c.text, c.tutor_id, c.student_id ,c.rating ,t.name as tutor_name ,s.name as student_name
         FROM comments c
         JOIN tutors t ON t.tutor_id = c.tutor_id
         JOIN students s ON s.student_id = c.student_id

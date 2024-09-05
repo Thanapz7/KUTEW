@@ -72,32 +72,11 @@
             </div>
             <div class="profilereview">
                 <div class="profilereview-head">
-                    <h3>ความคิดเห็น</h3>
+                    <h3>Review</h3>
                 </div>
                 
                 <div class="profilereview-texts" id="reviewContainer">
                     <!-- Comments will be dynamically inserted here -->
-                </div>
-                <div id="reviewModal" class="modal-review">
-                    <div class="modal-review-content">
-                        <span class="close-btn"><i class="fa-solid fa-x"></i></span>
-                        <h2>เพิ่มความคิดเห็น</h2>
-                        <div class="modal-body-review">
-                            <div class="uploadreview-section">
-                                <label for="reviewName">ชื่อ:</label>
-                                <input type="text" id="reviewName">
-                            </div>
-                            <div class="uploadreview-section">
-                                <label for="reviewRating">คะแนน:</label>
-                                <input type="number" id="reviewRating" min="1" max="5">
-                            </div>
-                            <div class="upload-section">
-                                <label for="reviewText">ความคิดเห็น:</label>
-                                <textarea id="reviewText" rows="4"></textarea>
-                            </div>
-                            <button class="save-review-btn">บันทึก</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -148,30 +127,6 @@
           });
         }
 
-        if (saveReviewBtn) {
-          saveReviewBtn.addEventListener('click', () => {
-            const reviewName = document.getElementById('reviewName').value;
-            const reviewRating = document.getElementById('reviewRating').value;
-            const reviewText = document.getElementById('reviewText').value;
-
-            if (reviewName && reviewRating && reviewText) {
-              const reviewElement = document.createElement('div');
-              reviewElement.classList.add('profilereview-text');
-              reviewElement.innerHTML = 
-                `<span>${reviewName}</span>
-                <div class="rating">
-                  <i class="fa-solid fa-star rating-icon"></i>
-                  <span class="rating-number">${reviewRating}</span>
-                  <span>${reviewText}</span>
-                </div>
-                <a class="review-report">รายงาน</a>`;
-              document.getElementById('reviewContainer').appendChild(reviewElement);
-              reviewModal.style.display = 'none';
-            } else {
-              alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-            }
-          });
-        }
 
         async function fetchUserData() {
           try {
@@ -180,6 +135,7 @@
               throw new Error('Network response was not ok');
             }
             const userData = await response.json();
+
             document.getElementById('user-name').textContent = userData.name;
             document.getElementById('user-name-profile').textContent = userData.name;
             document.getElementById('user-faculty').textContent = `คณะ: ${userData.faculty}`;
@@ -188,8 +144,9 @@
             document.getElementById('user-phone').textContent = `เบอร์โทร: 0${userData.phone}`;
             document.getElementById('user-email').textContent = `อีเมล: ${userData.email}`;
             document.getElementById('user-address').textContent = `ที่อยู่: ${userData.address}`;
-            document.getElementById('profileImage').src = userData.profilePic || './img/racc.jfif';
-            document.getElementById('coverImage').src = userData.coverPic || './img/cover.jpg';
+            document.getElementById('profileImage').src = userData.profilePic || '../img/racc.jfif';
+            document.getElementById('profilePic').src = userData.profilePic || '../img/racc.jfif';
+            document.getElementById('coverImage').src = userData.coverPic || '../img/cover.jpg';
 
             if (userData.role === 'student') {
               document.getElementById('mypost').style.display = 'none';
@@ -224,16 +181,40 @@
                     const reviewElement = document.createElement('div');
                     reviewElement.classList.add('profilereview-text');
                     reviewElement.innerHTML = 
-                    `<span>${comment.student_id}</span>
+                    `<span>${comment.student_name}</span>
                     <div class="rating">
                         <i class="fa-solid fa-star rating-icon"></i>
                         <span class="rating-number">${comment.rating}</span>
                         &nbsp;
                         <span>${comment.text}</span>
                     </div>
-                    <a class="review-report">รายงาน</a>`;
+                    <button class="review-report" data-comment-id="${comment.comment_id}">Report</button>`;
                     reviewContainer.appendChild(reviewElement);
                 });
+
+              // Add event listeners to report buttons
+            const reportButtons = document.querySelectorAll('.review-report');
+            reportButtons.forEach(button => {
+              button.addEventListener('click', async function() {
+                const commentId = this.dataset.commentId;
+                try {
+                  const response = await fetch(`/comment/report/${commentId}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                  });
+                  if (response.ok) {
+                    alert('Reported!!!');
+                  } else {
+                    alert('An error occurred in the report');
+                  }
+                } catch (error) {
+                  console.error('Error reporting comment:', error);
+                  alert('An error occurred in the report');
+                }
+              });
+            });
                 } else {
                 console.error('Comments data is not an array:', comments);
                 }

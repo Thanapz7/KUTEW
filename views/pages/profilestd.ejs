@@ -28,7 +28,7 @@
                 <div class="profilesec-avatar">
                     <img src="../img/boy.png" class="profilesec-img" id="profileImage">
                     <p class="profilesec-name" id="user-name-profile">Loading...</p>
-                    <button class="change-image-btn">Change Image</button>
+                    <!-- <button class="change-image-btn">Change Image</button> -->
                     <input type="file" id="imageInputProfile" accept="image/*" style="display: none;">
                 </div>                              
                 <img src="../img/cover.jpg" alt="" class="profilesec-cover" id="coverImage">
@@ -63,11 +63,6 @@
                         <p id="user-email">อีเมล : <span></span> </p>
                         <p id="user-address">ที่อยู่ :</p>
                     </div>
-                    <div class="profileinfos-cer">
-                        <img src="../img/cover.jpg" alt="">
-                        <img src="../img/cover.jpg" alt="">
-                        <img src="../img/cover.jpg" alt="">
-                    </div>
                 </div>
             </div>
             <div class="profilestdhistory">
@@ -75,78 +70,7 @@
                     <h4>ประวัติการเรียน</h4>
                 </div>
                 <div class="allstdhistory">
-                    <div class="stdhistory">
-                        <div class="left-card">
-                            <img src="../img/racc.jfif" class="profile-mypost">
-                        </div>
-                        <div class="center-card">
-                            <div class="nametutor">
-                                <span>Name</span>
-                            </div>
-                            <div class="subject">
-                                <i class="fa-solid fa-book"></i>
-                                <p>MATH I</p>
-                            </div>
-                            <div class="subject">
-                                <i class="fa-solid fa-newspaper"></i>
-                                <p>รับติววิชาคณิตศาสตร์ 1</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stdhistory">
-                        <div class="left-card">
-                            <img src="../img/racc.jfif" class="profile-mypost">
-                        </div>
-                        <div class="center-card">
-                            <div class="nametutor">
-                                <span>Name</span>
-                            </div>
-                            <div class="subject">
-                                <i class="fa-solid fa-book"></i>
-                                <p>MATH I</p>
-                            </div>
-                            <div class="subject">
-                                <i class="fa-solid fa-newspaper"></i>
-                                <p>รับติววิชาคณิตศาสตร์ 1</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stdhistory">
-                        <div class="left-card">
-                            <img src="../img/racc.jfif" class="profile-mypost">
-                        </div>
-                        <div class="center-card">
-                            <div class="nametutor">
-                                <span>Name</span>
-                            </div>
-                            <div class="subject">
-                                <i class="fa-solid fa-book"></i>
-                                <p>MATH I</p>
-                            </div>
-                            <div class="subject">
-                                <i class="fa-solid fa-newspaper"></i>
-                                <p>รับติววิชาคณิตศาสตร์ 1</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stdhistory">
-                        <div class="left-card">
-                            <img src="../img/racc.jfif" class="profile-mypost">
-                        </div>
-                        <div class="center-card">
-                            <div class="nametutor">
-                                <span>Name</span>
-                            </div>
-                            <div class="subject">
-                                <i class="fa-solid fa-book"></i>
-                                <p>MATH I</p>
-                            </div>
-                            <div class="subject">
-                                <i class="fa-solid fa-newspaper"></i>
-                                <p>รับติววิชาคณิตศาสตร์ 1</p>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- std history -->
                 </div>
             </div>
         </div>
@@ -202,6 +126,7 @@
                     const userId = "<%= userId %>"; // ดึงค่า userId ที่ถูกส่งมาจากเซิร์ฟเวอร์
                     const response = await fetch(`/user/sdata/${userId}`);
                     const sidebarres = await fetch('/user/u');
+                    const studyHistoryRes = await fetch(`/join/${userId}`); // Fetch study history
         
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -209,6 +134,7 @@
         
                     const userData = await response.json();
                     const SiderData = await sidebarres.json();
+                    const studyHistoryData = await studyHistoryRes.json(); // Parse study history data
         
                     // เส้นทางรูปภาพที่ได้จากฐานข้อมูล (หากมี)
                     const sidebarProfilePicPath = userData[0].profilePic ? `/${userData[0].profilePic}` : './img/boy.png';
@@ -235,9 +161,36 @@
                         document.getElementById('myjoin').style.display = 'none';
                     }
 
+                    // แสดงข้อมูลประวัติการเรียน
+            const studyHistoryContainer = document.querySelector('.allstdhistory');
+            studyHistoryContainer.innerHTML = ''; // Clear existing content
+
+            studyHistoryData.forEach(history => {
+              const historyElement = document.createElement('div');
+              historyElement.classList.add('stdhistory');
+              historyElement.innerHTML = `
+                <div class="left-card">
+                  <img src="${history.profilePic}" class="profile-mypost">
+                </div>
+                <div class="center-card">
+                  <div class="nametutor">
+                    <span>${history.name}</span>
+                  </div>
+                  <div class="subject">
+                    <i class="fa-solid fa-book"></i>
+                    <p>${history.tag}</p>
+                  </div>
+                  <div class="subject">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <p>${history.details}</p>
+                  </div>
+                </div>
+              `;
+              studyHistoryContainer.appendChild(historyElement);
+            });
+
                 } catch (error) {
                     console.error('Error fetching user data:', error);
-                    document.getElementById('user-name').textContent = 'Error loading name';
                 }
             }
         

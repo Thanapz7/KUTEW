@@ -301,6 +301,24 @@ main .container .left .profile{
 .middle .create-post .btn{
     width: 15%;
 }
+.middle .show-income{
+    background: var(--white-color);
+    border-radius: var(--border-radius);
+    padding: var(--card-padding);
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+    line-height: 1.5rem;
+}
+.middle .show-income .income-detail{
+    display: flex;
+}
+.middle .show-income .income-detail h3{
+    font-size: 16px;
+}
+.middle .show-income .income-detail .income{
+    font-size: 16px;
+    margin-left: 16px;
+}
 /* feeds */
 .middle .feeds .feed{
     background: var(--white-color);
@@ -822,9 +840,16 @@ textarea{
     color: rgb(247, 190, 2);
 }
 .profilereview .profilereview-text .review-report{
-    text-decoration: underline;
-    color: red;
+    padding: 5px;
+    border-radius: var(--border-radius);
+    color: var(--white-color);
+    background-color: red;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+.profilereview .profilereview-text .review-report:hover{
+    transform: scale(1.09);
+    opacity: 0.8;
 }
 /* history */
 .profilestdhistory{
