@@ -119,8 +119,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         // ซ่อนฟอร์มถ้าผู้ใช้เป็น student
         if (userRole === 'student') {
             const createPostForm = document.querySelector('.create-post');
+            const showIncome = document.querySelector('.show-income');
             if (createPostForm) {
                 createPostForm.style.display = 'none';
+            }
+            if(showIncome){
+                showIncome.style.display = 'none';
             }
         }
 
