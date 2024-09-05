@@ -876,6 +876,7 @@ textarea{
     box-sizing: border-box;
 }
 .profilestdhistory .allstdhistory .stdhistory .left-card img{
+    object-fit: cover;
     width: 70px;
     height: 70px;
     border-radius: 50%;

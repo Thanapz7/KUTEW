@@ -79,6 +79,14 @@
                     <!-- Comments will be dynamically inserted here -->
                 </div>
             </div>
+            <div class="profilestdhistory">
+              <div class="headhist">
+                  <h4>ประวัติการเรียน</h4>
+              </div>
+              <div class="allstdhistory">
+                  <!-- std history -->
+              </div>
+          </div>
         </div>
         <!-- right -->
         <%- include('../includes/rightbar.ejs')%>
@@ -230,6 +238,104 @@
           await fetchComments();
         };
       });
+
+      document.addEventListener('DOMContentLoaded', function() {
+        async function fetchUserHistory() {
+            try {
+                const userId = "<%= userId %>"; // ดึงค่า userId ที่ถูกส่งมาจากเซิร์ฟเวอร์
+                const response = await fetch(`/user/sdata/${userId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+        
+                const stdhistory = await response.json(); // Fetch user data once
+                const studentId = stdhistory[0]?.student_id; // Safeguard with optional chaining
+        
+                if (!studentId) {
+                    throw new Error('Student ID not found');
+                }
+        
+                const studyHistoryResData = await fetch(`/user/history/${studentId}`);
+        
+                if (!studyHistoryResData.ok) {
+                    throw new Error('Failed to fetch study history');
+                }
+        
+                const studyHistoryData = await studyHistoryResData.json(); // Parse study history data
+        
+                // Log the study history response to inspect its structure
+                console.log('Study History Data:', studyHistoryData);
+        
+                // Ensure that studyHistoryData is an array
+                if (Array.isArray(studyHistoryData)) {
+                    const studyHistoryContainer = document.querySelector('.allstdhistory');
+                    studyHistoryContainer.innerHTML = ''; // Clear existing content
+        
+                    // Loop through study history data
+                    studyHistoryData.forEach(history => {
+                        const historyElement = document.createElement('div');
+                        historyElement.classList.add('stdhistory');
+                        historyElement.innerHTML = `
+                            <div class="left-card">
+                                <img src="${history.profilePic}" class="profile-mypost">
+                            </div>
+                            <div class="center-card">
+                                <div class="nametutor">
+                                    <span>${history.name}</span>
+                                </div>
+                                <div class="subject">
+                                    <i class="fa-solid fa-book"></i>
+                                    <p>${history.tag}</p>
+                                </div>
+                                <div class="subject">
+                                    <i class="fa-solid fa-newspaper"></i>
+                                    <p>${history.details}</p>
+                                </div>
+                            </div>
+                        `;
+                        studyHistoryContainer.appendChild(historyElement);
+                    });
+                } else {
+                    console.error('Study history data is not an array:', studyHistoryData);
+                }
+            } catch (error) {
+                console.error('Error fetching study history:', error);
+            }
+        }
+        
+        fetchUserHistory(); // Call the function to fetch study history
+    });
+    
+      
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            // เรียก API เพื่อตรวจสอบบทบาทของผู้ใช้
+            const response = await fetch('/user/u');
+            const userData = await response.json();
+    
+            const userRole = userData.role;
+    
+            // ซ่อนฟอร์มถ้าผู้ใช้เป็น student
+            if (userRole === 'student') {
+                const reviewsec = document.querySelector('.profilereview');
+                if (reviewsec) {
+                    reviewsec.style.display = 'none';
+                }
+            }
+            if (userRole === 'tutor') {
+              const stdhistory = document.querySelector('.profilestdhistory');
+              if(stdhistory){
+                stdhistory.style.display = 'none';
+              }
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    });
+
+    
+
     </script>
   </body>
 </html>
