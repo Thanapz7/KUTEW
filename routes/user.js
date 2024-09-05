@@ -11,7 +11,8 @@ const {
     getStudentdata,
     getAllTutorsByID,
     getTutorsRating,
-    getUserPrice
+    getUserPrice,
+    getStudenthistory
 
   } =require("../controllers/user");
   router.get("/t", getAllTutors);
@@ -24,6 +25,7 @@ const {
   router.get("/sdata/:id", getStudentdata);
   router.get("/rating/:tutor_id", getTutorsRating);
   router.get("/price", getUserPrice);
+  router.get("/history/:student_id", getStudenthistory);
   
 
 module.exports = router;

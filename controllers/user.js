@@ -198,3 +198,27 @@ exports.getUserPrice = async (req, res) => {
         }
     });
 };
+exports.getStudenthistory = async (req, res) => {
+    const student_id = req.params.student_id;
+
+    const query = `
+        SELECT t.name, t.profilePic, p.details, p.tag
+        FROM posts p
+        JOIN joins j ON p.post_id = j.post_id
+        JOIN tutors t ON t.tutor_id = j.tutor_id
+        WHERE j.student_id = ? AND j.paymentPic IS NOT NULL AND j.course_status = ?;
+    `;
+
+    db.query(query, [student_id, 'done'], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+
+        // ตรวจสอบว่ามีข้อมูลใน results หรือไม่
+        if (results.length > 0) {
+            res.status(200).json(results); // ส่งข้อมูลกลับไปยัง client
+        } else {
+            res.status(404).json({ message: 'No history found for this student' }); // ถ้าไม่มีข้อมูล
+        }
+    });
+};
