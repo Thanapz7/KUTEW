@@ -9,7 +9,8 @@ const {
     TutorgetUser,
     getTutordata,
     getStudentdata,
-    getAllTutorsByID
+    getAllTutorsByID,
+    getTutorsRating
 
   } =require("../controllers/user");
   router.get("/t", getAllTutors);
@@ -20,6 +21,7 @@ const {
   router.get("/tu/:id", TutorgetUser);
   router.get("/tdata/:id", getTutordata);
   router.get("/sdata/:id", getStudentdata);
+  router.get("/rating/:tutor_id", getTutorsRating);
   
 
 module.exports = router;

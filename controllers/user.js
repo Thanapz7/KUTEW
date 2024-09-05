@@ -160,3 +160,19 @@ exports.getAllTutorsByID = async (req, res) => {
         res.json(results);
     });
 };
+
+exports.getTutorsRating = async (req, res) => {
+    const tutorId = req.params.tutor_id;
+    const query = 'SELECT AVG(rating) AS average_rating FROM comments WHERE tutor_id = ?';
+    db.query(query, [tutorId], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        // ตรวจสอบและจัดรูปแบบให้เหลือ 2 ตำแหน่งทศนิยม ถ้าไม่เป็น null
+        const averageRating = results[0].average_rating !== null 
+            ? parseFloat(results[0].average_rating).toFixed(2) 
+            : "No Ratings";
+        res.json({ rating: averageRating });
+    });
+};
+
