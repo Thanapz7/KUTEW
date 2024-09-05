@@ -22,6 +22,23 @@ menuItems.forEach(item =>{
     })
 })
 
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      // Fetch total income from the /user/price API
+      const incomeResponse = await fetch('/user/price');
+      console.log(incomeResponse)
+      const incomeData = await incomeResponse.json();
+      console.log(incomeData)
+
+      // Display the total income
+      const totalIncomeElement = document.getElementById('total-income');
+      totalIncomeElement.textContent = incomeData.price  || '0';
+    } catch (error) {
+      console.error('Error fetching income data:', error);
+      document.getElementById('total-income').textContent = 'Error';
+    }
+  });
+
 document.querySelector('.create-post').addEventListener('submit', function(event) {
     event.preventDefault();
     window.location.href = '/createpost';
