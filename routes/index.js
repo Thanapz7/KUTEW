@@ -44,7 +44,8 @@ router.get('/createpost', (req,res) =>{
 })
 
 router.get('/profilepage', (req,res) =>{
-  res.render('pages/profilepage.ejs',{ pageTitle: 'Profile' });
+  const userId = req.session.user.user_id;
+  res.render('pages/profilepage.ejs',{userId, pageTitle: 'Profile' });
 })
 
 router.get('/mypost', (req,res) =>{

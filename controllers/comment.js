@@ -101,7 +101,7 @@ exports.GetAllCommentByIdTutor = (req, res) => {
     }
 
     const sql = `
-        SELECT text, tutor_id, student_id 
+        SELECT text, tutor_id, student_id , rating
         FROM comments
         WHERE tutor_id = ?
     `;

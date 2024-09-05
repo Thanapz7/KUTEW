@@ -75,58 +75,28 @@
                     <h3>ความคิดเห็น</h3>
                 </div>
                 
-                <div class="profilereview-texts">
-                    <div class="profilereview-text">
-                        <span>John K.</span>
-                        <div class="rating">
-                            <i class="fa-solid fa-star rating-icon"></i>
-                            <span class="rating-number">5</span>
-                            <span>ดีมาก</span>
-                        </div>
-                        <a class="review-report">รายงาน</a>
-                    </div>     
+                <div class="profilereview-texts" id="reviewContainer">
+                    <!-- Comments will be dynamically inserted here -->
                 </div>
-                <div class="profilereview-texts">
-                    <div class="profilereview-text">
-                        <span>Kim A.</span>
-                        <div class="rating">
-                            <i class="fa-solid fa-star rating-icon"></i>
-                            <span class="rating-number">5</span>
-                            <span>ดีมาก</span>
+                <div id="reviewModal" class="modal-review">
+                    <div class="modal-review-content">
+                        <span class="close-btn"><i class="fa-solid fa-x"></i></span>
+                        <h2>เพิ่มความคิดเห็น</h2>
+                        <div class="modal-body-review">
+                            <div class="uploadreview-section">
+                                <label for="reviewName">ชื่อ:</label>
+                                <input type="text" id="reviewName">
+                            </div>
+                            <div class="uploadreview-section">
+                                <label for="reviewRating">คะแนน:</label>
+                                <input type="number" id="reviewRating" min="1" max="5">
+                            </div>
+                            <div class="upload-section">
+                                <label for="reviewText">ความคิดเห็น:</label>
+                                <textarea id="reviewText" rows="4"></textarea>
+                            </div>
+                            <button class="save-review-btn">บันทึก</button>
                         </div>
-                        <a class="review-report">รายงาน</a>
-                    </div>     
-                </div>
-                <div class="profilereview-texts">
-                    <div class="profilereview-text">
-                        <span>Patrick J.</span>
-                        <div class="rating">
-                            <i class="fa-solid fa-star rating-icon"></i>
-                            <span class="rating-number">5</span>
-                            <span>ดีมาก</span>
-                        </div>
-                        <a class="review-report">รายงาน</a>
-                    </div>   
-                </div>
-            </div>
-            <div id="reviewModal" class="modal-review">
-                <div class="modal-review-content">
-                    <span class="close-btn"><i class="fa-solid fa-x"></i></span>
-                    <h2>เพิ่มความคิดเห็น</h2>
-                    <div class="modal-body-review">
-                        <div class="uploadreview-section">
-                            <label for="reviewName">ชื่อ:</label>
-                            <input type="text" id="reviewName">
-                        </div>
-                        <div class="uploadreview-section">
-                            <label for="reviewRating">คะแนน:</label>
-                            <input type="number" id="reviewRating" min="1" max="5">
-                        </div>
-                        <div class="upload-section">
-                            <label for="reviewText">ความคิดเห็น:</label>
-                            <textarea id="reviewText" rows="4"></textarea>
-                        </div>
-                        <button class="save-review-btn">บันทึก</button>
                     </div>
                 </div>
             </div>
@@ -137,116 +107,148 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const profileImage = document.getElementById('profileImage');
-            const imageInputProfile = document.getElementById('imageInputProfile');
-            const coverImage = document.getElementById('coverImage');
-            const imageModal = document.getElementById('imageModal');
-            const changeImageBtn = document.querySelector('.change-image-btn');
-            const closeBtns = document.querySelectorAll('.close-btn');
-            const profileImageInput = document.getElementById('profileImageInput');
-            const coverImageInput = document.getElementById('coverImageInput');
-            const saveImgProfileBtn = document.querySelector('.saveimg-profileBtn');
-            const addReviewBtn = document.getElementById('addreview');
-            const reviewModal = document.getElementById('reviewModal');
-            const saveReviewBtn = document.querySelector('.save-review-btn');
+      document.addEventListener('DOMContentLoaded', function() {
+        const profileImage = document.getElementById('profileImage');
+        const imageInputProfile = document.getElementById('imageInputProfile');
+        const coverImage = document.getElementById('coverImage');
+        const imageModal = document.getElementById('imageModal');
+        const changeImageBtn = document.querySelector('.change-image-btn');
+        const closeBtns = document.querySelectorAll('.close-btn');
+        const profileImageInput = document.getElementById('profileImageInput');
+        const coverImageInput = document.getElementById('coverImageInput');
+        const saveImgProfileBtn = document.querySelector('.saveimg-profileBtn');
+        const reviewModal = document.getElementById('reviewModal');
+        const saveReviewBtn = document.querySelector('.save-review-btn');
         
-            if (changeImageBtn) {
-                changeImageBtn.addEventListener('click', () => {
-                    imageModal.style.display = 'block';
-                });
-            }
-        
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    btn.closest('.modal-changeimg, .modal-review').style.display = 'none';
-                });
-            });
-        
-            if (saveImgProfileBtn) {
-                saveImgProfileBtn.addEventListener('click', () => {
-                    if (profileImageInput.files.length > 0) {
-                        const profileFile = profileImageInput.files[0];
-                        profileImage.src = URL.createObjectURL(profileFile);
-                    }
-        
-                    if (coverImageInput.files.length > 0) {
-                        const coverFile = coverImageInput.files[0];
-                        coverImage.src = URL.createObjectURL(coverFile);
-                    }
-        
-                    imageModal.style.display = 'none';
-                });
-            }
-        
-            if (addReviewBtn) {
-                addReviewBtn.addEventListener('click', () => {
-                    reviewModal.style.display = 'flex';
-                });
-            }
-        
-            if (saveReviewBtn) {
-                saveReviewBtn.addEventListener('click', () => {
-                    const reviewName = document.getElementById('reviewName').value;
-                    const reviewRating = document.getElementById('reviewRating').value;
-                    const reviewText = document.getElementById('reviewText').value;
-        
-                    if (reviewName && reviewRating && reviewText) {
-                        const reviewElement = document.createElement('div');
-                        reviewElement.classList.add('profilereview-text');
-                        reviewElement.innerHTML = `
-                            <span>${reviewName}</span>
-                            <div class="rating">
-                                <i class="fa-solid fa-star rating-icon"></i>
-                                <span class="rating-number">${reviewRating}</span>
-                                <span>${reviewText}</span>
-                            </div>
-                            <a class="review-report">รายงาน</a>
-                        `;
-                        document.querySelector('.profilereview-texts').appendChild(reviewElement);
-                        reviewModal.style.display = 'none';
-                    } else {
-                        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-                    }
-                });
-            }
+        if (changeImageBtn) {
+          changeImageBtn.addEventListener('click', () => {
+            imageModal.style.display = 'block';
+          });
+        }
+
+        closeBtns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            btn.closest('.modal-changeimg, .modal-review').style.display = 'none';
+          });
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            async function fetchUserData() {
-                try {
-                    const response = await fetch('/user/u');
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    const userData = await response.json();
-                    document.getElementById('user-name').textContent = `${userData.name}`; //sidebar
-                    document.getElementById('user-name-profile').textContent = `${userData.name}`;
-                    document.getElementById('user-faculty').textContent = `คณะ: ${userData.faculty}`;
-                    document.getElementById('user-major').textContent = `สาขา: ${userData.major}`;
-                    document.getElementById('user-year').textContent = `ชั้นปี: ${userData.year}`;
-                    document.getElementById('user-phone').textContent = `เบอร์โทร: 0${userData.phone}`;
-                    document.getElementById('user-email').textContent = `อีเมล: ${userData.email}`;
-                    document.getElementById('user-address').textContent = `ที่อยู่: ${userData.address}`;
-                    document.getElementById('profilePic').src = userData.profilePic || './img/racc.jfif';
-                    document.getElementById('profileImage').src = userData.profilePic || './img/racc.jfif';
+        if (saveImgProfileBtn) {
+          saveImgProfileBtn.addEventListener('click', () => {
+            if (profileImageInput.files.length > 0) {
+              const profileFile = profileImageInput.files[0];
+              profileImage.src = URL.createObjectURL(profileFile);
+            }
 
-                    // ตรวจสอบ role และซ่อนแถบตามเงื่อนไข
-                    if (userData.role === 'student') {
-                        document.getElementById('mypost').style.display = 'none';
-                    } else if (userData.role === 'tutor') {
-                        document.getElementById('myjoin').style.display = 'none';
-                    }
+            if (coverImageInput.files.length > 0) {
+              const coverFile = coverImageInput.files[0];
+              coverImage.src = URL.createObjectURL(coverFile);
+            }
 
-                } catch (error) {
-                    console.error('Error fetching user data:', error);
-                    document.getElementById('user-name').textContent = 'Error loading name';
+            imageModal.style.display = 'none';
+          });
+        }
+
+        if (saveReviewBtn) {
+          saveReviewBtn.addEventListener('click', () => {
+            const reviewName = document.getElementById('reviewName').value;
+            const reviewRating = document.getElementById('reviewRating').value;
+            const reviewText = document.getElementById('reviewText').value;
+
+            if (reviewName && reviewRating && reviewText) {
+              const reviewElement = document.createElement('div');
+              reviewElement.classList.add('profilereview-text');
+              reviewElement.innerHTML = 
+                `<span>${reviewName}</span>
+                <div class="rating">
+                  <i class="fa-solid fa-star rating-icon"></i>
+                  <span class="rating-number">${reviewRating}</span>
+                  <span>${reviewText}</span>
+                </div>
+                <a class="review-report">รายงาน</a>`;
+              document.getElementById('reviewContainer').appendChild(reviewElement);
+              reviewModal.style.display = 'none';
+            } else {
+              alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            }
+          });
+        }
+
+        async function fetchUserData() {
+          try {
+            const response = await fetch('/user/u');
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const userData = await response.json();
+            document.getElementById('user-name').textContent = userData.name;
+            document.getElementById('user-name-profile').textContent = userData.name;
+            document.getElementById('user-faculty').textContent = `คณะ: ${userData.faculty}`;
+            document.getElementById('user-major').textContent = `สาขา: ${userData.major}`;
+            document.getElementById('user-year').textContent = `ชั้นปี: ${userData.year}`;
+            document.getElementById('user-phone').textContent = `เบอร์โทร: 0${userData.phone}`;
+            document.getElementById('user-email').textContent = `อีเมล: ${userData.email}`;
+            document.getElementById('user-address').textContent = `ที่อยู่: ${userData.address}`;
+            document.getElementById('profileImage').src = userData.profilePic || './img/racc.jfif';
+            document.getElementById('coverImage').src = userData.coverPic || './img/cover.jpg';
+
+            if (userData.role === 'student') {
+              document.getElementById('mypost').style.display = 'none';
+            } else if (userData.role === 'tutor') {
+              document.getElementById('myjoin').style.display = 'none';
+            }
+          } catch (error) {
+            console.error('Error fetching user data:', error);
+            document.getElementById('user-name').textContent = 'Error loading name';
+          }
+        }
+
+        async function fetchComments() {
+            try {
+              const userId = '<%= userId %>'; // This should be rendered by the server-side template engine
+              // Fetch tutor data based on the userId
+              const tDataResponse = await fetch(`/user/tdata/${userId}`);
+              const tData = await tDataResponse.json();
+              const tutorId = tData[0].tutor_id; // Correctly access tutor_id from the response
+              
+          
+              // Fetch comments based on tutorId
+              const commentsResponse = await fetch(`/comment/${tutorId}`);
+              const comments = await commentsResponse.json();
+          
+              // Check if comments is an array
+              if (comments && Array.isArray(comments.comments)) {  // Check if comments exist and if 'comments' key is an array
+                const reviewContainer = document.getElementById('reviewContainer');
+                reviewContainer.innerHTML = ''; // Clear existing comments
+
+                comments.comments.forEach(comment => {  // Access the nested array
+                    const reviewElement = document.createElement('div');
+                    reviewElement.classList.add('profilereview-text');
+                    reviewElement.innerHTML = 
+                    `<span>${comment.student_id}</span>
+                    <div class="rating">
+                        <i class="fa-solid fa-star rating-icon"></i>
+                        <span class="rating-number">${comment.rating}</span>
+                        &nbsp;
+                        <span>${comment.text}</span>
+                    </div>
+                    <a class="review-report">รายงาน</a>`;
+                    reviewContainer.appendChild(reviewElement);
+                });
+                } else {
+                console.error('Comments data is not an array:', comments);
                 }
-            }
-        
-            // Call the function to fetch user data when the page loads
-            window.onload = fetchUserData;
-        });
+
+          } catch (error) {
+            console.error('Error fetching comments:', error);
+          }
+        }
+
+        // Call functions when the page loads
+        window.onload = async function() {
+          await fetchUserData();
+          await fetchComments();
+        };
+      });
     </script>
   </body>
 </html>
