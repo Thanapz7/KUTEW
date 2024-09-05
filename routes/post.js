@@ -8,7 +8,8 @@ const {
     deletePost,
     searchPost,
     getMyPost,
-    getPostById
+    getPostById,
+    getPostPrice
     
 
   } =require("../controllers/post.js");
@@ -181,7 +182,7 @@ const {
  */
   router.get("/my/p", getMyPost);
   
-  
+  router.get("/price", getPostPrice);
   
   
 module.exports = router;
