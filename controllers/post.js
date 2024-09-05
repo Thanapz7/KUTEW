@@ -186,25 +186,4 @@ exports.searchPost = async (req, res) => {
     });
 };
 
-exports.getPostPrice = async (req, res) => {
-    const userId = req.session.user.user_id;
 
-    const query = `
-        SELECT SUM(p.price) AS tutor_price
-        FROM posts p
-        JOIN joins j ON p.post_id = j.post_id
-        WHERE j.tutor_id = (SELECT tutor_id FROM tutors WHERE user_id = ?) AND j.paymentPic IS NOT NULL AND j.course_status = ?;
-    `;
-
-    db.query(query, [userId, 'done'], (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: error.message });
-        }
-        // ตรวจสอบว่ามีข้อมูลหรือไม่ ถ้ามีให้แสดงราคา ถ้าไม่มีให้แสดงข้อความแจ้งเตือน
-        if (results.length > 0) {
-            res.json({ price: results[0].tutor_price });
-        } else {
-            res.status(404).json({ message: 'No payment found for this Tutor' });
-        }
-    });
-};
