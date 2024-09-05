@@ -126,77 +126,92 @@
                     const userId = "<%= userId %>"; // ดึงค่า userId ที่ถูกส่งมาจากเซิร์ฟเวอร์
                     const response = await fetch(`/user/sdata/${userId}`);
                     const sidebarres = await fetch('/user/u');
-                    const studyHistoryRes = await fetch(`/join/${userId}`); // Fetch study history
-        
-                    if (!response.ok) {
+                    
+                    if (!response.ok || !sidebarres.ok) {
                         throw new Error('Network response was not ok');
                     }
         
-                    const userData = await response.json();
+                    const stdhistory = await response.json(); // Fetch user data once
                     const SiderData = await sidebarres.json();
-                    const studyHistoryData = await studyHistoryRes.json(); // Parse study history data
         
-                    // เส้นทางรูปภาพที่ได้จากฐานข้อมูล (หากมี)
-                    const sidebarProfilePicPath = userData[0].profilePic ? `/${userData[0].profilePic}` : './img/boy.png';
+                    // Get the student ID from the user data
+                    const studentId = stdhistory[0]?.student_id; // Safeguard with optional chaining
+        
+                    if (!studentId) {
+                        throw new Error('Student ID not found');
+                    }
+        
+                    const studyHistoryResData = await fetch(`/user/history/${studentId}`);
+                    
+                    if (!studyHistoryResData.ok) {
+                        throw new Error('Failed to fetch study history');
+                    }
+        
+                    const studyHistoryData = await studyHistoryResData.json(); // Parse study history data
+        
+                    // Log the study history response to inspect its structure
+                    console.log('Study History Data:', studyHistoryData);
+        
+                    // Ensure that studyHistoryData is an array
+                    if (Array.isArray(studyHistoryData)) {
+                        const studyHistoryContainer = document.querySelector('.allstdhistory');
+                        studyHistoryContainer.innerHTML = ''; // Clear existing content
+        
+                        // Loop through study history data
+                        studyHistoryData.forEach(history => {
+                            const historyElement = document.createElement('div');
+                            historyElement.classList.add('stdhistory');
+                            historyElement.innerHTML = `
+                                <div class="left-card">
+                                    <img src="${history.profilePic}" class="profile-mypost">
+                                </div>
+                                <div class="center-card">
+                                    <div class="nametutor">
+                                        <span>${history.name}</span>
+                                    </div>
+                                    <div class="subject">
+                                        <i class="fa-solid fa-book"></i>
+                                        <p>${history.tag}</p>
+                                    </div>
+                                    <div class="subject">
+                                        <i class="fa-solid fa-newspaper"></i>
+                                        <p>${history.details}</p>
+                                    </div>
+                                </div>
+                            `;
+                            studyHistoryContainer.appendChild(historyElement);
+                        });
+                    } else {
+                        console.error('Study history data is not an array:', studyHistoryData);
+                    }
+        
+                    // Proceed with other user data handling
+                    const sidebarProfilePicPath = stdhistory[0].profilePic ? `/${stdhistory[0].profilePic}` : './img/boy.png';
                     const profilePicPath = SiderData.profilePic ? `/${SiderData.profilePic}` : './img/boy.png';
         
-                    // กำหนดค่าให้กับ element ต่าง ๆ ในหน้า
                     document.getElementById('user-name').textContent = SiderData.name; // sidebar
-                    document.getElementById('user-name-profile').textContent = userData[0].name;
-                    document.getElementById('user-faculty').textContent = `Faculty: ${userData[0].faculty}`;
-                    document.getElementById('user-major').textContent = `Major: ${userData[0].major}`;
-                    document.getElementById('user-year').textContent = `Year: ${userData[0].year}`;
-                    document.getElementById('user-phone').textContent = `Phone: 0${userData[0].phone}`;
-                    document.getElementById('user-email').textContent = `Email: ${userData[0].email}`;
-                    document.getElementById('user-address').textContent = `Address: ${userData[0].address}`;
+                    document.getElementById('user-name-profile').textContent = stdhistory[0].name;
+                    document.getElementById('user-faculty').textContent = `คณะ: ${stdhistory[0].faculty}`;
+                    document.getElementById('user-major').textContent = `สาขา: ${stdhistory[0].major}`;
+                    document.getElementById('user-year').textContent = `ชั้นปี: ${stdhistory[0].year}`;
+                    document.getElementById('user-phone').textContent = `เบอร์โทร: 0${stdhistory[0].phone}`;
+                    document.getElementById('user-email').textContent = `อีเมล: ${stdhistory[0].email}`;
+                    document.getElementById('user-address').textContent = `ที่อยู่: ${stdhistory[0].address}`;
         
-                    // ตั้งค่า src ของรูปภาพ
                     document.getElementById('profilePic').src = profilePicPath; // รูปโปรไฟล์ในหน้าหลัก
                     document.getElementById('profileImage').src = sidebarProfilePicPath; // รูปโปรไฟล์ใน sidebar
-
-                    // ตรวจสอบ role และซ่อนแถบตามเงื่อนไข
+        
                     if (SiderData.role === 'student') {
                         document.getElementById('mypost').style.display = 'none';
-                    } else if (SiderData.role === 'tutor') {
-                        document.getElementById('myjoin').style.display = 'none';
+                        document.getElementById('myjoin').style.display = 'block';
                     }
-
-                    // แสดงข้อมูลประวัติการเรียน
-            const studyHistoryContainer = document.querySelector('.allstdhistory');
-            studyHistoryContainer.innerHTML = ''; // Clear existing content
-
-            studyHistoryData.forEach(history => {
-              const historyElement = document.createElement('div');
-              historyElement.classList.add('stdhistory');
-              historyElement.innerHTML = `
-                <div class="left-card">
-                  <img src="${history.profilePic}" class="profile-mypost">
-                </div>
-                <div class="center-card">
-                  <div class="nametutor">
-                    <span>${history.name}</span>
-                  </div>
-                  <div class="subject">
-                    <i class="fa-solid fa-book"></i>
-                    <p>${history.tag}</p>
-                  </div>
-                  <div class="subject">
-                    <i class="fa-solid fa-newspaper"></i>
-                    <p>${history.details}</p>
-                  </div>
-                </div>
-              `;
-              studyHistoryContainer.appendChild(historyElement);
-            });
-
                 } catch (error) {
                     console.error('Error fetching user data:', error);
                 }
             }
         
-            window.onload = fetchUserData;
+            fetchUserData(); // Call the function to fetch user data
         });
-        
     </script>
   </body>
 </html>
