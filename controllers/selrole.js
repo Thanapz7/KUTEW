@@ -132,3 +132,63 @@ exports.FormStatus = (req, res) => {
         }
     });
 };
+
+exports.UpdateProfilePic = (req, res) => {
+     if (!req.session.user) {
+         return res.status(401).json({ error: 'User not logged in' });
+    }
+
+    const userId = req.session.user.user_id;
+
+    // ตรวจสอบ role ของผู้ใช้งานก่อน
+    const checkRoleSql = 'SELECT role FROM users WHERE user_id = ?';
+    db.query(checkRoleSql, [userId], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        const userRole = result[0].role;
+
+        // ใช้ multer สำหรับอัปโหลดรูป profile
+        const uploadProfilePic = multer({
+            storage: storage,
+            fileFilter: (req, file, cb) => {
+                const ext = path.extname(file.originalname).toLowerCase();
+                if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+                    return cb(new Error('Only images are allowed'));
+                }
+                cb(null, true);
+            }
+        }).single('profilePhoto');
+
+        uploadProfilePic(req, res, (err) => {
+            if (err) {
+                return res.status(500).json({ error: err.message });
+            }
+
+            const profilePic = req.file ? req.file.path : null;
+
+            if (!profilePic) {
+                return res.status(400).json({ error: 'No file uploaded' });
+            }
+
+            // ตรวจสอบ role แล้วอัปเดต profilePic ตาม role
+            let updateSql;
+            if (userRole === 'tutor') {
+                updateSql = 'UPDATE tutors SET profilePic = ? WHERE user_id = ?';
+            } else if (userRole === 'student') {
+                updateSql = 'UPDATE students SET profilePic = ? WHERE user_id = ?';
+            } else {
+                return res.status(400).json({ error: 'Invalid role' });
+            }
+
+            db.query(updateSql, [profilePic, userId], (err, result) => {
+                if (err) {
+                    return res.status(500).json({ error: err.message });
+                }
+
+                res.status(200).json({ message: 'Profile picture updated successfully' });
+            });
+        });
+    });
+};
