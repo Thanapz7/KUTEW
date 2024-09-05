@@ -18,11 +18,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             feedsContainer.innerHTML = ''; // ล้างผลลัพธ์เก่า
 
-            posts.forEach(post => {
+            posts.forEach(async (post) => {
                 const postElement = document.createElement('div');
                 postElement.classList.add('feed');
 
                 const formattedDate = new Date(post.date).toISOString().split('T')[0];
+
+                // Fetch the tutor's rating
+                let rating = 'N/A'; // Default value
+                try {
+                    const ratingResponse = await fetch(`/user/rating/${post.tutor_id}`);
+                    if (ratingResponse.ok) {
+                        const ratingData = await ratingResponse.json();
+                        rating = ratingData.rating || 'N/A';
+                    }
+                } catch (error) {
+                    console.error('Error fetching tutor rating:', error);
+                }
                 
                 postElement.innerHTML = `
                     <div class="head">
@@ -37,16 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                         <div class="icon-search">
                             <i class="fa-regular fa-star"></i>
-                            <span>${post.request}</span>
+                            <span>${rating}</span>
                         </div>
                         <span class="join">
                             <button class="btn btn-primary join-btn">JOIN</button>
                         </span>
-                        </div>
+                    </div>
                     <div class="caption">
                         <i class="fa-solid fa-book"><p>Tag:<p class="p-font">${post.tag}</p> </p></i>
                         <i class="fa-solid fa-newspaper"><p>Details:<p class="p-font">${post.details}</p> </p></i>
-                        <i class="fa-solid fa-map-pin"><p>Lacation:<p class="p-font">${post.location}</p> </p></i>
+                        <i class="fa-solid fa-map-pin"><p>Location:<p class="p-font">${post.location}</p> </p></i>
                     </div>
                 `;
 

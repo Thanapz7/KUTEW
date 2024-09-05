@@ -33,7 +33,7 @@
                         
                         <div class="icon">
                             <i class="fa-regular fa-star"></i>
-                            <span>5</span>
+                            <span class="rating">5</span>
                         </div>
                         <div class="btn-joinclass">
                           <button class="btn-join" id="joinButton" onclick="join()">JOIN</button>
@@ -56,164 +56,171 @@
     </main>
 
     <script>
-      //ดึงข้อมูลจากโพสต์
-  document.addEventListener('DOMContentLoaded', async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('post_id');
-    const joinButton = document.getElementById('joinButton');
+      // Fetch post data and tutor rating
+      document.addEventListener('DOMContentLoaded', async () => {
+          const urlParams = new URLSearchParams(window.location.search);
+          const postId = urlParams.get('post_id');
+          const joinButton = document.getElementById('joinButton');
 
-    if (postId) {
-      try {
-        // ดึงข้อมูลโพสต์
-        const response = await fetch(`/post/${postId}`);
-        const postDataArray = await response.json();
+          if (postId) {
+              try {
+                  // Fetch post data
+                  const response = await fetch(`/post/${postId}`);
+                  const postDataArray = await response.json();
 
-        if (postDataArray.length > 0) {
-          const postData = postDataArray[0];
-          document.getElementById('tutorName').textContent += ` ${postData.tutor_name}`;
-          document.getElementById('date').textContent += ` ${new Date(postData.date).toISOString().split('T')[0]}`;
-          document.getElementById('tag').textContent += ` ${postData.tag}`;
-          document.getElementById('details').textContent += ` ${postData.details}`;
-          document.getElementById('location').textContent += ` ${postData.location}`;
-          document.getElementById('price').textContent += ` ${postData.price}`;
-          document.getElementById('people').textContent += ` ${postData.people}`;
-          document.getElementById('hours').textContent += ` ${postData.hours}`;
+                  if (postDataArray.length > 0) {
+                      const postData = postDataArray[0];
+                      document.getElementById('tutorName').textContent += ` ${postData.tutor_name}`;
+                      document.getElementById('date').textContent += ` ${new Date(postData.date).toISOString().split('T')[0]}`;
+                      document.getElementById('tag').textContent += ` ${postData.tag}`;
+                      document.getElementById('details').textContent += ` ${postData.details}`;
+                      document.getElementById('location').textContent += ` ${postData.location}`;
+                      document.getElementById('price').textContent += ` ${postData.price}`;
+                      document.getElementById('people').textContent += ` ${postData.people}`;
+                      document.getElementById('hours').textContent += ` ${postData.hours}`;
 
-          // ดึงข้อมูลรูปภาพ
-          const feedsContainer = document.getElementById('profile');
-                        const feed = document.createElement('div');
-                        feed.classList.add('profilePicture');
-                        
-                        const profilePic = postData.profilePic ? postData.profilePic : './img/racc.jfif';
+                      // Fetch profile picture
+                      const feedsContainer = document.getElementById('profile');
+                      const feed = document.createElement('div');
+                      feed.classList.add('profilePicture');
 
-                        feed.innerHTML = `
-                            <div class="profilePhoto">
-                                <img src="${profilePic}" alt="Profile Tutor" id="profilePic">
-                            </div>
-                        `;
-                        feedsContainer.appendChild(feed);
-        } else {
-          console.error('No post data found');
-        }
+                      const profilePic = postData.profilePic ? postData.profilePic : './img/racc.jfif';
 
-        // ตรวจสอบสถานะการเข้าร่วม
-        const joinStatusResponse = await fetch(`/join/status/${postId}`);
-        const joinStatusData = await joinStatusResponse.json();
+                      feed.innerHTML = `
+                          <div class="profilePhoto">
+                              <img src="${profilePic}" alt="Profile Tutor" id="profilePic">
+                          </div>
+                      `;
+                      feedsContainer.appendChild(feed);
 
-        if (joinStatusData.joined) {
-          joinButton.textContent = 'JOINED';
-          joinButton.disabled = true;
-          joinButton.classList.add('joined');
-        }
-      } catch (error) {
-        console.error('Error fetching post details or join status:', error);
+                      // Fetch tutor rating
+                      const tutorId = postData.tutor_id; // Assuming tutor_id is available in postData
+                      const ratingResponse = await fetch(`/user/rating/${tutorId}`);
+                      const ratingData = await ratingResponse.json();
+
+                      if (ratingData && ratingData.rating) {
+                          document.querySelector('.rating').textContent = ratingData.rating; // Update rating
+                      } else {
+                          console.error('Failed to fetch rating data or rating not available');
+                      }
+
+                  } else {
+                      console.error('No post data found');
+                  }
+
+                  // Check join status
+                  const joinStatusResponse = await fetch(`/join/status/${postId}`);
+                  const joinStatusData = await joinStatusResponse.json();
+
+                  if (joinStatusData.joined) {
+                      joinButton.textContent = 'JOINED';
+                      joinButton.disabled = true;
+                      joinButton.classList.add('joined');
+                  }
+              } catch (error) {
+                  console.error('Error fetching post details, join status, or rating:', error);
+              }
+          } else {
+              console.error('No post_id found in the URL');
+          }
+      });
+
+      async function join() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const postId = urlParams.get('post_id');
+          const joinButton = document.getElementById('joinButton');
+
+          if (postId) {
+              try {
+                  const response = await fetch(`/join/${postId}`, {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      }
+                  });
+
+                  if (response.ok) {
+                      const result = await response.json();
+                      console.log('Join successful:', result);
+                      alert('Successfully submitted a request to join!');
+
+                      // Update button status
+                      joinButton.textContent = 'JOINED';
+                      joinButton.disabled = true;
+                      joinButton.classList.add('joined');
+
+                      // Send notification to student and tutor
+                      const userId = '<%= userId %>';
+                      const name = await fetch(`/post/${postId}`, {
+                          method: 'GET',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          }
+                      });
+                      const postData = await name.json(); 
+                      const tutorName = postData[0].tutor_name; 
+                      const NotiStudentResponse = await fetch('/notifications', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({
+                              post_id: postId,
+                              user_id: userId,
+                              message: `คุณได้เข้ารวมPostของ Tutor: ${tutorName} นี้แล้วนะ`
+                          })
+                      });
+                      if (NotiStudentResponse.ok) {
+                          console.log('Student Notification sent successfully');
+                      } else {
+                          console.error('Failed to send student notification');
+                      } 
+                      const postdetails = postData[0].details;
+                      const postuserid = postData[0].user_id; 
+                      const studentResponse= await fetch(`/user/sdata/${userId}`, { method: 'GET' });
+                      const studentdata = await studentResponse.json();
+                      const studentname = studentdata[0].name;
+                      console.log(studentdata);
+                      console.log(studentname);
+
+                      const NotiTutorResponse = await fetch('/notifications', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({
+                              post_id: postId,
+                              user_id: postuserid,
+                              message: `Student: ${studentname} ได้ส่งคำขอมายัง Post: ${postdetails} ของคุณ`
+                          })
+                      });
+                      if (NotiTutorResponse.ok) {
+                          console.log('Tutor Notification sent successfully');
+                      } else {
+                          console.error('Failed to send Tutor notification');
+                      }
+
+                  } else {
+                      const errorData = await response.json();
+                      console.error('Error joining class:', errorData);
+                      if (errorData.message === 'Student already joined this post') {
+                          alert('You have already joined this class.');
+                          joinButton.textContent = 'JOINED';
+                          joinButton.disabled = true;
+                          joinButton.classList.add('joined');
+                      } else {
+                          alert('Failed to join the class. You Are A TUTOR');
+                      }
+                  }
+              } catch (error) {
+                  console.error('Error:', error);
+                  alert('An error occurred while joining the class. Please try again.');
+              }
+          } else {
+              console.error('No post_id found in the URL');
+              alert('Post ID not found. Please refresh the page and try again.');
+          }
       }
-    } else {
-      console.error('No post_id found in the URL');
-    }
-  });
-
-  async function join() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('post_id');
-    const joinButton = document.getElementById('joinButton');
-
-    if (postId) {
-      try {
-        const response = await fetch(`/join/${postId}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (response.ok) {
-          const result = await response.json();
-          console.log('Join successful:', result);
-          alert('Successfully submitted a request to join!');
-          
-          // เปลี่ยนข้อความของปุ่มเป็น "JOINED" และทำให้ปุ่มไม่สามารถกดได้
-          joinButton.textContent = 'JOINED';
-          joinButton.disabled = true;
-          joinButton.classList.add('joined');
-
-          //notification ส่งให้นักเรียนเอง
-          // ส่งข้อมูล post_id และ user_id ไปที่ API /notifications
-          const userId = '<%= userId %>';
-          const name = await fetch(`/post/${postId}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          const postData = await name.json(); 
-          const tutorName = postData[0].tutor_name; 
-          const NotiStudentResponse = await fetch('/notifications', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              post_id: postId,
-              user_id: userId,
-              message: `คุณได้เข้ารวมPostของ Tutor: ${tutorName} นี้แล้วนะ`
-            })
-          });
-          if (NotiStudentResponse.ok) {
-            console.log(' Student Notification sent successfully');
-          } else {
-            console.error('Failed to send student notification');
-          } 
-          const postdetails = postData[0].details;
-          const postuserid = postData[0].user_id; 
-          // Fetch tutor name
-          const studentResponse= await fetch(`/user/sdata/${userId}`, { method: 'GET' });
-          const studentdata = await studentResponse.json();
-          const studentname = studentdata[0].name;
-          console.log(studentdata);
-          console.log(studentname);
-
-
-          const NotiTutorResponse = await fetch('/notifications', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              post_id: postId,
-              user_id: postuserid,
-              message: `Student: ${studentname} ได้ส่งคำขอมายัง Post: ${postdetails} ของคุณ`
-            })
-          });
-          if (NotiTutorResponse.ok) {
-            console.log('Tutor Notification sent successfully');
-          } else {
-            console.error('Failed to send Tutor notification');
-          }
-
-        } else {
-          const errorData = await response.json();
-          console.error('Error joining class:', errorData);
-          if (errorData.message === 'Student already joined this post') {
-            alert('You have already joined this class.');
-            joinButton.textContent = 'JOINED';
-            joinButton.disabled = true;
-            joinButton.classList.add('joined');
-          } else {
-            alert('Failed to join the class. You Are A TUTOR');
-          }
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while joining the class. Please try again.');
-      }
-    } else {
-      console.error('No post_id found in the URL');
-      alert('Post ID not found. Please refresh the page and try again.');
-    }
-  }
-
-
     </script>
 </body>
 </html>
