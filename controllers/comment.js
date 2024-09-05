@@ -101,9 +101,12 @@ exports.GetAllCommentByIdTutor = (req, res) => {
     }
 
     const sql = `
-        SELECT text, tutor_id, student_id , rating
-        FROM comments
-        WHERE tutor_id = ?
+        SELECT c.text, c.tutor_id, c.student_id ,c.rating ,t.name as tutor_name ,s.name as student_name
+        FROM comments c
+        JOIN tutors t ON t.tutor_id = c.tutor_id
+        JOIN students s ON s.student_id = c.student_id
+        WHERE c.tutor_id = ?;
+
     `;
 
     db.query(sql, [tutor_id], (err, results) => {
