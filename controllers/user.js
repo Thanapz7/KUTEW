@@ -161,7 +161,7 @@ exports.getAllTutorsByID = async (req, res) => {
     });
 };
 
-exports.getUsersRating = async (req, res) => {
+exports.getTutorsRating = async (req, res) => {
     const tutorId = req.params.tutor_id;
     const query = 'SELECT AVG(rating) AS average_rating FROM comments WHERE tutor_id = ?';
     db.query(query, [tutorId], (error, results) => {
