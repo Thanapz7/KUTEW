@@ -118,8 +118,8 @@ exports.CreateChatGroupWithMembers = async (req, res) => {
 //เพิ่มทั้งกลุ่มและสมาชิกในครั้งเดียว สำหรับadmin
 exports.CreateChatGroupWithAdmin = async (req, res) => {
   const admin_id = 25; // คุณสามารถเปลี่ยนเป็น req.params หรือค่าอื่น ๆ ตามความจำเป็น
-  //const userId = req.session.user.user_id;
-  const {userId} = req.body;
+  const userId = req.session.user.user_id;
+  //const {userId} = req.body;
 
   const sqlInsertGroup = `
     INSERT INTO chat_groups (name)
