@@ -117,7 +117,7 @@ exports.CreateChatGroupWithMembers = async (req, res) => {
   
 //เพิ่มทั้งกลุ่มและสมาชิกในครั้งเดียว สำหรับadmin
 exports.CreateChatGroupWithAdmin = async (req, res) => {
-  const admin_id = 25; // คุณสามารถเปลี่ยนเป็น req.params หรือค่าอื่น ๆ ตามความจำเป็น
+  const admin_id = process.env.ADMIN_ID; 
   const userId = req.session.user.user_id;
   //const {userId} = req.body;
 
@@ -183,4 +183,81 @@ function addMembersToGroupForAdmin(groupId, userId, admin_id, res) {
       });
     });
   });
+}
+
+//เพิ่มทั้งกลุ่มและสมาชิกในครั้งเดียว สำหรับadmin
+exports.CreateChatGroupWithAdminForTutor = async (req, res) => {
+  try {
+    const admin_id = process.env.ADMIN_ID; // คุณสามารถเปลี่ยนเป็น req.params หรือค่าอื่น ๆ ตามความจำเป็น
+    const tutor_id = req.params.tutor_id;
+
+    // Query เพื่อดึง user_id ของ tutor
+    const sql = `SELECT user_id FROM tutors WHERE tutor_id = ?`;
+    const tutorResults = await new Promise((resolve, reject) => {
+      db.query(sql, [tutor_id], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    if (tutorResults.length === 0) {
+      return res.status(404).send({ message: 'Tutor not found' });
+    }
+
+    const userId = tutorResults[0].user_id;
+
+    // Query เพื่อสร้าง Chat Group
+    const sqlInsertGroup = `
+      INSERT INTO chat_groups (name)
+      VALUES (
+        CONCAT('admin-', (SELECT username FROM users WHERE user_id = ?))
+      );
+    `;
+
+    const insertResults = await new Promise((resolve, reject) => {
+      db.query(sqlInsertGroup, [userId], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    const groupId = insertResults.insertId;
+
+    // เพิ่มสมาชิกเข้า group (user และ admin)
+    await addMembersToGroupForAdmin(groupId, userId, admin_id, res);
+    res.json({ message: 'Chat group and members added successfully', groupId });
+
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).send({ message: 'Failed to create chat group' });
+  }
+};
+
+// ฟังก์ชันสำหรับเพิ่มสมาชิกเข้า group
+async function addMembersToGroupForAdmin(groupId, userId, admin_id, res) {
+  const addMember = async (groupId, user_id) => {
+    const sqlCheckMember = `SELECT * FROM group_members WHERE group_id = ? AND user_id = ?`;
+    const memberResults = await new Promise((resolve, reject) => {
+      db.query(sqlCheckMember, [groupId, user_id], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+
+    if (memberResults.length === 0) {
+      const sqlInsertMember = `INSERT INTO group_members (group_id, user_id) VALUES (?, ?)`;
+      await new Promise((resolve, reject) => {
+        db.query(sqlInsertMember, [groupId, user_id], (err) => {
+          if (err) return reject(err);
+          resolve();
+        });
+      });
+    }
+  };
+
+  // เพิ่ม tutor เข้า group
+  await addMember(groupId, userId);
+
+  // เพิ่ม admin เข้า group
+  await addMember(groupId, admin_id);
 }
