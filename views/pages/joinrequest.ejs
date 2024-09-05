@@ -187,7 +187,7 @@
                         'Content-Type': 'application/json'
                       },
                       body: JSON.stringify({
-                        message: `Tutor: ${tutor_name} รับคุณแล้วนะ`,
+                        message: `Tutor: ${tutor_name} has accepted you`,
                         user_id: userjoin,
                         join_id: requestId
                       })
@@ -240,7 +240,7 @@
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify({
-                        message: `Tutor: ${tutor_name} ได้ปฎิเสธคุณแล้ว`,
+                        message: `Tutor: ${tutor_name} has declined you`,
                         user_id: userjoin,
                         join_id: requestId
                       })

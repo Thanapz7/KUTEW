@@ -167,7 +167,7 @@
                           body: JSON.stringify({
                               post_id: postId,
                               user_id: userId,
-                              message: `คุณได้เข้ารวมPostของ Tutor: ${tutorName} นี้แล้วนะ`
+                              message: `You have already joined this Post by Tutor: ${tutorName}`
                           })
                       });
                       if (NotiStudentResponse.ok) {
@@ -191,7 +191,7 @@
                           body: JSON.stringify({
                               post_id: postId,
                               user_id: postuserid,
-                              message: `Student: ${studentname} ได้ส่งคำขอมายัง Post: ${postdetails} ของคุณ`
+                              message: `Student: ${studentname} has sent a request to your Post: ${postdetails}`
                           })
                       });
                       if (NotiTutorResponse.ok) {

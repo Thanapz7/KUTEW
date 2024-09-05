@@ -48,7 +48,7 @@
 
                   <div class="form-payment">
                     <div class="slip-payment">
-                      <label for="file-upload">สลิปโอนเงิน :</label>
+                      <label for="file-upload">Payment Slip :</label>
                       <input
                         type="file"
                         id="file-upload"
@@ -59,7 +59,7 @@
                     </div>
                   </div>
                   <div class="payment-submit">
-                    <button type="submit" class="btn-payment">จ่ายตัง</button>
+                    <button type="submit" class="btn-payment">Pay</button>
                   </div>
                 </form>
               </div>
@@ -139,23 +139,23 @@
                   method: "POST", // เรียกใช้ API เพื่อสร้างกลุ่มแชท
                 });
               } else {
-                console.error("การชำระเงินล้มเหลว:", response);
+                console.error("Payment failed:", response);
                 throw new Error("Payment submission failed");
               }
               
             })
             .then((groupResponse) => {
               if (groupResponse.ok) {
-                console.log("สร้างกลุ่มแชทสำเร็จ");
+                console.log("Chat group created successfully");
                 window.location.href = `/chat`;
               } else {
-                console.error("สร้างกลุ่มแชทล้มเหลว:", groupResponse);
-                alert("การสร้างกลุ่มแชทล้มเหลว");
+                console.error("Failed to create chat group:", groupResponse);
+                alert("Failed to create chat group");
               }
             })
             .catch((error) => {
               console.error("เกิดข้อผิดพลาด:", error);
-              alert("การส่งข้อมูลล้มเหลว: " + error.message);
+              alert("Data submission failed: " + error.message);
             });
         });
     </script>

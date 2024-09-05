@@ -212,11 +212,11 @@ socket.on('file message', ({ userId, username, file, filename, filetype }) => {
   scrollToBottom(); // เลื่อนหน้าจอไปด้านล่างสุด
 
   // แสดงการแจ้งเตือนในเว็บ
-  showWebNotification(`ไฟล์ใหม่จาก ${username}: ${filename}`);
+  showWebNotification(`New file from ${username}: ${filename}`);
 
   // ส่งการแจ้งเตือนหากหน้าจอไม่อยู่ในโฟกัส
   if (document.hidden) {
-    sendNotification(`ไฟล์ใหม่จาก ${username}`, filename);
+    sendNotification(`New file from ${username}`, filename);
   }
 });
 </script>

@@ -15,34 +15,34 @@
                 <label for="profilePhotoInput">Insert Profile Picture</label>
                 <input type="file" id="profilePhotoInput" name="profilePhoto" style="display: none;" accept="image/*">
             </div>
-            <label for="name-lastname">ชื่อ - นามสกุล:</label>
+            <label for="name-lastname">Name - Lastname:</label>
             <input type="text" id="name-lastname" name="name" required>
 
-            <label for="faculty">คณะ:</label>
+            <label for="faculty">Faculty:</label>
             <select name="faculty" id="faculty" required>
-                <option value="">เลือกคณะ</option>
+                <option value="">Select Faculty</option>
                 <option value="คณะทรัพยากรธรรมชาติและอุตสาหกรรมเกษตร">คณะทรัพยากรธรรมชาติและอุตสาหกรรมเกษตร</option>
                 <option value="คณะวิทยาศาสตร์และวิศวกรรมศาสตร์">คณะวิทยาศาสตร์และวิศวกรรมศาสตร์</option>
                 <option value="คณะศิลปศาสตร์และวิทยาการจัดการ">คณะศิลปศาสตร์และวิทยาการจัดการ</option>
                 <option value="คณะสาธารณสุขศาสตร์">คณะสาธารณสุขศาสตร์</option>
             </select>
 
-            <label for="major">สาขา:</label>
-            <select name="major" id="major" required>เลือกสาขา</select>
+            <label for="major">Major:</label>
+            <select name="major" id="major" required>Select Major</select>
             
-            <label for="year">ชั้นปีที่:</label>
+            <label for="year">Year:</label>
             <select name="year" id="year" required>
-                <option value="">เลือกชั้นปี</option>
+                <option value="">Select Year</option>
                 <option value="y1">1</option>
                 <option value="y2">2</option>
                 <option value="y3">3</option>
                 <option value="y4">4</option>
             </select>
 
-            <label for="phone">เบอร์โทร:</label>
+            <label for="phone">Phone Number:</label>
             <input type="text" id="phone" name="phone" required>
 
-            <label for="address">ที่อยู่:</label>
+            <label for="address">Address:</label>
             <input type="text" name="address" id="address" required>
 
             <button type="submit">Sign In</button>
@@ -92,7 +92,7 @@
                 body: formData
             })
             .then(response => {
-                console.log('ได้รับการตอบกลับ:', response);
+                console.log('Received response:', response);
                 if(response.ok){
                     // หากลงทะเบียนสำเร็จ สร้างแชทกับแอดมิน
                     return fetch('/chat/groupadmin', {
@@ -102,7 +102,7 @@
                         }
                     });
                 } else {
-                    console.error('การส่งล้มเหลว:', response);
+                    console.error('Submission failed:', response);
                     throw new Error('Submission failed');
                 }
             })
@@ -111,12 +111,12 @@
                     // alert('สร้างแชทกับแอดมินสำเร็จ');
                     window.location.href = '/home'; 
                 } else {
-                    throw new Error('สร้างแชทไม่สำเร็จ');
+                    throw new Error('Failed to create chat');
                 }
             })
             .catch(error => {
-                console.error('เกิดข้อผิดพลาด:', error);
-                alert('การส่งข้อมูลล้มเหลว: ' + error.message);
+                console.error('An error occurred:', error);
+                alert('Data submission failed: ' + error.message);
             });
         });
     </script>

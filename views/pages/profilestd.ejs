@@ -143,12 +143,12 @@
                     // กำหนดค่าให้กับ element ต่าง ๆ ในหน้า
                     document.getElementById('user-name').textContent = SiderData.name; // sidebar
                     document.getElementById('user-name-profile').textContent = userData[0].name;
-                    document.getElementById('user-faculty').textContent = `คณะ: ${userData[0].faculty}`;
-                    document.getElementById('user-major').textContent = `สาขา: ${userData[0].major}`;
-                    document.getElementById('user-year').textContent = `ชั้นปี: ${userData[0].year}`;
-                    document.getElementById('user-phone').textContent = `เบอร์โทร: 0${userData[0].phone}`;
-                    document.getElementById('user-email').textContent = `อีเมล: ${userData[0].email}`;
-                    document.getElementById('user-address').textContent = `ที่อยู่: ${userData[0].address}`;
+                    document.getElementById('user-faculty').textContent = `Faculty: ${userData[0].faculty}`;
+                    document.getElementById('user-major').textContent = `Major: ${userData[0].major}`;
+                    document.getElementById('user-year').textContent = `Year: ${userData[0].year}`;
+                    document.getElementById('user-phone').textContent = `Phone: 0${userData[0].phone}`;
+                    document.getElementById('user-email').textContent = `Email: ${userData[0].email}`;
+                    document.getElementById('user-address').textContent = `Address: ${userData[0].address}`;
         
                     // ตั้งค่า src ของรูปภาพ
                     document.getElementById('profilePic').src = profilePicPath; // รูปโปรไฟล์ในหน้าหลัก

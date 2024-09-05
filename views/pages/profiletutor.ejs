@@ -54,14 +54,14 @@
             <div class="profileinfo">
                 <div class="profileinfos">
                     <div class="profileinfos-major">
-                        <p id="user-faculty">คณะ : <span></span> </p>
-                        <p id="user-major">สาขา : <span></span> </p>
-                        <p id="user-year">ชั้นปี : <span></span> </p>
+                        <p id="user-faculty">Faculty : <span></span> </p>
+                        <p id="user-major">Major : <span></span> </p>
+                        <p id="user-year">Year : <span></span> </p>
                     </div>
                     <div class="infomyprofile">
-                        <p id="user-phone">เบอร์โทร : <span></span> </p>
-                        <p id="user-email">อีเมล : <span></span> </p>
-                        <p id="user-address">ที่อยู่ :</p>
+                        <p id="user-phone">Phone : <span></span> </p>
+                        <p id="user-email">Email : <span></span> </p>
+                        <p id="user-address">Address :</p>
                     </div>
                     <div class="profileinfos-cer">
                         <img src="../img/cover.jpg" alt="">
@@ -151,12 +151,12 @@
                     // กำหนดค่าให้กับ element ต่าง ๆ ในหน้า
                     document.getElementById('user-name').textContent = SiderData.name; // sidebar
                     document.getElementById('user-name-profile').textContent = userData[0].name;
-                    document.getElementById('user-faculty').textContent = `คณะ: ${userData[0].faculty}`;
-                    document.getElementById('user-major').textContent = `สาขา: ${userData[0].major}`;
-                    document.getElementById('user-year').textContent = `ชั้นปี: ${userData[0].year}`;
-                    document.getElementById('user-phone').textContent = `เบอร์โทร: 0${userData[0].phone}`;
-                    document.getElementById('user-email').textContent = `อีเมล: ${userData[0].email}`;
-                    document.getElementById('user-address').textContent = `ที่อยู่: ${userData[0].address}`;
+                    document.getElementById('user-faculty').textContent = `Faculty : ${userData[0].faculty}`;
+                    document.getElementById('user-major').textContent = `Major : ${userData[0].major}`;
+                    document.getElementById('user-year').textContent = `Year : ${userData[0].year}`;
+                    document.getElementById('user-phone').textContent = `Phone : 0${userData[0].phone}`;
+                    document.getElementById('user-email').textContent = `Email : ${userData[0].email}`;
+                    document.getElementById('user-address').textContent = `Address : ${userData[0].address}`;
         
                     // ตั้งค่า src ของรูปภาพ
                     document.getElementById('profilePic').src = profilePicPath; // รูปโปรไฟล์ในหน้าหลัก
