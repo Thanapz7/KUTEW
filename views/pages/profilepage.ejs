@@ -319,8 +319,12 @@
             // ซ่อนฟอร์มถ้าผู้ใช้เป็น student
             if (userRole === 'student') {
                 const reviewsec = document.querySelector('.profilereview');
+                const cerPhoto = document.querySelector('.profileinfos-cer')
                 if (reviewsec) {
                     reviewsec.style.display = 'none';
+                }
+                if (cerPhoto) {
+                  cerPhoto.style.display = 'none';
                 }
             }
             if (userRole === 'tutor') {

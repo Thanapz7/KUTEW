@@ -153,17 +153,17 @@
                     console.log('Study History Data:', studyHistoryData);
         
                     // Ensure that studyHistoryData is an array
-                    if (Array.isArray(studyHistoryData)) {
+                    if (Array.isArray(studyHistoryData) && studyHistoryData.length > 0) {
                         const studyHistoryContainer = document.querySelector('.allstdhistory');
                         studyHistoryContainer.innerHTML = ''; // Clear existing content
-        
+                    
                         // Loop through study history data
                         studyHistoryData.forEach(history => {
                             const historyElement = document.createElement('div');
                             historyElement.classList.add('stdhistory');
                             historyElement.innerHTML = `
                                 <div class="left-card">
-                                    <img src="${history.profilePic}" class="profile-mypost">
+                                    <img src="/${history.profilePic}" class="profile-mypost">
                                 </div>
                                 <div class="center-card">
                                     <div class="nametutor">
@@ -182,7 +182,13 @@
                             studyHistoryContainer.appendChild(historyElement);
                         });
                     } else {
-                        console.error('Study history data is not an array:', studyHistoryData);
+                        // ถ้าไม่พบข้อมูลให้แสดงข้อความ No history found for this student
+                        const studyHistoryContainer = document.querySelector('.allstdhistory');
+                        studyHistoryContainer.innerHTML = ''; // Clear existing content
+                        const noHistoryElement = document.createElement('div');
+                        noHistoryElement.classList.add('no-history');
+                        noHistoryElement.innerHTML = '<p>No history found for this student</p>';
+                        studyHistoryContainer.appendChild(noHistoryElement);
                     }
         
                     // Proceed with other user data handling
