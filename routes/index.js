@@ -3,16 +3,17 @@ const router = express.Router();
 const recordUserActivity = require('../middleware');
 
 router.get('/', (req, res) => {
-    res.render('pages/login.ejs',{ pageTitle: 'Login' });
+    res.render('pages/login.ejs',{pageTitle: 'Login' });
   });
 
   router.get('/home', recordUserActivity, (req, res) => {
     if (!req.session.user) {
       return res.status(401).json({ error: 'User not logged in' });
     }
-  
-    res.render('pages/home.ejs', { pageTitle: 'Home' });
+    const userId = req.session.user.user_id;
+    res.render('pages/home.ejs', {userId, pageTitle: 'Home' });
   });
+  
   
 
   router.get('/selrole', (req, res) => {
@@ -127,6 +128,16 @@ router.get('/tutorinfo/:tutor_id', (req,res) =>{
   res.render('pages/adReqinfo.ejs',{tutor_id});
 })
 
+router.get('/acceptadmin', (req,res) =>{
+  res.render('pages/accept_admin.ejs');
+})
 
+router.get('/rejectadmin', (req,res) =>{
+  res.render('pages/reject_admin.ejs');
+})
+
+router.get('/waitingadmin', (req,res) =>{
+  res.render('pages/waiting_admin.ejs');
+})
 
 module.exports = router;
