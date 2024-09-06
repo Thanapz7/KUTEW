@@ -120,53 +120,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error fetching tutor status:', error);
     }
 });
-
-      
-  // document.addEventListener('DOMContentLoaded', async () => {
-  //   try {
-  //       // ดึงค่า userId ที่ถูกส่งมาจากฝั่งเซิร์ฟเวอร์
-  //       const userId = '<%= userId %>';
-  //       console.log('id',userId)
-  //       // แปลงกลับเป็นค่า userId ปกติ
-        
-  //       // ตรวจสอบว่าค่า userId มีอยู่หรือไม่
-  //       if (!userId) {
-  //           console.error('No user ID found');
-  //           return;
-  //       }
-
-  //       // Fetch tutor data based on the userId
-  //       const tDataResponse = await fetch(`/user/tdata/${userId}`);
-  //       const tData = await tDataResponse.json();
-  //       const tutorId = tData[0].tutor_id;
-
-  //       // เรียก API พร้อมกับการส่ง user_id ผ่าน method POST
-  //       const response = await fetch(`/user/t/${tutorId}`, {
-  //           method: 'POST',
-  //           headers: {
-  //               'Content-Type': 'application/json'
-  //           },
-  //           body: JSON.stringify({ id: tutorId })
-  //       });
-
-  //       const userData = await response.json();
-        
-  //       const tutorStatus = userData.status;
-
-  //       // ตรวจสอบสถานะและเปลี่ยนหน้าเว็บ
-  //       if (tutorStatus === 'pending') {
-  //           window.location.href = '/waitingadmin';
-  //       } else if (tutorStatus === 'Deny') {
-  //           window.location.href = '/rejectadmin';
-  //       }
-
-  //   } catch (error) {
-  //       console.error('Error fetching user status:', error);
-  //   }
-  // });
-
-
-
 const menuItems = document.querySelectorAll('.menu-item');
 
     //remove active class from all 
@@ -228,8 +181,9 @@ document.querySelector('.create-post').addEventListener('submit', function(event
             const feed = document.createElement('div');
             feed.classList.add('feed');
 
-            // Format date to YYYY-MM-DD
+
             const formattedDate = new Date(course.date).toISOString().split('T')[0];
+            const postDate = new Date(course.post_date).toISOString().split('T')[0];
             
             // Check if profilePic exists, if not use the default image
             const profilePic = course.profilePic ? course.profilePic : './img/racc.jfif';
@@ -243,7 +197,7 @@ document.querySelector('.create-post').addEventListener('submit', function(event
                         </div>
                         <div class="info">
                             <h3><a href="/profiletutor/${course.user_id}" class="tutor-link">${course.tutor_name}</a></h3>
-                            <small>${formattedDate}</small>
+                            <small>Posted on : ${postDate}</small>
                         </div>
                     </div>
                     <span class="join">
@@ -251,10 +205,10 @@ document.querySelector('.create-post').addEventListener('submit', function(event
                     </span>
                 </div>
                 <div class="caption">
-                    <i class="fa-solid fa-clock"><p>Date:<p class="p-font">${formattedDate}</p> </p></i>
-                    <i class="fa-solid fa-book"><p>Tag:<p class="p-font">${course.tag}</p> </p></i>
-                    <i class="fa-solid fa-newspaper"><p>Detail:<p class="p-font">${course.details}</p> </p></i>
-                    <i class="fa-solid fa-map-pin"><p>Location:<p class="p-font">${course.location}</p> </p></i>
+                    <i class="fa-solid fa-book"><p>Tag :<p class="p-font">${course.tag}</p> </p></i>
+                    <i class="fa-solid fa-newspaper"><p>Detail :<p class="p-font">${course.details}</p> </p></i>
+                    <i class="fa-solid fa-clock"><p>Teaching start :<p class="p-font">${formattedDate}</p> </p></i>
+                    <i class="fa-solid fa-map-pin"><p>Location :<p class="p-font">${course.location}</p> </p></i>
                 </div>
             `;
 

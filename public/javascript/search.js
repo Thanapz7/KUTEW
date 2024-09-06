@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 postElement.classList.add('feed');
 
                 const formattedDate = new Date(post.date).toISOString().split('T')[0];
+                const formattedDateStart = new Date(post.post_date).toISOString().split('T')[0];
 
                 // Fetch the tutor's rating
                 let rating = 'N/A'; // Default value
@@ -56,9 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         </span>
                     </div>
                     <div class="caption">
-                        <i class="fa-solid fa-book"><p>Tag:<p class="p-font">${post.tag}</p> </p></i>
-                        <i class="fa-solid fa-newspaper"><p>Details:<p class="p-font">${post.details}</p> </p></i>
-                        <i class="fa-solid fa-map-pin"><p>Location:<p class="p-font">${post.location}</p> </p></i>
+                        <i class="fa-solid fa-book"><p>Tag :<p class="p-font">${post.tag}</p> </p></i>
+                        <i class="fa-solid fa-newspaper"><p>Details :<p class="p-font">${post.details}</p> </p></i>
+                        <i class="fa-solid fa-clock"><p>Teaching start :<p class="p-font">${formattedDateStart}</p> </p></i>
+                        <i class="fa-solid fa-map-pin"><p>Location :<p class="p-font">${post.location}</p> </p></i>
                     </div>
                 `;
 

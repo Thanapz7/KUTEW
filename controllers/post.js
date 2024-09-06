@@ -55,7 +55,7 @@ exports.insertPost = async (req, res) => {
 
 exports.getMyPost = async (req, res) => {
     const userId = req.session.user.user_id;
-    const query = "SELECT * FROM posts WHERE user_id = ?";
+    const query = "SELECT * FROM posts WHERE user_id = ? ORDER BY posts.post_date DESC";
     db.query(query, [userId],(err, results) => {
         if (err) {
             console.error('Error fetching posts:', err);
@@ -72,7 +72,7 @@ exports.getAllPost = async (req, res) => {
         SELECT posts.*, tutors.name AS tutor_name, tutors.profilePic 
         FROM posts 
         JOIN tutors ON posts.user_id = tutors.user_id
-        ORDER BY posts.date DESC
+        ORDER BY posts.post_date DESC
     `;
     db.query(query, (err, results) => {
         if (err) {
