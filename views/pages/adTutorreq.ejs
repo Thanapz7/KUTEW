@@ -85,6 +85,13 @@
                     try {
                         // Accept the join request
                         await fetch(`/admin/accept/${tutorId}`, { method: 'PUT' });
+
+                        // Call the group admin chat API after accepting the tutor request
+                        const chatResponse = await fetch(`/chat/groupadmin/${tutorId}`, { method: 'POST' });
+                        
+                        if (!chatResponse.ok) {
+                            throw new Error('Failed to add tutor to chat with admin');
+                        }
               
                         // Remove the join request from the "Pending" section
                         const joinRequestElement = event.target.closest('.tutor-request');

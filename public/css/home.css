@@ -807,9 +807,9 @@ textarea{
     justify-content: space-around;
 }
 .profileinfo .profileinfos-cer img{
-    width: 200px;
+    width: 300px;
     height: auto;
-    border-radius: var(--card-border-radius);
+    border-radius: var(--border-radius);
     padding: 10px;
 }
 .profilereview{
@@ -1075,7 +1075,7 @@ textarea{
     width: 100%;
     margin-top: 0.7rem;
 }
-.modal-chpass-content .emailforPass input[type="email"]{
+.modal-chpass-content .emailforPass input[type="username"]{
     width: 100%;
     border: 1px solid #ccc;
     padding: 10px;
