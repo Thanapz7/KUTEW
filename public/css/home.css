@@ -811,6 +811,10 @@ textarea{
     height: auto;
     border-radius: var(--border-radius);
     padding: 10px;
+    transition: all 0.3s ease;
+}
+.profileinfo .profileinfos-cer img:hover{
+    transform: scale(2);
 }
 .profilereview{
     background: var(--white-color);

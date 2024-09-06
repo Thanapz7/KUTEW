@@ -64,9 +64,7 @@
                         <p id="user-address">Address :</p>
                     </div>
                     <div class="profileinfos-cer">
-                        <img src="../img/cover.jpg" alt="">
-                        <img src="../img/cover.jpg" alt="">
-                        <img src="../img/cover.jpg" alt="">
+                        <img src="../img/cover.jpg" alt="" class="certificate" id="user-certificate">
                     </div>
                 </div>
             </div>
@@ -96,9 +94,6 @@
             const profileImageInput = document.getElementById('profileImageInput');
             const coverImageInput = document.getElementById('coverImageInput');
             const saveImgProfileBtn = document.querySelector('.saveimg-profileBtn');
-            const addReviewBtn = document.getElementById('addreview');
-            const reviewModal = document.getElementById('reviewModal');
-            const saveReviewBtn = document.querySelector('.save-review-btn');
         
             if (changeImageBtn) {
                 changeImageBtn.addEventListener('click', () => {
@@ -108,7 +103,7 @@
         
             closeBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    btn.closest('.modal-changeimg, .modal-review').style.display = 'none';
+                    btn.closest('.modal-changeimg').style.display = 'none';
                 });
             });
         
@@ -127,7 +122,6 @@
                     imageModal.style.display = 'none';
                 });
             }
-        
         });
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -162,6 +156,13 @@
                     document.getElementById('profilePic').src = profilePicPath; // รูปโปรไฟล์ในหน้าหลัก
                     document.getElementById('profileImage').src = sidebarProfilePicPath; // รูปโปรไฟล์ใน sidebar
 
+                    // ตั้งค่า certificatePic หากมีในข้อมูล
+                    if (userData[0].certificatePic) {
+                        document.getElementById('user-certificate').src = `/${userData[0].certificatePic}`;
+                    } else {
+                        document.getElementById('user-certificate').src = '../img/default-certificate.jpg'; // รูป default หากไม่มี certificate
+                    }
+
                     // ตรวจสอบ role และซ่อนแถบตามเงื่อนไข
                     if (SiderData.role === 'student') {
                         document.getElementById('mypost').style.display = 'none';
@@ -177,66 +178,6 @@
         
             window.onload = fetchUserData;
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            const reviewContainer = document.querySelector('.profilereview-texts'); // Container สำหรับความคิดเห็น
-        
-            async function fetchComments() {
-                try {
-                    const userId = "<%= userId %>"; // ดึงค่า tutorId ที่ถูกส่งมาจากเซิร์ฟเวอร์
-                    const tDataResponse = await fetch(`/user/tdata/${userId}`);
-                    const tData = await tDataResponse.json();
-                    const tutorId = tData[0].tutor_id;
-                    const response = await fetch(`/comment/${tutorId}`); // API ที่ใช้ดึงข้อมูลความคิดเห็น
-                    console.log(response)
-        
-                    const comments = await response.json(); // แปลงข้อมูลเป็น JSON
-        
-                    comments.comments.forEach(comment => {
-                        const reviewElement = document.createElement('div');
-                        reviewElement.classList.add('profilereview-text');
-                        reviewElement.innerHTML = `
-                            <span>${comment.student_name}</span>
-                            <div class="rating">
-                                <i class="fa-solid fa-star rating-icon"></i>
-                                <span class="rating-number">${comment.rating}</span>
-                                <span>${comment.text}</span>
-                            </div>
-                            <a class="review-report" data-comment-id="${comment.comment_id}">Report</a>
-                        `;
-                        reviewContainer.appendChild(reviewElement); // เพิ่มความคิดเห็นลงในหน้าเว็บ
-                    });
-                      // Add event listeners to report buttons
-            const reportButtons = document.querySelectorAll('.review-report');
-            reportButtons.forEach(button => {
-              button.addEventListener('click', async function() {
-                const commentId = this.dataset.commentId;
-                try {
-                  const response = await fetch(`/comment/report/${commentId}`, {
-                    method: 'PUT',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    }
-                  });
-                  if (response.ok) {
-                    alert('Reported!!!');
-                  } else {
-                    alert('An error occurred in the report');
-                  }
-                } catch (error) {
-                  console.error('Error reporting comment:', error);
-                  alert('An error occurred in the report');
-                }
-              });
-            });
-                } catch (error) {
-                    console.error('Error fetching comments:', error);
-                }
-            }
-        
-            fetchComments(); // เรียกใช้ฟังก์ชันดึงข้อมูลความคิดเห็นเมื่อหน้าเว็บถูกโหลด
-        });
-        
-        
     </script>
   </body>
 </html>
