@@ -721,6 +721,12 @@ textarea{
 .profilesec-avatar .change-image-btn:hover {
     opacity: 1;
 }
+.modal-changeimg-content .alert{
+    text-align: start;
+    color: red;
+    font-size: 12px;
+    font-style: italic;
+}
 /* write review */
 .modal-review {
     display: none;

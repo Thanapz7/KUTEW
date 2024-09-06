@@ -13,6 +13,6 @@ const {
   router.post("/student", AddStudent);
   router.post("/form", UpdateForm);
   router.get("/form", FormStatus);
-  router.post("/newpic", UpdateProfilePic);
+  router.put("/newpic", UpdateProfilePic);
   
 module.exports = router;

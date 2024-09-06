@@ -37,17 +37,14 @@
             <div id="imageModal" class="modal-changeimg">
                 <div class="modal-changeimg-content">
                     <span class="close-btn"><i class="fa-solid fa-x"></i></span>
-                    <h2>Change Profile and Cover Images</h2>
+                    <h2>Change Profile Images</h2>
                     <div class="modal-body">
                         <div class="uploadProfile-section">
                             <label for="profileImageInput">Profile Image:</label>
                             <input type="file" id="profileImageInput" accept="image/*">
                         </div>
-                        <div class="uploadProfile-section">
-                            <label for="coverImageInput">Cover Image:</label>
-                            <input type="file" id="coverImageInput" accept="image/*">
-                        </div>
                         <button class="saveimg-profileBtn">Save</button>
+                        <p class="alert">*If the image doesn't change, please refresh the screen.</p>
                     </div>
                 </div>
             </div>
@@ -120,18 +117,31 @@
         });
 
         if (saveImgProfileBtn) {
-          saveImgProfileBtn.addEventListener('click', () => {
+          saveImgProfileBtn.addEventListener('click', async () => {
+            const formData = new FormData();
+      
             if (profileImageInput.files.length > 0) {
-              const profileFile = profileImageInput.files[0];
-              profileImage.src = URL.createObjectURL(profileFile);
+              formData.append('profilePhoto', profileImageInput.files[0]); // append profile image file
             }
-
-            if (coverImageInput.files.length > 0) {
-              const coverFile = coverImageInput.files[0];
-              coverImage.src = URL.createObjectURL(coverFile);
+      
+            try {
+              const response = await fetch('/role/newpic', {
+                method: 'PUT',
+                body: formData,
+              });
+      
+              if (response.ok) {
+                const result = await response.json();
+                // Assuming the server returns the updated image URLs, update the UI accordingly
+                document.getElementById('profileImage').src = result.profilePic;
+                imageModal.style.display = 'none'; // Close the modal after successful upload
+              } else {
+                alert('Error uploading images');
+              }
+            } catch (error) {
+              console.error('Error:', error);
+              alert('An error occurred during the upload');
             }
-
-            imageModal.style.display = 'none';
           });
         }
 
