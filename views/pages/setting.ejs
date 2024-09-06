@@ -45,24 +45,24 @@
                 <div class="modal-chpass-content">
                     <span class="close-btn"><i class="fa-solid fa-x" id="closeModalBtn"></i></span>
                     <h2>Change Password</h2>
-                    <form class="modal-body">
+                    <form class="modal-body" id="changePassForm">
                         <div class="emailforPass">
-                            <label>Email : </label>
-                            <input type="email">
+                          <label>Username: </label>
+                          <input type="username" id="username" name="username" required>
                         </div>
                         <div class="newpassforPass">
-                            <label>Password : </label>
-                            <input type="password">
+                          <label>New Password: </label>
+                          <input type="password" id="newPassword" name="newPassword" required>
                         </div>
                         <div class="newpassforPass">
-                            <label>Password : </label>
-                            <input type="password">
+                          <label>Confirm Password: </label>
+                          <input type="password" id="confirmPassword" name="confirmPassword" required>
                         </div>
                         <div class="group-btn">
-                            <button class="chpass-btn" id="chpass-btn">Change</button>
-                            <button class="cancel-btn" id="cancel-btn">Cancel</button>
+                          <button type="submit" class="chpass-btn" id="chpass-btn">Change</button>
+                          <button type="button" class="cancel-btn" id="cancel-btn">Cancel</button>
                         </div>
-                    </form>
+                      </form>
                 </div>
             </div>
             <!-- modal logout -->
@@ -127,6 +127,51 @@
                 logoutModal.style.display = "none";
             }
         }
+
+        const form = document.getElementById("changePassForm");
+        const newPassword = document.getElementById("newPassword");
+        const confirmPassword = document.getElementById("confirmPassword");
+
+    form.onsubmit = async function(event) {
+    event.preventDefault();
+    
+    // Check if passwords match
+    if (newPassword.value !== confirmPassword.value) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    // Prepare data
+    const data = {
+        username: document.getElementById("username").value,
+        newPassword: newPassword.value,
+        confirmPassword: confirmPassword.value
+    };
+
+    try {
+        // Send POST request
+        const response = await fetch("/repass/newpass", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("Password changed successfully!");
+            modal.style.display = "none"; // Close modal
+        } else {
+            alert(result.message || "Error changing password.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to change password.");
+        }
+    };
+
     </script>
   </body>
 </html>
