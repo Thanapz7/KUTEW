@@ -61,9 +61,7 @@
                         <p id="user-address">ที่อยู่ :</p>
                     </div>
                     <div class="profileinfos-cer">
-                        <img src="../img/cover.jpg" alt="">
-                        <img src="../img/cover.jpg" alt="">
-                        <img src="../img/cover.jpg" alt="">
+                        <img src="../img/cover.jpg" alt="" class="certificate" id="user-certificate">
                     </div>
                 </div>
             </div>
@@ -103,6 +101,7 @@
         const saveImgProfileBtn = document.querySelector('.saveimg-profileBtn');
         const reviewModal = document.getElementById('reviewModal');
         const saveReviewBtn = document.querySelector('.save-review-btn');
+        const certificateImage = document.querySelector('.certificate')
         
         if (changeImageBtn) {
           changeImageBtn.addEventListener('click', () => {
@@ -153,6 +152,7 @@
               throw new Error('Network response was not ok');
             }
             const userData = await response.json();
+            console.log('userdata', userData)
 
             document.getElementById('user-name').textContent = userData.name;
             document.getElementById('user-name-profile').textContent = userData.name;
@@ -165,6 +165,7 @@
             document.getElementById('profileImage').src = userData.profilePic || '../img/racc.jfif';
             document.getElementById('profilePic').src = userData.profilePic || '../img/racc.jfif';
             document.getElementById('coverImage').src = userData.coverPic || '../img/cover.jpg';
+           // document.getElementById('user-certificate').src = userData.certificatePic;
 
             if (userData.role === 'student') {
               document.getElementById('mypost').style.display = 'none';
@@ -242,10 +243,33 @@
           }
         }
 
+        async function fetchTutorData() {
+          try {
+            const userId = "<%= userId %>"; // ดึง userId จากเซิร์ฟเวอร์
+            const response = await fetch(`/user/tdata/${userId}`);
+            
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+        
+            const tutorData = await response.json();
+        
+            // ตรวจสอบว่า certificatePic มีข้อมูลหรือไม่
+            if (tutorData[0] && tutorData[0].certificatePic) {
+              document.getElementById('user-certificate').src = tutorData[0].certificatePic;
+            } else {
+              document.getElementById('user-certificate').src = '../img/default-certificate.jpg'; // ใช้รูป default ถ้าไม่มี certificatePic
+            }
+          } catch (error) {
+            console.error('Error fetching tutor data:', error);
+          }
+        }
+
         // Call functions when the page loads
         window.onload = async function() {
           await fetchUserData();
           await fetchComments();
+          await fetchTutorData();
         };
       });
 
