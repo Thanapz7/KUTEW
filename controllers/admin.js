@@ -28,21 +28,27 @@ exports.updateAcceptTutor = async (req, res) => {
     });
 };
 
-exports.updateDenyTutor = async (req, res) => {
+exports.DenyDeleteTutor = async (req, res) => {
     const tutor_id = req.params.id;
     const query = `
-        UPDATE tutors SET status = ?
-        WHERE tutor_id = ?
+        DELETE FROM tutors WHERE tutor_id = ?
     `;
-    db.query(query, ['Deny', tutor_id], (err, results) => {
+    
+    db.query(query, [tutor_id], (err, results) => {
         if (err) {
-            console.error('Error updating join:', err);
-            res.status(500).json({ error: 'Failed to update join' });
+            console.error('Error deleting tutor:', err);
+            res.status(500).json({ error: 'Failed to delete tutor' });
             return;
         }
-        res.status(200).json({ message: 'Update join status successfully'});
+
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ message: 'Tutor not found' });
+        }
+
+        res.status(200).json({ message: 'Tutor deleted successfully' });
     });
 };
+
 
 exports.getUserActivity = async (req, res) => {
     const query = 'SELECT date, tutor_count, student_count FROM user_activity';
