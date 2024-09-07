@@ -109,7 +109,7 @@
               
                     try {
                         // Deny the join request
-                        await fetch(`/admin/deny/${tutorId}`, { method: 'PUT' });
+                        await fetch(`/admin/deny/${tutorId}`, { method: 'DELETE' });
               
                         // Remove the join request from the "Pending" section
                         const joinRequestElement = event.target.closest('.tutor-request');
