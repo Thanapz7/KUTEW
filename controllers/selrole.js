@@ -126,7 +126,9 @@ exports.FormStatus = (req, res) => {
             return res.status(500).send({ message: 'Failed to fetch form status' });
         }
         if (results.length > 0) {
-            res.status(200).send({ formCompleted: results[0].form === 'completed' });
+            res.status(200).send({ formCompleted: results[0].form === 'completed',  
+                                   formUncompleted: results[0].form === 'uncompleted' 
+        });
         } else {
             res.status(404).send({ message: 'User not found' });
         }

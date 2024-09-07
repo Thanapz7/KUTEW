@@ -126,7 +126,9 @@
                 if (formResponse.ok) {
                   if (formData.formCompleted) {
                     window.location.href = '/home';
-                  } else {
+                  }else if (formData.formUncompleted && roleData.role === 'tutor') {
+                    window.location.href = '/rejectadmin';
+                  }else {
                     window.location.href = '/selrole';
                   }
                 } else {
