@@ -3,20 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInputMiddle = document.getElementById('searchInputMiddle');
     const feedsContainer = document.getElementById('feedsContainer');
 
-    const getUserRole = async () => {
-        try {
-            const response = await fetch('/user/u');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const userData = await response.json();
-            return userData.role;
-        } catch (error) {
-            console.error('Error fetching user role:', error);
-            return null;
-        }
-    };
-
     const performSearch = async (keyword) => {
         if (!keyword) {
             feedsContainer.innerHTML = ''; // ล้างผลลัพธ์ถ้าคำค้นหาว่างเปล่า
@@ -31,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const posts = await response.json();
 
             feedsContainer.innerHTML = ''; // ล้างผลลัพธ์เก่า
-            const userRole = await getUserRole(); // ดึง role ของผู้ใช้
 
             posts.forEach(async (post) => {
                 const postElement = document.createElement('div');
@@ -79,15 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
 
-                // ซ่อนปุ่ม JOIN ถ้า role ของผู้ใช้คือ tutor
-                if (userRole === 'tutor') {
-                    postElement.querySelector('.join').style.display = 'none';
-                } else {
-                    const joinButton = postElement.querySelector('.join-btn');
-                    joinButton.addEventListener('click', () => {
-                        window.location.href = `/joinclass?post_id=${post.post_id}`;
-                    });
-                }
+                const joinButton = postElement.querySelector('.join-btn');
+                joinButton.addEventListener('click', () => {
+                    window.location.href = `/joinclass?post_id=${post.post_id}`;
+                });
 
                 feedsContainer.appendChild(postElement);
             });
