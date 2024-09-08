@@ -117,37 +117,72 @@ exports.CreateChatGroupWithMembers = async (req, res) => {
   
 //เพิ่มทั้งกลุ่มและสมาชิกในครั้งเดียว สำหรับadmin
 exports.CreateChatGroupWithAdmin = async (req, res) => {
-  const admin_id = process.env.ADMIN_ID; 
-  const userId = req.session.user.user_id;
-  //const {userId} = req.body;
+  try {
+    const admin_id = process.env.ADMIN_ID;
+    const userId = req.session.user.user_id;
 
-  const sqlInsertGroup = `
-    INSERT INTO chat_groups (name)
-    VALUES (
-      CONCAT('admin-', (SELECT username FROM users WHERE user_id = ?))
-    );
-  `;
-
-  db.query(sqlInsertGroup, [userId], (err, insertResults) => {
-    if (err) {
-      console.error('Error adding chat group:', err);
-      return res.status(500).send({ message: 'Failed to add chat group' });
+    if (!userId || !admin_id) {
+      return res.status(400).send({ message: 'User ID or Admin ID is missing' });
     }
 
+    const sqlInsertGroup = `
+      INSERT INTO chat_groups (name)
+      VALUES (
+        CONCAT('admin-', (SELECT username FROM users WHERE user_id = ?))
+      );
+    `;
+
+    const insertResults = await new Promise((resolve, reject) => {
+      db.query(sqlInsertGroup, [userId], (err, results) => {
+        if (err) reject(err);
+        else resolve(results);
+      });
+    });
+
     const groupId = insertResults.insertId;
-    addMembersToGroupForAdmin(groupId, userId, admin_id, res);
-  });
+
+    // เพิ่มสมาชิกเข้าไปในกลุ่ม (user และ admin)
+    await addMembersToGroupForAdmin(groupId, userId, admin_id);
+
+    res.json({ message: 'Chat group and members added successfully', groupId });
+  } catch (error) {
+    console.error('Error creating chat group:', error);
+    res.status(500).send({ message: 'Failed to create chat group' });
+  }
 };
 
-function addMembersToGroupForAdmin(groupId, userId, admin_id, res) {
-  const addMember = (groupId, user_id, res, callback) => {
+async function addMembersToGroupForAdmin(groupId, userId, admin_id) {
+  try {
+    // เพิ่มสมาชิก user
+    await addMember(groupId, userId);
+
+    // เพิ่มสมาชิก admin
+    const adminUserIdQuery = `SELECT user_id FROM users WHERE user_id = ?`;
+    const adminResults = await new Promise((resolve, reject) => {
+      db.query(adminUserIdQuery, [admin_id], (err, results) => {
+        if (err) reject(err);
+        else resolve(results);
+      });
+    });
+
+    if (adminResults.length > 0) {
+      const adminUserId = adminResults[0].user_id;
+      await addMember(groupId, adminUserId);
+    }
+  } catch (error) {
+    console.error('Error adding members to group:', error);
+    throw error;
+  }
+}
+
+function addMember(groupId, user_id) {
+  return new Promise((resolve, reject) => {
     const sqlCheckMember = `
       SELECT * FROM group_members WHERE group_id = ? AND user_id = ?
     `;
     db.query(sqlCheckMember, [groupId, user_id], (err, memberResults) => {
       if (err) {
-        console.error('Error checking group member:', err);
-        return res.status(500).send({ message: 'Failed to check group member' });
+        return reject(err);
       }
 
       if (memberResults.length === 0) {
@@ -156,34 +191,16 @@ function addMembersToGroupForAdmin(groupId, userId, admin_id, res) {
           VALUES (?, ?)
         `;
         db.query(sqlInsertMember, [groupId, user_id], (err) => {
-          if (err) {
-            console.error('Error adding group member:', err);
-            return res.status(500).send({ message: 'Failed to add group member' });
-          }
-          callback();
+          if (err) reject(err);
+          else resolve();
         });
       } else {
-        callback();
+        resolve(); // สมาชิกมีอยู่แล้ว ไม่ต้องเพิ่ม
       }
-    });
-  };
-
-  // เรียกใช้ฟังก์ชันเพื่อเพิ่ม user และ admin
-  addMember(groupId, userId, res, () => {
-    const adminUserIdQuery = `SELECT user_id FROM users WHERE user_id = ?`;
-    db.query(adminUserIdQuery, [admin_id], (err, results) => {
-      if (err) {
-        console.error('Error fetching admin user_id:', err);
-        return res.status(500).send({ message: 'Failed to fetch admin user_id' });
-      }
-
-      const adminUserId = results[0].user_id;
-      addMember(groupId, adminUserId, res, () => {
-        res.json({ message: 'Chat group and members added successfully', groupId });
-      });
     });
   });
 }
+
 
 //เพิ่มทั้งกลุ่มและสมาชิกในครั้งเดียว สำหรับadmin
 exports.CreateChatGroupWithAdminForTutor = async (req, res) => {
