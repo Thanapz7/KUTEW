@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUTEW</title>
+    <link rel="stylesheet" href="/css/firstpage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- progressbar -->
+     <div class="scroll-indicator">
+        <div class="progress"></div>
+     </div>
+     <!-- navbar -->
+     <header>
+        <div class="container">
+            <nav>
+                <div class="logo">KUTEW</div>
+                <ul class="nav-list">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="box-item">
+                    <i class="fa-solid fa-bars menu-bars"></i>
+                </div>
+            </nav>
+        </div>
+     </header>
+     <section class="home-section" id="home">
+        <div class="image-container">
+            <img src="/img/cover.jpg" alt="">
+            <div class="overlay-text">
+                <h1>Welcome To KUTEW</h1>
+                <p>KUTEW is an online platform designed to connect students with tutors, simplifying the tutoring process. Students can easily browse tutor posts, search for the right tutor, send requests to join sessions, make payments, and join group chats. Tutors can create posts, manage student requests, and track their earnings. The platform also provides administrators with tools to monitor site usage, manage reviews, and address user concerns, ensuring a smooth experience for everyone involved.</p>
+                <div class="bottons">
+                    <button type="button" class="btn log-in"><span></span>Enter KUTEW</button>
+                </div>
+            </div>
+        </div>
+    </section>
+     <section class="about-section" id="about">
+        <div class="container">
+            <p>KUTEW is project that......................</p>
+        </div>
+     </section>
+     <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="contact-item">
+                    <div class="contact-item-inner">
+                        <img src="/img/boy.png" alt="">
+                        <h3>Thanaphon Phetcharat</h3>
+                        <p>(Front-End Dev)</p>
+                        <p>6440201595</p>
+                        <p>thanaphon.phet@ku.th</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-inner">
+                        <img src="/img/boy.png" alt="">
+                        <h3>Tadchai Phisutthisakulchai</h3>
+                        <p>(Back-End Dev)</p>
+                        <p>6440206305</p>
+                        <p>tadchai.p@ku.th</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-item-inner">
+                        <img src="/img/boy.png" alt="">
+                        <h3>Nukun Kaewdi</h3>
+                        <p>(Front-End Dev)</p>
+                        <p>6440202288</p>
+                        <p>nukun.k@ku.th</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </section>
+     <script>
+        document.querySelector('.log-in').addEventListener('click', function(){
+            window.location.href='/login'
+        })
+
+        const menu = document.querySelector('.menu-bars')
+        const navlist = document.querySelector('.nav-list')
+        const progress = document.querySelector('.progress')
+
+        menu.onclick = () =>{
+            menu.classList.toggle('fa-x')
+            navlist.classList.toggle('open')
+        }
+
+        window.onscroll=()=>scrollProgress()
+        function scrollProgress(){
+            const pageHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
+            const scrollTop = document.documentElement.scrollTop
+            const scrollPercentage = (scrollTop/pageHeight)*100
+            progress.style.visibility="visible"
+            progress.style.width=scrollPercentage+"%"
+        }
+     </script>
+</body>
+</html>

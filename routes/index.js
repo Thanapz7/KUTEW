@@ -3,6 +3,9 @@ const router = express.Router();
 const recordUserActivity = require('../middleware');
 
 router.get('/', (req, res) => {
+    res.render('pages/firstpage.ejs');
+  });
+router.get('/login', (req, res) => {
     res.render('pages/login.ejs',{pageTitle: 'Login' });
   });
 
