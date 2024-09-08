@@ -226,108 +226,120 @@ main .container .left .profile{
     overflow: hidden;
 }
 
-/* create post */
-.middle .create-post{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 1rem;
-    background: var(--white-color);
-    padding: 0.4rem var(--card-padding);
-    border-radius: var(--border-radius);
-}
-.middle .create-post .btn{
-    width: 15%;
-}
-.middle .show-income{
-    background: var(--white-color);
-    border-radius: var(--border-radius);
-    padding: var(--card-padding);
-    margin: 1.5rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .show-income .income-detail{
-    display: flex;
-}
-.middle .show-income .income-detail h3{
-    font-size: 16px;
-}
-.middle .show-income .income-detail .income{
-    font-size: 16px;
-    margin-left: 16px;
-}
-/* feeds */
-.middle .feeds .feed{
-    background: var(--white-color);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
-    margin: 1rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .feed .head{
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-}
-.middle .feed .info a{
-    color: var(--black-color);
-}
-.middle .feed .user{
-    display: flex;
-    gap: 1rem;
-}
-.middle .feed .photo{
-    border-radius: var(--card-border-radius);
-    overflow: hidden;
-    margin: 0.7rem;
-}
-.middle .feed .caption {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    margin-top: 1rem;
-    margin-left: 3.5rem;
 
-}
-.middle .feed .caption i{
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 0.85rem;
-}
-.middle .feed .caption i p{
+/* หน้า join class */
+.middle .joinclass {
+    background-color: var(--white-color);
+    border-radius: var(--card-border-radius);
+    padding: 50px;
+    font-size: 1.5rem;
+    height: 100vh;
     font-family: "Kanit", sans-serif;
-    margin: 0;
-    font-size: 16px;
-}
-.middle .feed .caption p.p-font{
-    font-weight: 5;
 }
 
-/* right */
-/* main .container .right{
-    height: max-content;
-    position: sticky;
-    top: var(--sticky-top-left);
+.middle .head-detial-post {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
 }
-.right .tags{
-    background: var(--lighgreen-color);
-    padding: 1rem;
-    border-radius: var(--card-border-radius);
+
+.middle .head-detial-post p {
+    margin-left: 3rem;
 }
-.right .tags .headtag i{
-    font-size: 1.4rem;
+.profilePicture {
+    display: flex;
+    align-items: center; /* จัดกึ่งกลางรูปภาพในแนวตั้ง */
+    margin-bottom: 20px;
 }
-.right .tags .headtag .tag{
+.profilePhoto {
+    border-radius: 50%;
+    overflow: hidden; /* ซ่อนส่วนที่เกิน */
+    width: 120px;
+    height: 120px; 
+    margin-left: 2.8rem;
+}
+.profilePhoto img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.middle .joinclass .head-detial-post .tutor {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.middle .joinclass .head-detial-post .tutor #tutorName {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.middle .joinclass .detail-joinclass {
+    /* margin-top: 0.5rem; */
+    line-height: 2;
+}
+
+.middle .joinclass .detail-joinclass .tag {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.middle .joinclass .detail-joinclass .info {
+    font-weight: 5;
+    color: var(--info-color); /* สีของข้อมูลที่อ่อนกว่า */
+    margin: 2px 30px;
+    text-align: left;
+}
+
+.middle .joinclass .btn-joinclass .btn-join {
+    background-color: var(--lighgreen-color);
+    color: var(--white-color);
+    cursor: pointer;
+    font-size: 2rem;
+    border-radius: var(--border-radius);
+    padding: 10px;
+}
+.joined-btn {
+    background-color: #D3D3D3;
+    cursor: not-allowed;
+}
+.btn-join.joined {
+    background-color: gray;
+    cursor: not-allowed;
+  }
+.middle .joinclass .btn-joinclass .btn-join:hover {
+    background-color: var(--green-color);
+    color: var(--white-color);
+}
+
+.middle .joinclass .detail-joinclass p {
+    flex-direction: column;
+    text-align: left;
+    margin-left: 3rem;
     display: flex;
     align-items: center;
 }
-.right a{
-    font-size: 1.1rem;
-} */
+
+.middle .icon {
+    color: rgb(207, 184, 6);
+    margin-left: 15vh;
+}
+
+.middle .joinclass #popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.middle .joinclass .detail-joinclass .tag p:first-child {
+    color: var(--text-color); /* สีของข้อความ */
+    margin-right: 0.5rem; /* ปรับระยะห่างระหว่างเครื่องหมาย : กับข้อความ */
+}
 
 /* right */
 main .container .right{

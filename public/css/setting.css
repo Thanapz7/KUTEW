@@ -226,108 +226,157 @@ main .container .left .profile{
     overflow: hidden;
 }
 
-/* create post */
-.middle .create-post{
+
+
+
+
+/* settings */
+.middle .settings{
+    background: var(--white-color);
+    padding: 2rem;
+    border-radius: var(--card-border-radius);
+    height: 80vh;
+
+}
+.settings .setting{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 16px;
+}
+.settings .setting-name{
+    display: flex;
+}
+.settings .setting-name p{
+    margin-left: 10px;
+    margin-top: -4px;
+}
+.settings .navigation{
+    color: black;
+    font-size: 20px;
+}
+
+   /* modal ch pass */
+.modal-chPass{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
     width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+.modal-chpass-content{
+    background-color: var(--white-color);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    min-width: 500px;
+    height: auto;
+    border-radius: var(--card-border-radius);
+}
+.modal-chpass-content h2{
+    text-align: center;
+}
+.modal-chpass-content .emailforPass{
+    width: 100%;
+    margin-top: 0.7rem;
+}
+.modal-chpass-content .emailforPass input[type="username"]{
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: var(--card-border-radius);
+}
+.modal-chpass-content .newpassforPass input[type="password"]{
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: var(--card-border-radius);
+}
+.modal-chpass-content .group-btn{
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 1rem;
-    background: var(--white-color);
-    padding: 0.4rem var(--card-padding);
+    justify-content: space-around;
+    margin-top: 1.5rem ;
+}
+.group-btn .chpass-btn{
+    padding: var(--btn-paddign);
     border-radius: var(--border-radius);
+    color: var(--white-color);
+    background-color: var(--green-color);
+    cursor: pointer;
 }
-.middle .create-post .btn{
-    width: 15%;
+.group-btn .chpass-btn:hover{
+    background-color: var(--lighgreen-color);
 }
-.middle .show-income{
-    background: var(--white-color);
+.group-btn .cancel-btn{
+    padding: var(--btn-paddign);
     border-radius: var(--border-radius);
-    padding: var(--card-padding);
-    margin: 1.5rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
+    color: var(--white-color);
+    background-color: red;
+    cursor: pointer;
 }
-.middle .show-income .income-detail{
-    display: flex;
+.group-btn .cancel-btn:hover{
+    background-color: lightcoral;
 }
-.middle .show-income .income-detail h3{
-    font-size: 16px;
-}
-.middle .show-income .income-detail .income{
-    font-size: 16px;
-    margin-left: 16px;
-}
-/* feeds */
-.middle .feeds .feed{
-    background: var(--white-color);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
-    margin: 1rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .feed .head{
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-}
-.middle .feed .info a{
-    color: var(--black-color);
-}
-.middle .feed .user{
-    display: flex;
-    gap: 1rem;
-}
-.middle .feed .photo{
-    border-radius: var(--card-border-radius);
-    overflow: hidden;
-    margin: 0.7rem;
-}
-.middle .feed .caption {
-    display: flex;
-    flex-direction: column;
-    gap: 0.7rem;
-    margin-top: 1rem;
-    margin-left: 3.5rem;
-
-}
-.middle .feed .caption i{
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 0.85rem;
-}
-.middle .feed .caption i p{
-    font-family: "Kanit", sans-serif;
-    margin: 0;
-    font-size: 16px;
-}
-.middle .feed .caption p.p-font{
-    font-weight: 5;
-}
-
-/* right */
-/* main .container .right{
-    height: max-content;
-    position: sticky;
-    top: var(--sticky-top-left);
-}
-.right .tags{
-    background: var(--lighgreen-color);
-    padding: 1rem;
-    border-radius: var(--card-border-radius);
-}
-.right .tags .headtag i{
-    font-size: 1.4rem;
-}
-.right .tags .headtag .tag{
-    display: flex;
+/* modal logout */
+.modal-logout{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
     align-items: center;
 }
-.right a{
-    font-size: 1.1rem;
-} */
+.modal-logout-content{
+    background-color: var(--white-color);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: var(--card-border-radius);
+    width: 50%;
+    height: auto;
+}
+.modal-logout-content h2,p{
+    text-align: center;
+}
+.modal-logout-content .group-btn{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 1.5rem ;
+}
+.group-btn .logout-btn{
+    padding: var(--btn-paddign);
+    border-radius: var(--border-radius);
+    color: var(--white-color);
+    background-color: var(--green-color);
+    cursor: pointer;
+}
+.group-btn .logout-btn:hover{
+    background-color: var(--lighgreen-color);
+}
+.group-btn .cancel-logout-btn{
+    padding: var(--btn-paddign);
+    border-radius: var(--border-radius);
+    color: var(--white-color);
+    background-color: red;
+    cursor: pointer;
+}
+.group-btn .cancel-logout-btn:hover{
+    background-color: var(--lighgreen-color);
+}
 
 /* right */
 main .container .right{

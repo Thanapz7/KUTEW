@@ -226,38 +226,6 @@ main .container .left .profile{
     overflow: hidden;
 }
 
-/* create post */
-.middle .create-post{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 1rem;
-    background: var(--white-color);
-    padding: 0.4rem var(--card-padding);
-    border-radius: var(--border-radius);
-}
-.middle .create-post .btn{
-    width: 15%;
-}
-.middle .show-income{
-    background: var(--white-color);
-    border-radius: var(--border-radius);
-    padding: var(--card-padding);
-    margin: 1.5rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .show-income .income-detail{
-    display: flex;
-}
-.middle .show-income .income-detail h3{
-    font-size: 16px;
-}
-.middle .show-income .income-detail .income{
-    font-size: 16px;
-    margin-left: 16px;
-}
 /* feeds */
 .middle .feeds .feed{
     background: var(--white-color);
@@ -307,27 +275,115 @@ main .container .left .profile{
     font-weight: 5;
 }
 
-/* right */
-/* main .container .right{
-    height: max-content;
-    position: sticky;
-    top: var(--sticky-top-left);
+/* serach page */
+nav .search-barpage{
+    opacity: 0;
 }
-.right .tags{
-    background: var(--lighgreen-color);
-    padding: 1rem;
+
+.middle-search{
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+}
+
+.middle-search .search-barpageinfo{
+    background: none;
+    padding: var(--search-padding);
+    display: flex;
+}
+.middle-search .search-barpageinfo input[type="search"]{
+    background: transparent;
+    width: 30%;
+    margin-left: 1rem;
+    font-size: 2rem;
+    color: var(--black-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+}
+.middle-search .searchicon{
+    font-size: 2rem;
+}
+
+.tagsearch .headtag-search{
+    color: var(--green-color);
+}
+.tagsearch .headtag-search a:hover{
+    color: var(--green-color);
+}
+.middle-search .tagsearch{
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+.middle-search .tagsearch i{
+    margin-top: 0.3rem;
+}
+.middle-search .tagsearch p{
+    margin-left: 0.3rem;
+}
+
+.middle-search .tagsearch a{
+    margin-left: 2rem;
+    color: #888;
+}
+
+.middle-search .feeds{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.middle-search .feeds .feed{
     border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    margin: 1rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.5rem;
+    border: 1px solid #ccc;
 }
-.right .tags .headtag i{
-    font-size: 1.4rem;
+.middle-search .feed .head{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
 }
-.right .tags .headtag .tag{
+.middle-search .feed .user{
+    display: flex;
+    gap: 1rem;
+}
+.middle-search .feed .photo{
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    margin: 0.7rem;
+}
+.middle-search .feed .caption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    margin-top: 1rem;
+    margin-left: 3.5rem;
+}
+.middle-search  .search-feed .icon-search{
+    color: rgb(250, 217, 4);
+}
+.middle-search .feed .caption i{
     display: flex;
     align-items: center;
+    gap: 0.7rem;
+    font-size: 0.85rem;
 }
-.right a{
-    font-size: 1.1rem;
-} */
+.middle-search .feed .caption i p{
+    font-family: "Kanit", sans-serif;
+    margin: 0;
+    font-size: 16px;
+}
+.middle-search .feed .caption .p-font{
+    font-weight: 400;
+}
+.middle-search .feed .caption i span{
+    font-family: "Kanit", sans-serif;
+    margin: 0;
+    font-size: 16px;
+}
 
 /* right */
 main .container .right{

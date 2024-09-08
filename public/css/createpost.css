@@ -258,76 +258,84 @@ main .container .left .profile{
     font-size: 16px;
     margin-left: 16px;
 }
-/* feeds */
-.middle .feeds .feed{
-    background: var(--white-color);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
-    margin: 1rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .feed .head{
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-}
-.middle .feed .info a{
-    color: var(--black-color);
-}
-.middle .feed .user{
-    display: flex;
-    gap: 1rem;
-}
-.middle .feed .photo{
-    border-radius: var(--card-border-radius);
-    overflow: hidden;
-    margin: 0.7rem;
-}
-.middle .feed .caption {
+
+/* make post */
+.middle .post{
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
+    align-items: normal;
     margin-top: 1rem;
-    margin-left: 3.5rem;
-
+    background: var(--white-color);
+    padding: 1rem var(--card-padding);
+    border-radius: var(--border-radius);
 }
-.middle .feed .caption i{
+.make-post .form-group{
+    margin-bottom: 0.95rem;
     display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 0.85rem;
+    justify-content: space-between;
+    width: 100%;
+    left: 10px;
 }
-.middle .feed .caption i p{
-    font-family: "Kanit", sans-serif;
-    margin: 0;
-    font-size: 16px;
+.make-post .form-group label{
+    flex: 1;
+    font-weight: bold;
+    margin-right: 0.6rem;
 }
-.middle .feed .caption p.p-font{
-    font-weight: 5;
-}
-
-/* right */
-/* main .container .right{
-    height: max-content;
-    position: sticky;
-    top: var(--sticky-top-left);
-}
-.right .tags{
-    background: var(--lighgreen-color);
+textarea{
+    flex: 2;
     padding: 1rem;
+    border: 1px solid #ccc;
+    width: 100%;
     border-radius: var(--card-border-radius);
 }
-.right .tags .headtag i{
-    font-size: 1.4rem;
+.make-post .form-group input[type="text"],
+.make-post .form-group input[type="date"],
+.make-post .form-group input[type="file"]{
+    flex: 2;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: var(--card-border-radius);
 }
-.right .tags .headtag .tag{
+.make-post .form-group input[type="file"] {
+    padding: 0;
+}
+.make-post .error{
+    color: red;
+    margin-left: 5px;
+    margin-top: 20px;
+}
+.btn-makepost{
+    width: 100%;
     display: flex;
-    align-items: center;
+    justify-content: space-around;
+    right: 10px;
 }
-.right a{
-    font-size: 1.1rem;
-} */
+.btn-post {
+    width: 30%;
+    padding: var(--btn-paddign);
+    color: var(--white-color);
+    background: var(--green-color);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    border: none;
+}
+.btn-allpost{
+    width: 30%;
+    padding: var(--btn-paddign);
+    color: var(--white-color);
+    background: rgb(255, 165, 0);
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    border: none;
+}
+.btn-post:hover{
+    background: var(--lighgreen-color);
+}
+.btn-allpost:hover{
+    background: var(--lightorange-color);
+}
 
 /* right */
 main .container .right{

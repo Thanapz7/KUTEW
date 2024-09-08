@@ -226,108 +226,64 @@ main .container .left .profile{
     overflow: hidden;
 }
 
-/* create post */
-.middle .create-post{
-    width: 100%;
+/* payment */
+.middle-payment{
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+}
+.middle-payment .qrcode-image{
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 1rem;
-    background: var(--white-color);
-    padding: 0.4rem var(--card-padding);
-    border-radius: var(--border-radius);
+    height: 70vh;
 }
-.middle .create-post .btn{
-    width: 15%;
+.middle-payment .qrcode-image .feed-item img {
+    max-width: 300px;
+    height: auto;
+    border: #888 solid 1px;
+    border-radius: 7px;
 }
-.middle .show-income{
-    background: var(--white-color);
-    border-radius: var(--border-radius);
-    padding: var(--card-padding);
-    margin: 1.5rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .show-income .income-detail{
-    display: flex;
-}
-.middle .show-income .income-detail h3{
-    font-size: 16px;
-}
-.middle .show-income .income-detail .income{
-    font-size: 16px;
-    margin-left: 16px;
-}
-/* feeds */
-.middle .feeds .feed{
-    background: var(--white-color);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
-    margin: 1rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .feed .head{
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-}
-.middle .feed .info a{
-    color: var(--black-color);
-}
-.middle .feed .user{
-    display: flex;
-    gap: 1rem;
-}
-.middle .feed .photo{
-    border-radius: var(--card-border-radius);
-    overflow: hidden;
-    margin: 0.7rem;
-}
-.middle .feed .caption {
+.middle-payment .feed-payment .form-payment{
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
-    margin-top: 1rem;
-    margin-left: 3.5rem;
-
+    align-items: flex-start ;
+    margin-bottom: 20px; 
+    margin-left: 35%;
 }
-.middle .feed .caption i{
+.form-payment label {
+    min-width: 100px; /* กำหนดความกว้างขั้นต่ำให้กับ label เพื่อให้มีระยะห่างเท่ากัน */
+}
+.form-payment input[type="file"],
+.form-payment input[type="text"] {
+    flex-grow: 1; /* ให้ input ขยายได้เต็มที่ */
+}
+.middle-payment .feed-payment .form-payment .slip-payment{
+    margin-bottom: 10px;
+}
+.middle-payment .feed-payment .form-payment .coupong{
+    margin-top: 10px;
+}
+.middle-payment .feed-payment .form-payment .coupong input{
+    border: #888 solid 1px;
+}
+.middle-payment .feed-payment .payment-submit{
     display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 0.85rem;
+    align-self: center;
+    margin-top: 20px;
+    justify-content: center;
 }
-.middle .feed .caption i p{
-    font-family: "Kanit", sans-serif;
-    margin: 0;
-    font-size: 16px;
+.middle-payment .feed-payment .payment-submit button[type="submit"]{
+    background-color: var(--lighgreen-color);
+    border-radius: var(--border-radius);
+    font-size: 1.3rem;
+    width: 30%;
+    color: var(--white-color);
+    margin-bottom: 5px;
+    cursor: pointer;
 }
-.middle .feed .caption p.p-font{
-    font-weight: 5;
+.middle-payment .feed-payment .payment-submit button[type="submit"]:hover{
+    background-color: var(--green-color);
 }
-
-/* right */
-/* main .container .right{
-    height: max-content;
-    position: sticky;
-    top: var(--sticky-top-left);
-}
-.right .tags{
-    background: var(--lighgreen-color);
-    padding: 1rem;
-    border-radius: var(--card-border-radius);
-}
-.right .tags .headtag i{
-    font-size: 1.4rem;
-}
-.right .tags .headtag .tag{
-    display: flex;
-    align-items: center;
-}
-.right a{
-    font-size: 1.1rem;
-} */
 
 /* right */
 main .container .right{

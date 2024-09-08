@@ -226,108 +226,270 @@ main .container .left .profile{
     overflow: hidden;
 }
 
-/* create post */
-.middle .create-post{
-    width: 100%;
+/* my posts */
+.myposts{
+    background: var(--lighgreen-color);
+    height: auto;
+    padding: 1.5rem;
+    border-radius: var(--card-border-radius);
+    overflow-y: auto;
+    white-space: nowrap;
+}
+.card-eachpost{
+    background: var(--white-color);
+    border-radius: var(--card-border-radius);
+    padding: 0.8rem;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 1rem;
-    background: var(--white-color);
-    padding: 0.4rem var(--card-padding);
-    border-radius: var(--border-radius);
+    width: 100%;
+    margin-bottom: 1rem;
 }
-.middle .create-post .btn{
-    width: 15%;
-}
-.middle .show-income{
-    background: var(--white-color);
-    border-radius: var(--border-radius);
-    padding: var(--card-padding);
-    margin: 1.5rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .show-income .income-detail{
-    display: flex;
-}
-.middle .show-income .income-detail h3{
-    font-size: 16px;
-}
-.middle .show-income .income-detail .income{
-    font-size: 16px;
-    margin-left: 16px;
-}
-/* feeds */
-.middle .feeds .feed{
-    background: var(--white-color);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
-    margin: 1rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .feed .head{
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-}
-.middle .feed .info a{
-    color: var(--black-color);
-}
-.middle .feed .user{
-    display: flex;
-    gap: 1rem;
-}
-.middle .feed .photo{
-    border-radius: var(--card-border-radius);
-    overflow: hidden;
-    margin: 0.7rem;
-}
-.middle .feed .caption {
+.card-eachpost .left-card,
+.card-eachpost .center-card,
+.card-eachpost .right-card{
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
-    margin-top: 1rem;
-    margin-left: 3.5rem;
-
+    justify-content: center;
 }
-.middle .feed .caption i{
+.card-eachpost .left-card{
+    align-items: center;
+}
+.card-eachpost .left-card .profile-mypost{
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.card-eachpost .center-card{
+    flex: 1;
+    margin: 0 20px;
+}
+.card-eachpost .center-card .nametutor{
+    font-size: 18px;
+}
+.card-eachpost .center-card p{
+    margin: 5px 0;
+}
+.card-eachpost .center-card .subject,
+.card-eachpost .center-card .location,
+.card-eachpost .center-card .date,
+.card-eachpost .center-card .details,
+.card-eachpost .center-card p{
     display: flex;
     align-items: center;
-    gap: 0.7rem;
-    font-size: 0.85rem;
 }
-.middle .feed .caption i p{
-    font-family: "Kanit", sans-serif;
-    margin: 0;
-    font-size: 16px;
+.card-eachpost .center-card .subject .head,
+.card-eachpost .center-card .location .head,
+.card-eachpost .center-card .date .head,
+.card-eachpost .center-card .details .head{
+    font-weight: bold;
+    margin-left: 0.2rem;
 }
-.middle .feed .caption p.p-font{
-    font-weight: 5;
+.card-eachpost .center-card .subject p,
+.card-eachpost .center-card .location p,
+.card-eachpost .center-card .date p,
+.card-eachpost .center-card .details p{
+    margin-left: 0.4rem;
 }
 
-/* right */
-/* main .container .right{
-    height: max-content;
-    position: sticky;
-    top: var(--sticky-top-left);
+.card-eachpost .center-card .subject i,
+.card-eachpost .center-card .location i,
+.card-eachpost .center-card .date i,
+.card-eachpost .center-card .datails i{
+    margin-right: 0.3rem;
 }
-.right .tags{
-    background: var(--lighgreen-color);
-    padding: 1rem;
+.card-eachpost .right-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+    height: auto;
+}
+.card-eachpost .right-card p{
+    margin: 1.3rem;
+    font-weight: bold;
+}
+.card-eachpost .right-card button.request-post{
+    width: 130px;
+    height: 50px;
+    background-color: var(--green-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.card-eachpost .right-card button.request-post:hover{
+    opacity: 0.8;
+}
+.card-eachpost .right-card span{
+    font-weight: normal;
+}
+.card-eachpost .right-card i{
+    font-size: 20px;
+    cursor: pointer;
+}
+.card-eachpost .right-card i.setting-post{
+    margin-bottom: auto;
+    color: #888;
+}
+.card-eachpost .right-card i.delete-post{
+    margin-top: auto;
+    color: red;
+}
+
+
+
+
+ /* delete my post */
+.modal-deletepost{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    justify-content: center;
+    align-items: center;
+}
+.modal-deletepost-content{
+    background-color: var(--white-color);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
     border-radius: var(--card-border-radius);
+    width: 50%;
+    height: auto;
 }
-.right .tags .headtag i{
-    font-size: 1.4rem;
+.modal-deletepost-content h2,p{
+    text-align: center;
 }
-.right .tags .headtag .tag{
+.modal-deletepost-content .group-btn{
     display: flex;
     align-items: center;
+    justify-content: space-around;
+    margin-top: 1.5rem ;
 }
-.right a{
-    font-size: 1.1rem;
-} */
+.modal-deletepost-content .group-btn .deletepost-btn{
+    padding: var(--btn-paddign);
+    border-radius: var(--border-radius);
+    color: var(--white-color);
+    background-color: var(--green-color);
+    cursor: pointer;
+}
+.modal-deletepost-content .group-btn .deletepost-btn:hover{
+    background-color: var(--lighgreen-color);
+}
+.modal-deletepost-content .group-btn .cancel-deletepost-btn{
+    padding: var(--btn-paddign);
+    border-radius: var(--border-radius);
+    color: var(--white-color);
+    background-color: red;
+    cursor: pointer;
+}
+.modal-deletepost-content .group-btn .cancel-deletepost-btn:hover{
+    background-color: var(--lighgreen-color);
+}
+
+
+
+/* modal edit */
+.modal-edit {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  /* Modal Content */
+  .modal-edit .modal-content-edit {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: var(--card-border-radius);
+    width: 60%;
+    height: 87%;
+    overflow-y: auto; /* Could be more or less, depending on screen size */
+  }
+  
+  /* Close Button */
+  .modal-edit .close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .modal-edit .close-btn:hover,
+  .modal-edit .close-btn:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  /* Form Styling */
+  .modal-edit .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .modal-edit .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .modal-edit .form-group input,
+  .modal-edit .form-group textarea {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: var(--card-border-radius);
+  }
+  
+  .modal-edit .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  .modal-edit .btn-editpostt{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    right: 10px;
+  }
+  .modal-edit .btn-editingpostt, .btn-canceleditpostt {
+    width: 20%;
+    padding: var(--btn-paddign);
+    border-radius: var(--border-radius);
+    color: var(--white-color);
+    cursor: pointer;
+  }
+  
+  .modal-edit .btn-canceleditpostt {
+    background-color: #f44336; /* Red */
+  }
+  .modal-edit .btn-editingpostt {
+    background-color: var(--orange-color); /* Red */
+  }
+  
+  .modal-edit .btn-editingpostt:hover, .btn-canceleditpostt:hover {
+    opacity: 0.8;
+  }
 
 /* right */
 main .container .right{

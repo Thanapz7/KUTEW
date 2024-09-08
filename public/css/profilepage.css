@@ -226,108 +226,299 @@ main .container .left .profile{
     overflow: hidden;
 }
 
-/* create post */
-.middle .create-post{
+/* profile */
+.profilesec{
+    position: relative;
+    height: 30vh;
+    min-height: 230px;
+    max-height: 330px;
+    z-index: 1;
+}
+.profilesec .profilesec-cover{
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    display: flex;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--card-border-radius);
+}
+.profilesec .profilesec-img{
+    width: 9.37rem;
+    height: 9.37rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--white-color);
+}
+.profilesec .profilesec-avatar{
+    position: absolute;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 1rem;
-    background: var(--white-color);
-    padding: 0.4rem var(--card-padding);
+    display: flex;
+    z-index: 1;
+    bottom: 16px;
+    left: 24px;
+}
+.profilesec-avatar .change-image-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--white-color);
+    background-color: var(--green-color);
     border-radius: var(--border-radius);
+    cursor: pointer;
+    margin: 0.2rem;
+    opacity: 0.8;
+    transition: opacity 0.3s;
 }
-.middle .create-post .btn{
-    width: 15%;
+/* Modal change profile */
+.modal-changeimg {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
 }
-.middle .show-income{
-    background: var(--white-color);
+.modal-changeimg-content {
+    background-color: var(--white-color);
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: var(--card-border-radius);
+}
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 16px;
+    font-weight: bold;
+}
+.close-btn:hover,
+.close-btn:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+.uploadProfile-section {
+    margin-bottom: 15px;
+}
+.uploadProfile-section label {
+    display: block;
+    margin-bottom: 5px;
+}
+.uploadProfile-section input {
+    width: 100%;
+    padding: 5px;
+}
+.saveimg-profileBtn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: var(--white-color);
+    background-color: var(--green-color);
+    border: none;
     border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.saveimg-profileBtn:hover {
+    background-color: var(--lighgreen-color);
+}
+.profilesec-avatar .change-image-btn:hover {
+    opacity: 1;
+}
+.modal-changeimg-content .alert{
+    text-align: start;
+    color: red;
+    font-size: 12px;
+    font-style: italic;
+}
+/* write review */
+.modal-review {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+.modal-review-content {
+    background-color: var(--white-color);
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: var(--card-border-radius);
+}
+.modal-review-content h2{
+    margin-bottom: 1rem;
+}
+.uploadreview-section {
+    margin-bottom: 15px;
+}
+.uploadreview-section input, textarea {
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    width: 100%;
+    padding: var(--search-padding);
+}
+.save-review-btn{
+    margin-top: 0.7rem;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: var(--green-color);
+    color: var(--white-color);
+    cursor: pointer;
+}
+.save-review-btn:hover{
+    background-color: var(--lighgreen-color);
+}
+
+.profilesec .profilesec-name{
+    margin-left: 24px;
+    margin-bottom: px;
+    font-size: 25px;
+    color: #fff;
+    font-weight: 500;
+}
+.profileinfo {
+    background: var(--lighgreen-color);
     padding: var(--card-padding);
-    margin: 1.5rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
+    border-radius: var(--card-border-radius);
+    margin-top: 0.8rem;
+    white-space: nowrap;
 }
-.middle .show-income .income-detail{
+.profileinfo p{
+    margin-top: 5px;
+    text-align: left;
+}
+.infomyprofile{
+    padding-left: 20px;
+    margin-left: 0.77rem;
+}
+.profileinfo .profileinfos-major{
     display: flex;
+    justify-content: space-around;
 }
-.middle .show-income .income-detail h3{
-    font-size: 16px;
+.profileinfo .profileinfos-cer{
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-around;
 }
-.middle .show-income .income-detail .income{
-    font-size: 16px;
-    margin-left: 16px;
+.profileinfo .profileinfos-cer img{
+    width: 300px;
+    height: auto;
+    border-radius: var(--border-radius);
+    padding: 10px;
+    transition: all 0.3s ease;
 }
-/* feeds */
-.middle .feeds .feed{
+.profileinfo .profileinfos-cer img:hover{
+    transform: scale(2);
+}
+.profilereview{
     background: var(--white-color);
-    border-radius: var(--card-border-radius);
     padding: var(--card-padding);
-    margin: 1rem 0;
-    font-size: 0.85rem;
-    line-height: 1.5rem;
-}
-.middle .feed .head{
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
-}
-.middle .feed .info a{
-    color: var(--black-color);
-}
-.middle .feed .user{
-    display: flex;
-    gap: 1rem;
-}
-.middle .feed .photo{
     border-radius: var(--card-border-radius);
-    overflow: hidden;
-    margin: 0.7rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
 }
-.middle .feed .caption {
+.profilereview .profilereview-head{
+    display: flex;
+}
+.profilereview .profilereview-head .addreview{
+    margin-left: 1rem;
+    padding: 5px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    color: var(--white-color);
+    background: var(--green-color);
+}
+.profilereview .profilereview-head .addreview:hover{
+    background: var(--lighgreen-color);
+}
+.profilereview .profilereview-texts{
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
+}
+.profilereview .profilereview-text {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+.profilereview .profilereview-text .rating-icon, .rating-number{
+    color: rgb(247, 190, 2);
+}
+.profilereview .profilereview-text .review-report{
+    padding: 5px;
+    border-radius: var(--border-radius);
+    color: var(--white-color);
+    background-color: red;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.profilereview .profilereview-text .review-report:hover{
+    transform: scale(1.09);
+    opacity: 0.8;
+}
+/* history */
+.profilestdhistory{
     margin-top: 1rem;
-    margin-left: 3.5rem;
-
-}
-.middle .feed .caption i{
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    font-size: 0.85rem;
-}
-.middle .feed .caption i p{
-    font-family: "Kanit", sans-serif;
-    margin: 0;
-    font-size: 16px;
-}
-.middle .feed .caption p.p-font{
-    font-weight: 5;
-}
-
-/* right */
-/* main .container .right{
-    height: max-content;
-    position: sticky;
-    top: var(--sticky-top-left);
-}
-.right .tags{
-    background: var(--lighgreen-color);
-    padding: 1rem;
+    background-color: var(--lighgreen-color);
     border-radius: var(--card-border-radius);
+    padding: var(--card-border-radius);
 }
-.right .tags .headtag i{
-    font-size: 1.4rem;
+.profilestdhistory h4{
+    text-decoration: underline;
 }
-.right .tags .headtag .tag{
+.profilestdhistory .allstdhistory{
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0.5rem 3rem 0.5rem 3rem;
 }
-.right a{
-    font-size: 1.1rem;
-} */
+.profilestdhistory .allstdhistory .stdhistory{
+    width: calc(50% - 1rem);
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    display: flex;
+    box-sizing: border-box;
+}
+.profilestdhistory .allstdhistory .stdhistory .left-card img{
+    object-fit: cover;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.profilestdhistory .allstdhistory .stdhistory .center-card{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+}
+.profilestdhistory .allstdhistory .stdhistory .center-card .nametutor{
+    font-weight: bold;
+}
+.profilestdhistory .allstdhistory .stdhistory .center-card .subject{
+    display: flex;
+}
+.profilestdhistory .allstdhistory .stdhistory .center-card .subject i{
+    margin-right: 10px;
+    margin-top: 5px;
+}
 
 /* right */
 main .container .right{
