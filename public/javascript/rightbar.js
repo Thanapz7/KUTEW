@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const loadTopTags = async () => {
       try {
-        const response = await fetch('/post');
+        const response = await fetch('/post/my/all');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

@@ -166,12 +166,14 @@ exports.searchPost = async (req, res) => {
     }
 
     const searchQuery = `
-        SELECT posts.*, tutor_id, tutors.name AS tutor_name, tutors.profilePic AS tutor_profilePic
+        SELECT posts.*, joins.tutor_id, tutors.name AS tutor_name, tutors.profilePic AS tutor_profilePic
         FROM posts
-        INNER JOIN tutors ON posts.user_id = tutors.user_id
-        WHERE posts.details LIKE ? OR 
-              posts.tag LIKE ? OR 
-              posts.location LIKE ?
+        JOIN joins ON posts.post_id = joins.post_id
+        JOIN tutors ON joins.tutor_id = tutors.tutor_id
+        WHERE (posts.details LIKE ? OR 
+               posts.tag LIKE ? OR 
+               posts.location LIKE ?)
+        AND joins.course_status = 'do'
     `;
 
     const searchValue = `%${keyword}%`;
