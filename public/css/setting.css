@@ -494,7 +494,9 @@ main .container .right{
     .modal-logout-content {
         width: 60%;
     }
-    .modal-chpass-content {
-        width: 60%;
+    .modal-chpass-content{
+        width: 50%;
+        min-width: 300px;
+        height: auto;
     }
 }
