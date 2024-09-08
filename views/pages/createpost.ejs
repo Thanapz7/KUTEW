@@ -96,18 +96,18 @@
           body: formData,
         })
           .then((response) => {
-            console.log("ได้รับการตอบกลับ:", response);
+            console.log("Response received:", response);
             if (response.ok) {
-              alert("ทำการส่งแบบฟอร์มแล้ว");
+              alert("Form submitted successfully");
               window.location.href = "/home";
             } else {
-              console.error("การส่งล้มเหลว:", response);
+              console.error("Submission failed:", response);
               throw new Error("Submission failed");
             }
           })
           .catch((error) => {
-            console.error("เกิดข้อผิดพลาด:", error);
-            alert("การส่งข้อมูลล้มเหลว: " + error.message);
+            console.error("An error occurred:", error);
+            alert("Data submission failed: " + error.message);
           });
       });
       
@@ -116,9 +116,9 @@
       const price = document.getElementById('price').value;
       const priceError = document.getElementById('price-error');
       if (isNaN(price)) {
-          priceError.textContent = 'กรอกเป็นตัวเลขเท่านั้น';
+          priceError.textContent = 'Please enter numbers only';
       } else if (price > 500) {
-          priceError.textContent = 'ราคาต้องไม่เกิน 500';
+          priceError.textContent = 'Price must not exceed 500';
       } else {
           priceError.textContent = '';
       }
@@ -128,7 +128,7 @@
       const participants = document.getElementById('participants').value;
       const participantsError = document.getElementById('participants-error');
       if (isNaN(participants)) {
-          participantsError.textContent = 'กรอกเป็นตัวเลขเท่านั้น';
+          participantsError.textContent = 'Please enter numbers only';
       } else {
           participantsError.textContent = '';
       }
@@ -138,7 +138,7 @@
       const hours = document.getElementById('hours').value;
       const hoursError = document.getElementById('hours-error');
       if (isNaN(hours)) {
-          hoursError.textContent = 'กรอกเป็นตัวเลขเท่านั้น';
+          hoursError.textContent = 'Please enter numbers only';
       } else {
           hoursError.textContent = '';
       }
@@ -148,7 +148,7 @@
       const qr = document.getElementById('qr').files[0];
       const qrError = document.getElementById('qr-error');
       if (qr && !qr.type.startsWith('image/')) {
-          qrError.textContent = 'อัพโหลดไฟล์รูปภาพเท่านั้น';
+          qrError.textContent = 'Please upload image files only';
       } else {
           qrError.textContent = '';
       }
