@@ -186,4 +186,25 @@ exports.searchPost = async (req, res) => {
     });
 };
 
+exports.getAllPostForHome = async (req, res) => {
+    const query = `
+        SELECT posts.*, tutors.name AS tutor_name, tutors.profilePic 
+        FROM posts 
+        JOIN tutors ON posts.user_id = tutors.user_id
+        JOIN joins ON posts.post_id = joins.post_id
+        WHERE joins.course_status = ?
+        ORDER BY posts.post_date DESC
+    `;
+    db.query(query, ['do'],(err, results) => {
+        if (err) {
+            console.error('Error fetching posts:', err);
+            res.status(500).json({ error: 'Failed to fetch posts' });
+            return;
+        }
+        res.json(results);
+    });
+};
+
+
+
 

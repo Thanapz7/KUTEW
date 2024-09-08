@@ -9,6 +9,7 @@ const {
     searchPost,
     getMyPost,
     getPostById,
+    getAllPostForHome
 
 
   } =require("../controllers/post.js");
@@ -180,6 +181,25 @@ const {
  *         description: Some error happened
  */
   router.get("/my/p", getMyPost);
+  /**
+ * @swagger
+ * /post/allforhome:
+ *  get:
+ *     summary: Get all posts
+ *     description: Get all posts
+ *     responses:
+ *       200:
+ *         description: An array of post objects
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/posts'
+ *       500:
+ *         description: Some error happened
+ */
+  router.get("/my/all", getAllPostForHome);
   
   
   

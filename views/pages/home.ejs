@@ -173,7 +173,7 @@ document.querySelector('.create-post').addEventListener('submit', function(event
         const userData = await userResponse.json();
         const userRole = userData.role;
         
-        const response = await fetch('/post/');
+        const response = await fetch('/post/my/all');
         const courses = await response.json();
 
         const feedsContainer = document.getElementById('feeds');
