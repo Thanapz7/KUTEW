@@ -138,6 +138,7 @@ exports.getMyJoin = async (req, res) => {
       INNER JOIN tutors ON tutors.user_id = posts.user_id
 
       WHERE users.user_id = ?
+      ORDER BY posts.date DESC
   `;
   db.query(query, [user_id], (err, results) => {
       if (err) {

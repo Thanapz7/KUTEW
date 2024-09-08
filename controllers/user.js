@@ -213,12 +213,7 @@ exports.getStudenthistory = async (req, res) => {
         if (error) {
             return res.status(500).json({ error: error.message });
         }
+        res.status(200).json(results); // ส่งข้อมูลกลับไปยัง client
 
-        // ตรวจสอบว่ามีข้อมูลใน results หรือไม่
-        if (results.length > 0) {
-            res.status(200).json(results); // ส่งข้อมูลกลับไปยัง client
-        } else {
-            res.status(404).json({ message: 'No history found for this student' }); // ถ้าไม่มีข้อมูล
-        }
     });
 };
