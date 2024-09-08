@@ -84,7 +84,7 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const profileImage = document.getElementById('profileImage');
             const imageInputProfile = document.getElementById('imageInputProfile');
             const coverImage = document.getElementById('coverImage');
@@ -94,90 +94,156 @@
             const profileImageInput = document.getElementById('profileImageInput');
             const coverImageInput = document.getElementById('coverImageInput');
             const saveImgProfileBtn = document.querySelector('.saveimg-profileBtn');
-        
+    
             if (changeImageBtn) {
-                changeImageBtn.addEventListener('click', () => {
-                    imageModal.style.display = 'block';
-                });
+              changeImageBtn.addEventListener('click', () => {
+                imageModal.style.display = 'block';
+              });
             }
-        
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    btn.closest('.modal-changeimg').style.display = 'none';
-                });
+    
+            closeBtns.forEach((btn) => {
+              btn.addEventListener('click', () => {
+                btn.closest('.modal-changeimg').style.display = 'none';
+              });
             });
-        
+    
             if (saveImgProfileBtn) {
-                saveImgProfileBtn.addEventListener('click', () => {
-                    if (profileImageInput.files.length > 0) {
-                        const profileFile = profileImageInput.files[0];
-                        profileImage.src = URL.createObjectURL(profileFile);
-                    }
-        
-                    if (coverImageInput.files.length > 0) {
-                        const coverFile = coverImageInput.files[0];
-                        coverImage.src = URL.createObjectURL(coverFile);
-                    }
-        
-                    imageModal.style.display = 'none';
-                });
+              saveImgProfileBtn.addEventListener('click', () => {
+                if (profileImageInput.files.length > 0) {
+                  const profileFile = profileImageInput.files[0];
+                  profileImage.src = URL.createObjectURL(profileFile);
+                }
+    
+                if (coverImageInput.files.length > 0) {
+                  const coverFile = coverImageInput.files[0];
+                  coverImage.src = URL.createObjectURL(coverFile);
+                }
+    
+                imageModal.style.display = 'none';
+              });
             }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
+    
             async function fetchUserData() {
+              try {
+                const userId = "<%= userId %>"; // ดึงค่า userId ที่ถูกส่งมาจากเซิร์ฟเวอร์
+                const response = await fetch(`/user/tdata/${userId}`);
+                const sidebarres = await fetch('/user/u');
+    
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+    
+                const userData = await response.json();
+                const SiderData = await sidebarres.json();
+    
+                const sidebarProfilePicPath = userData[0].profilePic
+                  ? `/${userData[0].profilePic}`
+                  : './img/boy.png';
+                const profilePicPath = SiderData.profilePic
+                  ? `/${SiderData.profilePic}`
+                  : './img/boy.png';
+    
+                document.getElementById('user-name').textContent = SiderData.name; // sidebar
+                document.getElementById('user-name-profile').textContent = userData[0].name;
+                document.getElementById('user-faculty').textContent = `Faculty : ${userData[0].faculty}`;
+                document.getElementById('user-major').textContent = `Major : ${userData[0].major}`;
+                document.getElementById('user-year').textContent = `Year : ${userData[0].year}`;
+                document.getElementById('user-phone').textContent = `Phone : 0${userData[0].phone}`;
+                document.getElementById('user-email').textContent = `Email : ${userData[0].email}`;
+                document.getElementById('user-address').textContent = `Address : ${userData[0].address}`;
+    
+                document.getElementById('profilePic').src = profilePicPath; // รูปโปรไฟล์ในหน้าหลัก
+                document.getElementById('profileImage').src = sidebarProfilePicPath; // รูปโปรไฟล์ใน sidebar
+    
+                if (userData[0].certificatePic) {
+                  document.getElementById('user-certificate').src = `/${userData[0].certificatePic}`;
+                } else {
+                  document.getElementById('user-certificate').src = '../img/default-certificate.jpg'; // รูป default หากไม่มี certificate
+                }
+    
+                if (SiderData.role === 'student') {
+                  document.getElementById('mypost').style.display = 'none';
+                } else if (SiderData.role === 'tutor') {
+                  document.getElementById('myjoin').style.display = 'none';
+                }
+    
+                fetchComments(userId);
+              } catch (error) {
+                console.error('Error fetching user data:', error);
+                document.getElementById('user-name').textContent = 'Error loading name';
+              }
+            }
+    
+            // Function to fetch comments
+            async function fetchComments() {
                 try {
-                    const userId = "<%= userId %>"; // ดึงค่า userId ที่ถูกส่งมาจากเซิร์ฟเวอร์
-                    const response = await fetch(`/user/tdata/${userId}`);
-                    const sidebarres = await fetch('/user/u');
-        
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-        
-                    const userData = await response.json();
-                    const SiderData = await sidebarres.json();
-        
-                    // เส้นทางรูปภาพที่ได้จากฐานข้อมูล (หากมี)
-                    const sidebarProfilePicPath = userData[0].profilePic ? `/${userData[0].profilePic}` : './img/boy.png';
-                    const profilePicPath = SiderData.profilePic ? `/${SiderData.profilePic}` : './img/boy.png';
-        
-                    // กำหนดค่าให้กับ element ต่าง ๆ ในหน้า
-                    document.getElementById('user-name').textContent = SiderData.name; // sidebar
-                    document.getElementById('user-name-profile').textContent = userData[0].name;
-                    document.getElementById('user-faculty').textContent = `Faculty : ${userData[0].faculty}`;
-                    document.getElementById('user-major').textContent = `Major : ${userData[0].major}`;
-                    document.getElementById('user-year').textContent = `Year : ${userData[0].year}`;
-                    document.getElementById('user-phone').textContent = `Phone : 0${userData[0].phone}`;
-                    document.getElementById('user-email').textContent = `Email : ${userData[0].email}`;
-                    document.getElementById('user-address').textContent = `Address : ${userData[0].address}`;
-        
-                    // ตั้งค่า src ของรูปภาพ
-                    document.getElementById('profilePic').src = profilePicPath; // รูปโปรไฟล์ในหน้าหลัก
-                    document.getElementById('profileImage').src = sidebarProfilePicPath; // รูปโปรไฟล์ใน sidebar
-
-                    // ตั้งค่า certificatePic หากมีในข้อมูล
-                    if (userData[0].certificatePic) {
-                        document.getElementById('user-certificate').src = `/${userData[0].certificatePic}`;
+                    const userId = '<%= userId %>'; // This should be rendered by the server-side template engine
+                    // Fetch tutor data based on the userId
+                    const tDataResponse = await fetch(`/user/tdata/${userId}`);
+                    const tData = await tDataResponse.json();
+                    const tutorId = tData[0].tutor_id; // Correctly access tutor_id from the response
+            
+                    // Fetch comments based on tutorId
+                    const commentsResponse = await fetch(`/comment/${tutorId}`);
+                    const comments = await commentsResponse.json();
+            
+                    // Check if comments is an array
+                    if (comments && Array.isArray(comments.comments)) {
+                        const reviewContainer = document.querySelector('.profilereview-texts');
+                        if (!reviewContainer) {
+                            console.error('Review container not found');
+                            return;
+                        }
+            
+                        reviewContainer.innerHTML = ''; // Clear existing comments
+            
+                        comments.comments.forEach(comment => {
+                            const reviewElement = document.createElement('div');
+                            reviewElement.classList.add('profilereview-text');
+                            reviewElement.innerHTML = `
+                                <span>${comment.student_name}</span>
+                                <div class="rating">
+                                    <i class="fa-solid fa-star rating-icon"></i>
+                                    <span class="rating-number">${comment.rating}</span>
+                                    &nbsp;
+                                    <span>${comment.text}</span>
+                                </div>
+                                <button class="review-report" data-comment-id="${comment.comment_id}">Report</button>`;
+                            reviewContainer.appendChild(reviewElement);
+                        });
+            
+                        // Add event listeners to report buttons
+                        const reportButtons = document.querySelectorAll('.review-report');
+                        reportButtons.forEach(button => {
+                            button.addEventListener('click', async function() {
+                                const commentId = this.dataset.commentId;
+                                try {
+                                    const response = await fetch(`/comment/report/${commentId}`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        }
+                                    });
+                                    if (response.ok) {
+                                        alert('Reported!!!');
+                                    } else {
+                                        alert('An error occurred in the report');
+                                    }
+                                } catch (error) {
+                                    console.error('Error reporting comment:', error);
+                                    alert('An error occurred in the report');
+                                }
+                            });
+                        });
                     } else {
-                        document.getElementById('user-certificate').src = '../img/default-certificate.jpg'; // รูป default หากไม่มี certificate
+                        console.error('Comments data is not an array:', comments);
                     }
-
-                    // ตรวจสอบ role และซ่อนแถบตามเงื่อนไข
-                    if (SiderData.role === 'student') {
-                        document.getElementById('mypost').style.display = 'none';
-                    } else if (SiderData.role === 'tutor') {
-                        document.getElementById('myjoin').style.display = 'none';
-                    }
-
                 } catch (error) {
-                    console.error('Error fetching user data:', error);
-                    document.getElementById('user-name').textContent = 'Error loading name';
+                    console.error('Error fetching comments:', error);
                 }
             }
-        
             window.onload = fetchUserData;
-        });
+          });
     </script>
   </body>
 </html>

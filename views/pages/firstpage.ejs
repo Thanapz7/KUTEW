@@ -42,7 +42,16 @@
     </section>
      <section class="about-section" id="about">
         <div class="container">
-            <p>KUTEW is project that......................</p>
+            <div class="gallery-container">
+                <div class="gallery-slide">
+                    <div class="slide"><img src="/img/cover.jpg" alt="Image 1"></div>
+                    <div class="slide"><img src="/img/boy.png" alt="Image 2"></div>
+                    <div class="slide"><img src="/img/qrcode.jpg" alt="Image 3"></div>
+                </div>
+                <!-- ปุ่มเลื่อนสไลด์ -->
+                <button class="prev" onclick="prevSlide()">&#10094;</button>
+                <button class="next" onclick="nextSlide()">&#10095;</button>
+            </div>
         </div>
      </section>
      <section class="contact-section" id="contact">
@@ -100,6 +109,36 @@
             progress.style.visibility="visible"
             progress.style.width=scrollPercentage+"%"
         }
+
+        //gallery
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const slideInterval = 3000; // เปลี่ยนภาพทุกๆ 3 วินาที
+
+        function showSlide(index) {
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            const slideWidth = slides[currentSlide].clientWidth;
+            document.querySelector('.gallery-slide').style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // สไลด์อัตโนมัติ
+        setInterval(nextSlide, slideInterval);
      </script>
 </body>
 </html>
