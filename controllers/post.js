@@ -166,14 +166,15 @@ exports.searchPost = async (req, res) => {
     }
 
     const searchQuery = `
-        SELECT posts.*, joins.tutor_id, tutors.name AS tutor_name, tutors.profilePic AS tutor_profilePic
+        SELECT DISTINCT posts.*, tutors.tutor_id, tutors.name AS tutor_name, tutors.profilePic AS tutor_profilePic
         FROM posts
-        JOIN joins ON posts.post_id = joins.post_id
-        JOIN tutors ON joins.tutor_id = tutors.tutor_id
+        JOIN tutors ON tutors.user_id = posts.user_id
+        LEFT JOIN joins ON joins.post_id = posts.post_id
         WHERE (posts.details LIKE ? OR 
                posts.tag LIKE ? OR 
                posts.location LIKE ?)
-        AND joins.course_status = 'do'
+        AND (joins.course_status = 'do' OR joins.course_status IS NULL)
+        ORDER BY posts.post_date DESC
     `;
 
     const searchValue = `%${keyword}%`;
@@ -190,11 +191,11 @@ exports.searchPost = async (req, res) => {
 
 exports.getAllPostForHome = async (req, res) => {
     const query = `
-        SELECT posts.*, tutors.name AS tutor_name, tutors.profilePic 
-        FROM posts 
-        JOIN tutors ON posts.user_id = tutors.user_id
-        JOIN joins ON posts.post_id = joins.post_id
-        WHERE joins.course_status = ?
+        SELECT DISTINCT posts.*, tutors.name AS tutor_name, tutors.profilePic 
+        FROM posts
+        JOIN tutors ON tutors.user_id = posts.user_id
+        LEFT JOIN joins ON joins.post_id = posts.post_id
+        WHERE joins.course_status = ? OR joins.course_status IS NULL
         ORDER BY posts.post_date DESC
     `;
     db.query(query, ['do'],(err, results) => {
