@@ -48,7 +48,7 @@ Run KUTEW
 ```
 ## Tech Stack
 
-**Client:** HTML, CSS, JavaScript
+**Client:** HTML, CSS, JavaScript, EJS
 
 **Server:** Node.js, Express, MySQL, Socket.io
 
