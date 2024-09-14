@@ -126,10 +126,16 @@ exports.CreateChatGroupWithAdmin = async (req, res) => {
     }
 
     const sqlInsertGroup = `
-      INSERT INTO chat_groups (name)
-      VALUES (
-        CONCAT('admin-', (SELECT username FROM users WHERE user_id = ?))
-      );
+        INSERT INTO chat_groups (name)
+        VALUES (
+            CONCAT('admin-', 
+                (SELECT COALESCE(t.name, s.name) 
+                FROM users u
+                LEFT JOIN tutors t ON t.user_id = u.user_id
+                LEFT JOIN students s ON s.user_id = u.user_id
+                WHERE u.user_id = ?)
+            )
+        );
     `;
 
     const insertResults = await new Promise((resolve, reject) => {
@@ -225,10 +231,16 @@ exports.CreateChatGroupWithAdminForTutor = async (req, res) => {
 
     // Query เพื่อสร้าง Chat Group
     const sqlInsertGroup = `
-      INSERT INTO chat_groups (name)
-      VALUES (
-        CONCAT('admin-', (SELECT username FROM users WHERE user_id = ?))
-      );
+        INSERT INTO chat_groups (name)
+        VALUES (
+            CONCAT('admin-', 
+                (SELECT COALESCE(t.name, s.name) 
+                FROM users u
+                LEFT JOIN tutors t ON t.user_id = u.user_id
+                LEFT JOIN students s ON s.user_id = u.user_id
+                WHERE u.user_id = ?)
+            )
+        );
     `;
 
     const insertResults = await new Promise((resolve, reject) => {
