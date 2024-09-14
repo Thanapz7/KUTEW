@@ -13,11 +13,15 @@ module.exports = (io, socket, db) => {
 
       // ตรวจสอบว่าผู้ใช้เป็นสมาชิกของกลุ่มหรือไม่
       const query = `
-        SELECT cg.id, u.username 
-        FROM chat_groups cg
-        JOIN group_members gm ON cg.id = gm.group_id
-        JOIN users u ON u.user_id = gm.user_id
-        WHERE cg.id = ? AND gm.user_id = ?
+          SELECT cg.id, 
+                COALESCE(t.name, s.name) AS username
+          FROM chat_groups cg
+          JOIN group_members gm ON cg.id = gm.group_id
+          JOIN users u ON u.user_id = gm.user_id
+          LEFT JOIN tutors t ON t.user_id = u.user_id
+          LEFT JOIN students s ON s.user_id = u.user_id
+          WHERE cg.id = ? 
+          AND gm.user_id = ?;
       `;
 
       db.query(query, [groupId, userId], (err, groupRows) => {
@@ -33,10 +37,13 @@ module.exports = (io, socket, db) => {
           socket.join(groupId);
 
           const messageQuery = `
-            SELECT m.*, u.username 
-            FROM messages m
-            JOIN users u ON m.user_id = u.user_id
-            WHERE m.group_id = ?
+              SELECT m.*, 
+                    COALESCE(t.name, s.name) AS username
+              FROM messages m
+              JOIN users u ON m.user_id = u.user_id
+              LEFT JOIN tutors t ON t.user_id = u.user_id
+              LEFT JOIN students s ON s.user_id = u.user_id
+              WHERE m.group_id = ?;
           `;
           db.query(messageQuery, [groupId], (err, messages) => {
             if (err) {
