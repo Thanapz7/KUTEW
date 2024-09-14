@@ -133,31 +133,65 @@ exports.updatePost = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
     const { id } = req.params;
-    
-    const getQuery = 'SELECT * FROM Posts WHERE post_id = ?';
-    db.query(getQuery, [id], (err, results) => {
+
+    // Query เพื่อตรวจสอบโพสต์และการ join
+    const getPostQuery = 'SELECT * FROM posts WHERE post_id = ?';
+    const getJoinQuery = 'SELECT * FROM joins WHERE post_id = ?';
+
+    db.query(getPostQuery, [id], (err, postResults) => {
         if (err) {
             console.error('Error retrieving post:', err);
             return res.status(500).json({ error: 'Failed to retrieve post' });
         }
 
-        if (results.length === 0) {
+        if (postResults.length === 0) {
             return res.status(404).json({ error: 'Post not found' });
         }
 
-        const postToDelete = results[0];
-
-        const deleteQuery = 'DELETE FROM Posts WHERE post_id = ?';
-        db.query(deleteQuery, [id], (err) => {
+        db.query(getJoinQuery, [id], (err, joinResults) => {
             if (err) {
-                console.error('Error deleting post:', err);
-                return res.status(500).json({ error: 'Failed to delete post' });
+                console.error('Error retrieving joins:', err);
+                return res.status(500).json({ error: 'Failed to retrieve joins' });
             }
 
-            res.status(200).json(postToDelete);
+            // ตรวจสอบว่ามี course_status เป็น 'Done' หรือไม่
+            const hasDoneCourse = joinResults.some(join => join.course_status === 'Done');
+            if (hasDoneCourse) {
+                return res.status(400).json({ error: 'Cannot delete post, course is already done' });
+            }
+
+            // ตรวจสอบว่าการ join ทั้งหมดถูกปฏิเสธหรือไม่มีการ join เลย
+            const allDenied = joinResults.every(join => join.join_status === 'Deny');
+            const hasNoJoins = joinResults.length === 0;
+
+            if (!hasNoJoins && !allDenied) {
+                return res.status(400).json({ error: 'Cannot delete post, there are accepted joins' });
+            }
+
+            // ลบการ join ที่ถูกปฏิเสธก่อน
+            const deleteDeniedJoinsQuery = 'DELETE FROM joins WHERE post_id = ? AND join_status = "Deny"';
+            db.query(deleteDeniedJoinsQuery, [id], (err) => {
+                if (err) {
+                    console.error('Error deleting denied joins:', err);
+                    return res.status(500).json({ error: 'Failed to delete denied joins' });
+                }
+
+                // หลังจากลบ joins แล้ว ให้ลบโพสต์
+                const deletePostQuery = 'DELETE FROM posts WHERE post_id = ?';
+                db.query(deletePostQuery, [id], (err) => {
+                    if (err) {
+                        console.error('Error deleting post:', err);
+                        return res.status(500).json({ error: 'Failed to delete post' });
+                    }
+
+                    res.status(200).json({ message: 'Post and denied joins deleted successfully' });
+                });
+            });
         });
     });
 };
+
+
 
 exports.searchPost = async (req, res) => {
     const keyword = req.params.keyword;

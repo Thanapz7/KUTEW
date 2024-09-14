@@ -189,7 +189,7 @@
                       body: JSON.stringify({
                         message: `Tutor: ${tutor_name} has accepted you`,
                         user_id: userjoin,
-                        join_id: requestId
+                        //join_id: requestId
                       })
                     });
               
@@ -242,7 +242,7 @@
                       body: JSON.stringify({
                         message: `Tutor: ${tutor_name} has declined you`,
                         user_id: userjoin,
-                        join_id: requestId
+                        //join_id: requestId
                       })
                     });
                     event.target.closest('.joinrequest-allinfo').remove();
