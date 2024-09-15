@@ -109,7 +109,7 @@ exports.TutorgetUser = async (req, res) => {
 exports.getTutordata = async (req, res) => {
     const { id } = req.params; // ดึงค่า id จาก req.params
     const query = `
-    SELECT * 
+    SELECT t.address, t.certificatePic, u.email, t.faculty, u.form, t.idPic, t.name, t.phone, t.profilePic, u.role, t.status, t.tutor_id, t.user_id, t.year 
     FROM users u
     JOIN tutors t ON t.user_id = u.user_id 
     WHERE u.user_id = ?;
@@ -130,7 +130,7 @@ exports.getTutordata = async (req, res) => {
 exports.getStudentdata = async (req, res) => {
     const { id } = req.params; // ดึงค่า id จาก req.params
     const query = `
-    SELECT * 
+    SELECT s.address, u.email, s.faculty, u.form, s.major, s.name, s.phone, s.profilePic,  u.role, s.student_id, s.user_id, s.year
     FROM users u
     JOIN students s ON s.user_id = u.user_id 
     WHERE u.user_id = ?;
