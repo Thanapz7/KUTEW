@@ -6,7 +6,7 @@
     --green-color: rgba(63,112,33,255);
     --lighgreen-color: rgba(140,165,125,255);
     --background-color:rgba(217,217,217,255);
-
+    --darkgray-color:rgb(60, 61, 55);
     --border-radius: 2rem;
     --card-border-radius: 1rem;
     --btn-paddign: 0.6rem;
@@ -45,7 +45,7 @@ header{
     z-index: 1000;
 }
 nav{
-    height: 3rem;
+    height: 4rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -201,6 +201,15 @@ button.next {
     align-items: center;
     padding: 3rem 0;
 }
+.about-section .container h1{
+    margin: 10px;
+    font-size: 30px;
+    background-color: var(--green-color);
+    color: white;
+    padding: 10px;
+    width: 15%;
+    border-radius: var(--card-border-radius);
+}
 .about-section .about-item{
     display: flex;
     margin-bottom: 30px;
@@ -251,6 +260,38 @@ button.next {
 .contact-item .contact-item-inner h3,
 .contact-item .contact-item-inner p{
     color: var(--black-color);
+}
+.footer-section{
+    background-color: var(--darkgray-color);
+    color: white;
+    align-items: center;
+    padding: 10px;
+}
+.footer-section .footer-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+    gap: 5px;
+}
+.footer-section .footer-item .copyright{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.8;
+}
+.footer-section .footer-item .footer-contact{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    font-size: 20px;
+}
+.footer-section .footer-item .footer-contact a{
+    cursor: pointer;
+    color: white;
 }
 
 
@@ -332,5 +373,14 @@ button.next {
         max-width: 100%;
         width: 100%;
         height: 230px;
+    }
+    .about-section .container h1{
+        width: 63%;
+    }
+    .footer-section .footer-item{
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+        margin: 10px;
     }
 }
