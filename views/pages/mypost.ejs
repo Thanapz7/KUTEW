@@ -316,17 +316,31 @@
               button.addEventListener('click', (event) => {
                 const currentDeletePostId = event.target.getAttribute('data-post-id');
                 modal.style.display = 'flex';
-      
-                document.getElementById('deletepost-btn').addEventListener('click', async () => {
+
+                // ลบ event listener ของปุ่มลบก่อนเพื่อป้องกันการซ้อนทับ
+                const deleteBtn = document.getElementById('deletepost-btn');
+                const newDeleteBtn = deleteBtn.cloneNode(true); // สร้าง clone node ใหม่ของปุ่ม delete
+                deleteBtn.parentNode.replaceChild(newDeleteBtn, deleteBtn); // แทนที่ปุ่ม delete เดิมด้วยปุ่มใหม่
+
+                newDeleteBtn.addEventListener('click', async () => {
                   if (currentDeletePostId) {
                     try {
-                      await fetch(`/post/${currentDeletePostId}`, {
+                      const response = await fetch(`/post/${currentDeletePostId}`, {
                         method: 'DELETE'
                       });
-                      modal.style.display = 'none';
-                      fetchPosts();
+                      
+                      if (response.ok) {
+                        modal.style.display = 'none';
+                        alert('Post deleted successfully.');
+                        fetchPosts();
+                      } else {
+                        const data = await response.json(); // ดึงข้อมูลจาก response
+                        alert('Cannot Delete Post: ' + data.error); // แสดงข้อความจาก Network Response
+                        modal.style.display = 'none';
+                      }
                     } catch (error) {
                       console.error('Error deleting post:', error);
+                      alert('An error occurred while deleting the post.');
                     }
                   }
                 });
