@@ -180,3 +180,16 @@ button:hover {
   from { opacity: 1; }
   to { opacity: 0; }
 }
+
+@media  screen and (max-width: 1200px) {
+  
+}
+
+/* mobile */
+@media screen and (max-width:992px){
+  
+}
+
+@media (max-width: 768px) {
+  
+}

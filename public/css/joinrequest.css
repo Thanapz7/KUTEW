@@ -535,7 +535,11 @@ main .container .right{
 /* mobile */
 @media screen and (max-width:992px){
     nav .search-bar{
-        display: none;
+        padding: 5px;
+    }
+    nav .search-bar input[type="search"]{
+        margin-left: 0;
+        font-size: 9px;
     }
     main .container{
         grid-template-columns: 0 auto 5rem;
