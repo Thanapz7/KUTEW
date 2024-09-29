@@ -34,10 +34,12 @@ module.exports = (io, db) => {
                     });
                 });
 
+                // Initialize last checked time for polling
+                let lastCheckedTime = new Date();
+
                 // Poll for new notifications every 5 seconds
                 const pollInterval = setInterval(() => {
-                    const now = new Date();
-                    db.execute('SELECT message, created_at FROM notifications WHERE user_id = ? AND created_at > ?', [userId, now], (err, results) => {
+                    db.execute('SELECT message, created_at FROM notifications WHERE user_id = ? AND created_at > ?', [userId, lastCheckedTime], (err, results) => {
                         if (err) {
                             console.error(err);
                             return;
@@ -50,6 +52,11 @@ module.exports = (io, db) => {
                                 created_at: notification.created_at
                             });
                         });
+
+                        // Update lastCheckedTime to the latest notification time
+                        if (results.length > 0) {
+                            lastCheckedTime = results[results.length - 1].created_at;
+                        }
                     });
                 }, 5000); // Poll every 5 seconds
 
