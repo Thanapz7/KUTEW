@@ -14,7 +14,7 @@ module.exports = (io, socket, db) => {
       // ตรวจสอบว่าผู้ใช้เป็นสมาชิกของกลุ่มหรือไม่
       const query = `
           SELECT cg.id, 
-                COALESCE(t.name, s.name) AS username
+                COALESCE(t.name, s.name, u.username) AS username
           FROM chat_groups cg
           JOIN group_members gm ON cg.id = gm.group_id
           JOIN users u ON u.user_id = gm.user_id
@@ -38,7 +38,7 @@ module.exports = (io, socket, db) => {
 
           const messageQuery = `
               SELECT m.*, 
-                    COALESCE(t.name, s.name) AS username
+                    COALESCE(t.name, s.name, u.username) AS username
               FROM messages m
               JOIN users u ON m.user_id = u.user_id
               LEFT JOIN tutors t ON t.user_id = u.user_id
