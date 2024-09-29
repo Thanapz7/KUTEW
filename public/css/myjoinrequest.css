@@ -229,7 +229,7 @@ main .container .left .profile{
 /* my join requested */
 .myjoin{
     background: var(--lighgreen-color);
-    height: auto;
+    height: 90vh;
     padding: 1.5rem;
     border-radius: var(--card-border-radius);
     overflow-y: auto;

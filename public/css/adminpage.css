@@ -148,7 +148,7 @@ main .container .left{
 /* right */
 .right .right-background{
     background: var(--lighgreen-color);
-    height: 100%;
+    height: 80vh;
     padding: 1.5rem;
     border-radius: var(--card-border-radius);
 }
@@ -292,7 +292,8 @@ main .container .left{
     margin-bottom: 1rem;
     width: 100%;
 }
-.req-info .info .picinfo{
+.req-info .info .picinfo,
+.req-info .info #idcard{
     width: 500px;
     height: 500px;
     object-fit: cover;
@@ -437,14 +438,12 @@ main .container .left{
     padding-right: 1rem;
     color: var(--green-color);
 }
-.req-info .info .idcard, 
-.req-info .info .certi {
-    margin-bottom: 1rem;
-    width: 100%;
-}
+
 .req-info .info .picinfo{
-    width: 500px;
-    height: 500px;
+    max-width: 600px;
+    max-height: 600px;
+    width: 100%;
+    height: auto;
     object-fit: cover;
     border-radius: var(--card-border-radius);
     display: block;
