@@ -194,6 +194,26 @@ button.next {
     position: relative;
     width: 100%;
 }
+.howto-gallery-container {
+    /* position: relative; */
+    max-width: 100%;
+    margin: auto;
+    overflow: hidden;
+}
+.howto-gallery-container .slide img {
+    display: block;
+   margin: 20px;
+}
+
+.howto-section .container h1{
+    margin: 10px;
+    font-size: 30px;
+    background-color: var(--green-color);
+    color: white;
+    padding: 10px;
+    width: 12%;
+    border-radius: var(--card-border-radius);
+}
 .about-section{
     background-color: var(--white-color);
     display: flex;
