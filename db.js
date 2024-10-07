@@ -11,7 +11,10 @@ const db = mysql.createConnection({
     database: process.env.DB_DATABASE,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    ssl      : {
+        rejectUnauthorized: false // ใช้ถ้า SSL จำเป็น
+      }
 });
 
 
