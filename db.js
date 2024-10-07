@@ -1,33 +1,19 @@
 const mysql = require('mysql2');
-const dotenv = require('dotenv');
+const dbUrl = process.env.CLEARDB_DATABASE_URL;  // ดึง URL ของฐานข้อมูลจาก environment variable
 
-dotenv.config();
-
-// สร้าง connection db แทนการใช้ createConnection
+// สร้าง pool การเชื่อมต่อ
 const db = mysql.createPool({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-    ssl: {
-        rejectUnauthorized: false // ใช้ถ้า SSL จำเป็น
-    }
+  uri: dbUrl  // ใช้ URI จาก ClearDB สำหรับการเชื่อมต่อ
 });
 
-// ทดสอบการเชื่อมต่อจาก db
+// ทดสอบการเชื่อมต่อกับฐานข้อมูล
 db.getConnection((err, connection) => {
-    if (err) {
-        console.error('Error connecting to MySQL:', err);
-        return;
-    }
-    console.log('Connected to MySQL');
-
-    // ปล่อย connection กลับไปที่ db หลังจากใช้งานเสร็จ
-    connection.release();
+  if (err) {
+    console.error('Error connecting to ClearDB MySQL:', err);
+    return;
+  }
+  console.log('Connected to ClearDB MySQL');
+  connection.release(); // ปล่อย connection กลับไปยัง pool
 });
 
 module.exports = db;
