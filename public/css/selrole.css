@@ -70,3 +70,42 @@ body {
 .role button:hover {
     background-color: rgb(88, 158, 51);
 }
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+    }
+
+    .role {
+        padding: 20px;
+        flex: none;
+    }
+
+    .role img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .role button {
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .role h2 {
+        font-size: 1.5rem;
+    }
+
+    .role img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .role button {
+        padding: 6px 12px;
+        margin-top: 1.5rem;
+    }
+}
