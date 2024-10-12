@@ -30,6 +30,7 @@
   width: 30%;
   border-right: 1px solid #ddd;
   padding: 10px;
+  overflow: auto;
 }
 #group-list ul {
   list-style-type: none;
@@ -49,6 +50,7 @@
 }
 #groupSelect{
   margin-bottom: 10px;
+  overflow: auto;
 }
 #chat-section {
   width: 80%;
