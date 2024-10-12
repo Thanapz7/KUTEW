@@ -44,7 +44,7 @@ router.get('/regisstu', (req,res) =>{
 })
 
 router.get('/createpost', (req,res) =>{
-  res.render('pages/createpost.ejs',{ pageTitle: 'Creatpost' });
+  res.render('pages/createpost.ejs',{ pageTitle: 'Create post' });
 })
 
 router.get('/profilepage', (req,res) =>{
